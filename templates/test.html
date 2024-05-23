@@ -21,7 +21,21 @@
         padding: 10px;
         border-radius: 10px;
         margin-bottom: 10px;
+        display: flex; /* Добавлено */
+        justify-content: flex-end; /* Добавлено */
     }
+
+    .even {
+        justify-content: flex-start; /* Добавлено */
+    }
+
+
+
+    .message .image-container {
+        margin-left: 10px; /* Добавлено */
+        margin-right: 10px; /* Добавлено */
+    }
+
     .message:nth-child(even) {
         background-color: #87CEFA;
         text-align: lefy;
@@ -61,16 +75,29 @@
         color: white;
         cursor: pointer;
     }
+
+
 </style>
+
 <div class="container">
     <div class="messages" id="messages">
         <!-- Выводим сообщения в нормальном порядке -->
         {% for i in story_content %}
-            <div class="message">{{ i }}</div>
-
+            <div class="message {% if loop.index is even %} even {% endif %}">
+                {{ i }}
+                {% if loop.index is even %}
+                    <div class="image-container">
+                        <img src="static/img/image{{ loop.index }}.png" align="bottom">
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
-        <!--<img src="static/img/ouput.jpg" align=”bottom”>  -->
     </div>
+</div>
+
+
+
+
 
 
 

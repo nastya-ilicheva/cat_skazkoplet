@@ -55,7 +55,7 @@ def Base64(images):
     img_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(img_data))
     image.show()
-    image.save('ouput.jpg')
+    image.save('image1.png')
     # image.save('output.jpg', 'JPEG')
 
 

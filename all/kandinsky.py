@@ -20,7 +20,7 @@ class Text2ImageAPI:
         data = response.json()
         return data[0]['id']
 
-    def generate(self, prompt, model, images=1, width=1024, height=1024):
+    def generate(self, prompt, model, images=1, width=400, height=400):
         params = {
             "type": "GENERATE",
             "numImages": images,
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
                         '515C9E17AA663CA4A2E4B974C4BCB336')
     model_id = api.get_model()
-    uuid = api.generate("мама и заметила странное существо в окне.", model_id)
+    uuid = api.generate("милая девушка с большими голубыми глазами в полный рост; стиль: акварельная картина", model_id)
     images = api.check_generation(uuid)
     print(images)
 
@@ -64,7 +64,7 @@ def Base64():
     img_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(img_data))
     image.show()
-    image.save('ouput.jpg')
+    image.save('image4.png')
     # image.save('output.jpg', 'JPEG')
 
 

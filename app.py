@@ -13,7 +13,6 @@ import json
 import datetime
 import random
 
-
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
 from candinsky_and_gigachat.giga import *
@@ -67,7 +66,7 @@ def new_tale():
     ''' У нас есть БД там таблица, user  и history, у History в столбике story сохраняется история (весь диалог) тут мы, собственно, заполняем эту таблицу'''
     db_sess = db_session.create_session()
     history = History(
-        user_id=current_user.id,#
+        user_id=current_user.id,  #
         giga_id=get_token(auth).json()['access_token'],
         story=""
     )
@@ -77,13 +76,13 @@ def new_tale():
 
 
 @app.route("/tale", methods=['POST', 'GET'])
-
 def last_tale():
+    c = 0
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
     history = db_sess.query(History).filter(History.user_id == current_user.id).order_by(History.id.desc()).first()
     if request.method == 'GET':
-        text = history.story.split("$$$")  #это просто разделитель для сплита
+        text = history.story.split("$$$")  # это просто разделитель для сплита
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
@@ -91,7 +90,7 @@ def last_tale():
         # print(history.story)
         # print()
         # print(user_input)
-        #это системный промт, если порусски, тут мы озадачиваем гигy
+        # это системный промт, если порусски, тут мы озадачиваем гигy
         messages.append(HumanMessage(content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
                                              f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
                                              f'на 2 '
@@ -107,8 +106,9 @@ def last_tale():
         res = chat(messages)
         messages.append(res)
         # Ответ модели
-        #ЭТО НАШ ОТВЕТ
+        # ЭТО НАШ ОТВЕТ
         history.story += f"{user_input}$$${res.content}$$$"
+        c += 1
         db_sess.commit()
         # create_json(user_input + res.content)
         # history += f"Bot: {res.content} "
@@ -117,7 +117,7 @@ def last_tale():
         print(text)
 
         return render_template("test.html", story_content=text)
-
+        #return render_template("test.html", story_content=text, im='static/img/image1.png')
 
 @app.route('/logout')
 @login_required
