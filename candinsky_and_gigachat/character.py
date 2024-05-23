@@ -1,7 +1,7 @@
 from giga import *
 import json
 from create_prompt_for_kandy import create_for_k
-
+#в этой папке навсе для рисвоания
 
 def create_json(prompt):
     # Ввод пользователя
