@@ -1,0 +1,11 @@
+langchain
+Pillow
+IPython
+gigachat
+python-telegram-bot[ext]
+replicate
+translate
+shutil
+requests
+flask
+flask-wtf

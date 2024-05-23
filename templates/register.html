@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <div class="text-center">
+        <form class="form-signin" action="" method="post">
+            {{ form.hidden_tag() }}
+            <img class="mb-4" src="{{ url_for('static', filename="img/king.png") }}" alt="" width="80" height="80">
+            <h1 class="h3 mb-3 fw-normal"></h1>
+
+            <div class="form-floating">
+                {{ form.email(class="form-control", type="email", id = "floatingInput", placeholder="name@example.com") }}
+                <label for="floatingInput">{{ form.email.label }}</label>
+            </div>
+            <div class="form-floating">
+                {{ form.login(class="form-control", type="text", id = "floatingInput", placeholder="Имя") }}
+                <label for="floatingInput">{{ form.login.label }}</label>
+            </div>
+            <div class="form-floating">
+                {{ form.password(class="form-control", type="password", id="floatingPassword", placeholder="Пароль") }}
+                <label for="floatingPassword">{{ form.password.label }}</label>
+            </div>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <div>{{ message }}</div>
+            <p class="mt-5 mb-3 text-muted">&copy; 2024 </p>
+        </form>
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+    </div>
+
+{% endblock %}

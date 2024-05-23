@@ -1,0 +1,98 @@
+{% extends "index.html" %}
+
+{% block content %}
+<meta charset="UTF-8">
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 50vh; /* Занимаем всю высоту экрана */
+    }
+
+    .messages {
+        flex: 1; /* Занимаем всю доступную высоту */
+        overflow-y: auto; /* Добавляем прокрутку, если сообщений становится слишком много */
+        padding: 20px;
+        display: flex;
+        flex-direction: column; /* Вывод сообщений снизу вверх */
+    }
+
+    .message {
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .message:nth-child(even) {
+        background-color: #87CEFA;
+        text-align: lefy;
+        margin-right: auto;
+        margin-left: 0;
+    }
+    .message:nth-child(odd) {
+        background-color: #f1f1f1;
+        text-align: right;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .message-form {
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -20px; /* Поднимаем текстовое поле вверх на 50px */
+    }
+
+    input[type="text"] {
+        flex: 1; /* Занимаем доступное пространство */
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+        margin-right: 10px;
+        height: 50px; /* Увеличиваем высоту текстового поля */
+    }
+
+    .styled {
+        width: 120px;
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+<div class="container">
+    <div class="messages" id="messages">
+        <!-- Выводим сообщения в нормальном порядке -->
+        {% for i in story_content %}
+            <div class="message">{{ i }}</div>
+
+        {% endfor %}
+        <img src="static/img/ouput.jpg" align=”bottom”>
+    </div>
+
+
+
+    <form class="message-form" method="post" onsubmit="scrollToBottom()">
+        <input type="text" id="story" name="story" placeholder="Введите сообщение...">
+        <button class="styled" type="submit">Отправить</button>
+    </form>
+</div>
+<script>
+
+
+    function scrollToBottom() {
+        var messages = document.getElementById('messages');
+        messages.scrollTop = messages.scrollHeight;
+    }
+</script>
+
+<script>
+    window.onload = function() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+</script>
+
+
+{% endblock %}

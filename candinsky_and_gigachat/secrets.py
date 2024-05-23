@@ -1,0 +1,3 @@
+client_id = '518a13bd-22ca-4984-9ff0-c92be6e0f763'
+secret = '38050be9-8a1f-4859-a1a6-a2abc3371637'
+auth = 'NTE4YTEzYmQtMjJjYS00OTg0LTlmZjAtYzkyYmU2ZTBmNzYzOjM4MDUwYmU5LThhMWYtNDg1OS1hMWE2LWEyYWJjMzM3MTYzNw=='
