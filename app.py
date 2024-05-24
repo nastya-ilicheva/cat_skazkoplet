@@ -89,7 +89,11 @@ def my_tales():
     library = db_sess.query(History).filter(History.user_id == current_user.id)
     tales = []
     for i in library:
-        tales.append(i.id)
+        try:
+            msg = eval(i.story)[1].content
+        except Exception:
+            msg = 'Новая сказка'
+        tales.append((i.id, msg))
     return render_template("tales.html", tales=tales)
 
 
