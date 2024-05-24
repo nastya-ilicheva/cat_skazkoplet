@@ -59,7 +59,7 @@ def test():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("about.html")
 
 
 @app.route("/ntale", methods=['POST', 'GET'])
@@ -153,6 +153,11 @@ def last_tale(story_id):
 
         return render_template("test.html", story_content=text)
         #return render_template("test.html", story_content=text, im='static/img/image1.png')
+
+@app.route('/')
+def home():
+    return render_template('about.html')
+
 
 @app.route('/logout')
 @login_required
