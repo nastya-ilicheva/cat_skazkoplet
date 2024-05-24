@@ -79,7 +79,7 @@ def new_tale():
     history.story = str(messages)
     db_sess.add(history)
     db_sess.commit()
-    return redirect('/tale')
+    return redirect(f'/tale/{history.id}')
 
 
 @app.route("/tales")
