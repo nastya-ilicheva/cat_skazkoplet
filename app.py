@@ -26,6 +26,7 @@ login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
 
+
 # messages = [
 #     SystemMessage(
 #         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
@@ -99,7 +100,8 @@ def last_tale(story_id):
     db_sess = db_session.create_session()
     print(story_id)
     if story_id is None:
-        story_id = db_sess.query11(History).filter(History.user_id == current_user.id).order_by(History.id.desc()).first().id
+        story_id = db_sess.query11(History).filter(History.user_id == current_user.id).order_by(
+            History.id.desc()).first().id
         print(story_id)
     history = db_sess.query(History).filter(History.id == story_id).first()
     messages = eval(history.story)
@@ -107,14 +109,11 @@ def last_tale(story_id):
     for i in messages[1:]:
         text.append(i.content)
     if request.method == 'GET':
-        # text = history.story.split("$$$")  # это просто разделитель для сплита
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
         user_input = request.form['story']
-        # print(history.story)
-        # print()
-        # print(user_input)
+
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
         print(history.story)
@@ -141,18 +140,10 @@ def last_tale(story_id):
         history.story = str(messages)
         c += 1
         db_sess.commit()
-        # create_json(user_input + res.content)
-        # history += f"Bot: {res.content} "
-
-        # print("777777777")
-        # for i in messages:
-        #
-        #     print(i)
-        #
-        # print(text)
 
         return render_template("test.html", story_content=text)
-        #return render_template("test.html", story_content=text, im='static/img/image1.png')
+        # return render_template("test.html", story_content=text, im='static/img/image1.png')
+
 
 @app.route('/logout')
 @login_required
@@ -179,12 +170,6 @@ def register():
         )
         user.set_password(form.password.data)
         db_sess.add(user)
-        db_sess.commit()
-        history = History(
-            user_id=user.id,
-            story="")
-
-        db_sess.add(history)
         db_sess.commit()
 
         return redirect('/login')
