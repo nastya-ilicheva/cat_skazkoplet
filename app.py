@@ -102,8 +102,12 @@ def last_tale(story_id):
         story_id = db_sess.query11(History).filter(History.user_id == current_user.id).order_by(History.id.desc()).first().id
         print(story_id)
     history = db_sess.query(History).filter(History.id == story_id).first()
+    messages = eval(history.story)
+    text = []
+    for i in messages[1:]:
+        text.append(i.content)
     if request.method == 'GET':
-        text = history.story.split("$$$")  # это просто разделитель для сплита
+        # text = history.story.split("$$$")  # это просто разделитель для сплита
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
@@ -114,7 +118,7 @@ def last_tale(story_id):
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
         print(history.story)
-        messages = eval(history.story)
+
         # messages.append(HumanMessage(content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
         #                                      f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
         #                                      f'на 2 '
@@ -139,9 +143,13 @@ def last_tale(story_id):
         db_sess.commit()
         # create_json(user_input + res.content)
         # history += f"Bot: {res.content} "
-        text = history.story.split("$$$")
 
-        print(text)
+        # print("777777777")
+        # for i in messages:
+        #
+        #     print(i)
+        #
+        # print(text)
 
         return render_template("test.html", story_content=text)
         #return render_template("test.html", story_content=text, im='static/img/image1.png')
