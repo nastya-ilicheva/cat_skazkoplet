@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+<!--ЭТО KОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА-->
+{% block content %}
+<div class="container">
+    <div class="messages" id="messages">
+        <!-- Выводим сообщения в нормальном порядке -->
+        {% for i in tales %}
+            <div>
+                <a href="/tale/{{ i }}">{{ i }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

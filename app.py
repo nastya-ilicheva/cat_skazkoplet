@@ -8,6 +8,7 @@ from data.__all_models import *
 from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
+import json
 
 import json
 import datetime
@@ -25,11 +26,11 @@ login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
 
-messages = [
-    SystemMessage(
-        content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
-    )
-]
+# messages = [
+#     SystemMessage(
+#         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
+#     )
+# ]
 
 
 @login_manager.user_loader
@@ -70,17 +71,37 @@ def new_tale():
         giga_id=get_token(auth).json()['access_token'],
         story=""
     )
+    messages = [
+        SystemMessage(
+            content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
+        )
+    ]
+    history.story = str(messages)
     db_sess.add(history)
     db_sess.commit()
     return redirect('/tale')
 
 
-@app.route("/tale", methods=['POST', 'GET'])
-def last_tale():
+@app.route("/tales")
+def my_tales():
+    db_sess = db_session.create_session()
+    library = db_sess.query(History).filter(History.user_id == current_user.id)
+    tales = []
+    for i in library:
+        tales.append(i.id)
+    return render_template("tales.html", tales=tales)
+
+
+@app.route("/tale/<story_id>", methods=['POST', 'GET'])
+def last_tale(story_id):
     c = 0
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
-    history = db_sess.query(History).filter(History.user_id == current_user.id).order_by(History.id.desc()).first()
+    print(story_id)
+    if story_id is None:
+        story_id = db_sess.query11(History).filter(History.user_id == current_user.id).order_by(History.id.desc()).first().id
+        print(story_id)
+    history = db_sess.query(History).filter(History.id == story_id).first()
     if request.method == 'GET':
         text = history.story.split("$$$")  # это просто разделитель для сплита
         return render_template("test.html", story_content=text)
@@ -91,23 +112,29 @@ def last_tale():
         # print()
         # print(user_input)
         # это системный промт, если порусски, тут мы озадачиваем гигy
-        messages.append(HumanMessage(content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-                                             f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-                                             f'на 2 '
-                                             f'предложения. Повествование последовательное. Добавляй как '
-                                             f'можно больше деталей внешности и описания окружающей среды. Если '
-                                             f'пользователь затрудняется с описанием, то придумай сам. Если '
-                                             f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                                             f'должна быть логически правильно построенной. Сюжет понятный. Далее, в '
-                                             f'кавычках, будет приведено начало сказки, если они пусты, то значит это '
-                                             f'сказка новая, если нет, то продолжай эту."{history.story + user_input}"'
-                                             f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ. При выведении ответа не '
-                                             f'пиши двойные скобки'))
+
+        print(history.story)
+        messages = eval(history.story)
+        # messages.append(HumanMessage(content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
+        #                                      f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
+        #                                      f'на 2 '
+        #                                      f'предложения. Повествование последовательное. Добавляй как '
+        #                                      f'можно больше деталей внешности и описания окружающей среды. Если '
+        #                                      f'пользователь затрудняется с описанием, то придумай сам. Если '
+        #                                      f'пользователь сам описывает историю, то ты просто продолжаешь. История '
+        #                                      f'должна быть логически правильно построенной. Сюжет понятный. Далее, в '
+        #                                      f'кавычках, будет приведено начало сказки, если они пусты, то значит это '
+        #                                      f'сказка новая, если нет, то продолжай эту."{history.story + user_input}"'
+        #                                      f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ. При выведении ответа не '
+        #                                      f'пиши двойные скобки'))
+        messages.append(HumanMessage(content=user_input))
         res = chat(messages)
-        messages.append(res)
+        print(res.content)
+        messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
-        history.story += f"{user_input}$$${res.content}$$$"
+        print(messages)
+        history.story = str(messages)
         c += 1
         db_sess.commit()
         # create_json(user_input + res.content)
