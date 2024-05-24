@@ -39,4 +39,4 @@ class History(SqlAlchemyBase, UserMixin):
     # user = relationship("User", backref="login", foreign_keys=[user_id])
 
     def __repr__(self):
-        return f'{self.id}: {self.user} : {self.story}'
+        return f'{self.id}: {self.story}'

@@ -51,7 +51,8 @@
 
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('new_tale') }}" class="nav-link px-2 link-dark">Новая сказка</a></li>
-                    <li><a href="{{ url_for('last_tale') }}" class="nav-link px-2 link-dark">Продолжить сказку</a></li>
+
+                    <li><a href="{{ url_for('my_tales') }}" class="nav-link px-2 link-dark">Мои сказки</a></li>
                 {% endif %}
             </ul>
 
