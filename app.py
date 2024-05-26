@@ -26,7 +26,7 @@ login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
 
-#
+
 # messages = [
 #     SystemMessage(
 #         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
