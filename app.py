@@ -19,6 +19,7 @@ import random
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
 from candinsky_and_gigachat.giga import *
+from candinsky_and_gigachat.kandyi import generate_image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
@@ -76,7 +77,15 @@ def new_tale():
     )
     messages = [
         SystemMessage(
-            content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
+            content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
+                     f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
+                     f'на 2 '
+                     f'предложения. Повествование последовательное. Добавляй как '
+                     f'можно больше деталей внешности и описания окружающей среды. Если '
+                     f'пользователь затрудняется с описанием, то придумай сам. Если '
+                     f'пользователь сам описывает историю, то ты просто продолжаешь. История '
+                     f'должна быть логически правильно построенной. Сюжет понятный.'
+                     f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
     history.story = str(messages)
@@ -141,6 +150,7 @@ def last_tale(story_id):
         print(res.content)
         speach_rec = voice.speach(res.content)
         webbrowser.open(speach_rec)
+        generate_image(res.content)
         messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
