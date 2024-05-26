@@ -24,6 +24,11 @@
         margin-bottom: 10px;
         display: flex; /* Добавлено */
         justify-content: flex-end; /* Добавлено */
+        position: relative;
+        flex-direction: column;
+
+<!--        padding-bottom: 30px; /* Добавляем отступ снизу для текста сообщения */-->
+
     }
 
     .even {
@@ -82,6 +87,16 @@
         cursor: pointer;
     }
 
+    .sound-button {
+    align-self: flex-start; /* Выравнивание кнопки по левому краю */
+    order: 2; /* Помещение кнопки под текстом сообщения */
+<!--        position: absolute;-->
+<!--        bottom: 0;-->
+<!--        left: 0;-->
+<!--        margin-top: 10px; /* Добавляем отступ сверху для кнопки */-->
+
+    }
+
 
 </style>
 <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
@@ -95,8 +110,9 @@
             {{ i }}
             {% if loop.index is even %}
             <div class="image-container">
-                <img src="static/img/image{{ loop.index }}.png" align="bottom">
+                <img src="../static/img/image2.png" align="bottom">
             </div>
+            <button class="sound-button" onclick="soundFunction(../static/voice acting files/voice_acting.mp3)">Озвучить</button>
             {% endif %}
         </div>
         {% endfor %}
@@ -108,10 +124,20 @@
     <input type="text" id="story" name="story" placeholder="Введите сообщение...">
     <button class="styled" type="submit">Отправить</button>
 </form>
-</div>
+
 <script>
+    function soundFunction(input) {
+    let reader = new FileReader();
 
+    reader.onload = function(e) {
+        let audio = new Audio(e.target.result);
+        audio.play();
+    }
+    reader.readAsDataURL(input.files[0]);
+}
+</script>
 
+<script>
     function scrollToBottom() {
         var messages = document.getElementById('messages');
         messages.scrollTop = messages.scrollHeight;
