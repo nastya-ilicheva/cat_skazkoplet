@@ -6,7 +6,7 @@
     .container {
         display: flex;
         flex-direction: column;
-        min-height: 50vh; /* Занимаем всю высоту экрана */
+        min-height: 0vh; /* Занимаем всю высоту экрана */
     }
 
     .messages {
@@ -15,6 +15,7 @@
         padding: 20px;
         display: flex;
         flex-direction: column; /* Вывод сообщений снизу вверх */
+        margin-bottom: 10vh; /* Добавляем отступ снизу */
     }
 
     .message {
@@ -50,12 +51,18 @@
     }
 
     .message-form {
+        width: 100%; /* Устанавливаем ширину элемента равной ширине родительского элемента */
         padding: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: -20px; /* Поднимаем текстовое поле вверх на 50px */
+        position: fixed; /* Фиксируем элемент относительно окна браузера */
+        bottom: 3vh; /* Устанавливаем расстояние от нижней границы экрана равное 3% от его высоты */
+        left: 0; /* Устанавливаем левую границу элемента по левому краю экрана */
+        right: 0; /* Устанавливаем правую границу элемента по правому краю экрана */
     }
+
+
 
     input[type="text"] {
         flex: 1; /* Занимаем доступное пространство */
@@ -82,26 +89,26 @@
 <div class="container">
     <div class="messages" id="messages">
         <!-- Выводим сообщения в нормальном порядке -->
-                <!-- Выводим сообщения в нормальном порядке -->
+        <!-- Выводим сообщения в нормальном порядке -->
 
         {% for i in story_content %}
-            <div class="message {% if loop.index is even %} even {% endif %}">
-                {{ i }}
-                {% if loop.index is even %}
-                    <div class="image-container">
-                        <img src="static/img/image{{ loop.index }}.png" align="bottom">
-                    </div>
-                {% endif %}
+        <div class="message {% if loop.index is even %} even {% endif %}">
+            {{ i }}
+            {% if loop.index is even %}
+            <div class="image-container">
+                <img src="static/img/image{{ loop.index }}.png" align="bottom">
             </div>
+            {% endif %}
+        </div>
         {% endfor %}
     </div>
 </div>
 
 
-    <form class="message-form" method="post" onsubmit="scrollToBottom()">
-        <input type="text" id="story" name="story" placeholder="Введите сообщение...">
-        <button class="styled" type="submit">Отправить</button>
-    </form>
+<form class="message-form" method="post" onsubmit="scrollToBottom()">
+    <input type="text" id="story" name="story" placeholder="Введите сообщение...">
+    <button class="styled" type="submit">Отправить</button>
+</form>
 </div>
 <script>
 
