@@ -7,6 +7,8 @@
         display: flex;
         flex-direction: column;
         min-height: 0vh; /* Занимаем всю высоту экрана */
+        width: 100%; /* Устанавливаем ширину элемента равной 70% от ширины экрана */
+        margin: auto; /* Выравниваем элемент по центру */
     }
 
     .messages {
@@ -62,8 +64,9 @@
         align-items: center;
         position: fixed; /* Фиксируем элемент относительно окна браузера */
         bottom: 3vh; /* Устанавливаем расстояние от нижней границы экрана равное 3% от его высоты */
-        left: 0; /* Устанавливаем левую границу элемента по левому краю экрана */
-        right: 0; /* Устанавливаем правую границу элемента по правому краю экрана */
+        left: 15%; /* Устанавливаем левую границу элемента на 15% от левого края экрана */
+        right: 15%; /* Устанавливаем правую границу элемента на 15% от правого края экрана */
+        width: auto; /* Устанавливаем ширину элемента автоматически */
     }
 
 
@@ -109,10 +112,13 @@
         <div class="message {% if loop.index is even %} even {% endif %}">
             {{ i }}
             {% if loop.index is even %}
-            <div class="image-container">
+            <div class="image-container" style="margin-bottom: 10px; text-align: center;">
                 <img src="../static/img/image2.png" align="bottom">
             </div>
-            <button class="sound-button" onclick="soundFunction(../static/voice acting files/voice_acting.mp3)">Озвучить</button>
+            <audio id="myAudio" controls>
+                <source src="../static/voice acting files/voice_acting.mp3" type="audio/mpeg">
+                Ваш браузер не поддерживает аудио элемент.
+            </audio>
             {% endif %}
         </div>
         {% endfor %}
@@ -125,17 +131,6 @@
     <button class="styled" type="submit">Отправить</button>
 </form>
 
-<script>
-    function soundFunction(input) {
-    let reader = new FileReader();
-
-    reader.onload = function(e) {
-        let audio = new Audio(e.target.result);
-        audio.play();
-    }
-    reader.readAsDataURL(input.files[0]);
-}
-</script>
 
 <script>
     function scrollToBottom() {

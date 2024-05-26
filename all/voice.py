@@ -1,4 +1,3 @@
-
 import requests
 
 VOICE_ID = 'rxEz5E7hIAPk7D3bXwf6'
@@ -11,26 +10,24 @@ headers = {
     "Content-Type": "application/json",
     "xi-api-key": API_KEY_VOICE
 }
-def speach(s):
 
+
+def speach(text: str, filename='output1', speed=1.5) -> str:
     data = {
-        "text": s,
+        "text": text,
         'language': 'ru',
         "model_id": "eleven_multilingual_v2",
         "voice_settings": {
             "stability": 0.5,
             "similarity_boost": 0.5,
-            'speed': 1.5
+            'speed': speed
 
         }
     }
 
     response = requests.post(url, json=data, headers=headers)
-    with open('output1.mp3', 'wb') as f:
+    with open(f'{filename}.mp3', 'wb') as f:
         for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
             if chunk:
                 f.write(chunk)
-    return 'output1.mp3'
-
-
-
+    return f'{filename}.mp3'
