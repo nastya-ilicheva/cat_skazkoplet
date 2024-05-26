@@ -1,4 +1,4 @@
-import webbrowser
+
 import requests
 
 VOICE_ID = 'rxEz5E7hIAPk7D3bXwf6'
@@ -32,5 +32,5 @@ def speach(s):
                 f.write(chunk)
     return 'output1.mp3'
 
-webbrowser.open(speach('Привет'))
+
 

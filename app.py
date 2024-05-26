@@ -8,7 +8,9 @@ from data.__all_models import *
 from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
-import json
+
+from all import voice
+import webbrowser
 
 import json
 import datetime
@@ -137,10 +139,13 @@ def last_tale(story_id):
         messages.append(HumanMessage(content=user_input))
         res = chat(messages)
         print(res.content)
+        speach_rec = voice.speach(res.content)
+        webbrowser.open(speach_rec)
         messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
         print(messages)
+
         history.story = str(messages)
         c += 1
         db_sess.commit()
