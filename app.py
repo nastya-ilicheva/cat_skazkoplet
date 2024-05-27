@@ -147,18 +147,23 @@ def last_tale(story_id):
         res = chat(messages)
         print(res.content)
         # speach_rec = voice.speach(res.content)
-        # generate_image(res.content)
+
         messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
         print(messages)
         msg = Message(
             story_id=history.id,
-            text=repr(messages[-1])
-            
+            text=repr(messages[-1]),
         )
         db_sess.add(msg)
         db_sess.commit()
+
+        msg.image_path = f'static/mes_images/{current_user.id}_{history.id}_{msg.id}.png'
+        generate_image(res.content, msg.image_path)
+        db_sess.add(msg)
+        db_sess.commit()
+
         text = [i.content for i in messages[1:]]
         return render_template("test.html", story_content=text)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')

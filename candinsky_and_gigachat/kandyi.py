@@ -1,6 +1,9 @@
 import base64
 import json
 import time
+# from app import *
+from data import db_session
+# from data.__all_models import *
 from io import BytesIO
 from PIL import Image
 import requests
@@ -50,16 +53,19 @@ class Text2ImageAPI:
             time.sleep(delay)
 
 
-def Base64(images):
+def Base64(images, path):
     base64_string = str(images)
     img_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(img_data))
     # image.show()
-    image.save('image1.png')
+    # db_sess = db_session.create_session()
+    # msg = db_sess.query(Message).filter(Message.id == )
+    #im_name = msg.image_path
+    image.save(path)
     # image.save('output.jpg', 'JPEG')
 
 
-def generate_image(prompt):
+def generate_image(prompt,  path):
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
                         '515C9E17AA663CA4A2E4B974C4BCB336')
     model_id = api.get_model()
@@ -71,9 +77,7 @@ def generate_image(prompt):
     images = api.check_generation(uuid)
     print(images[15:])
 
-    Base64(images)
-
-
+    Base64(images, path)
 
 # url https://api-key.fusionbrain.ai/
 # api_key C465EB979644D7D0B551F99A83583D21'

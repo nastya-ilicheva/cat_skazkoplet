@@ -47,6 +47,7 @@ class Message(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     story_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("story.id"))
     text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    image_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def __repr__(self):
         return f'{self.id}: {self.story_id} - {self.text}'
