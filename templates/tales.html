@@ -1,15 +1,37 @@
 {% extends "index.html" %}
 <!--ЭТО KОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА-->
 {% block content %}
+<style>
+    .custom-link {
+        color: #e4ecfc;
+        text-decoration: none;
+        background-color: #454545;
+        padding: 10px;
+        border-radius: 50px;
+        transition: transform 0.3s, background-color 0.3s;
+        font-size: 25px; /* Увеличено размер шрифта */
+    }
+
+    .custom-link:hover {
+        color: #e4ecfc ;
+        background-color: #9c7ab8;
+        transform: scale(1.1);
+    }
+
+    .link-container {
+        margin-bottom: 32px; /* Увеличено расстояние между ссылками */
+    }
+</style>
 <div class="container">
     <div class="messages" id="messages">
         <!-- Выводим сообщения в нормальном порядке -->
-        {% for i in tales %}
-            <div>
-                <a href="/tale/{{ i }}">{{ i }}</a>
+                <!-- Выводим сообщения в нормальном порядке -->
+
+        {% for i, j in tales %}
+            <div class="link-container">
+                <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
             </div>
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}
