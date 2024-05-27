@@ -10,7 +10,7 @@ from data.register import RegisterForm
 # from flask_restful import abort
 
 from all import voice
-import webbrowser
+
 
 import json
 import datetime
