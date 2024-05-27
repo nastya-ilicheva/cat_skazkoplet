@@ -70,10 +70,9 @@ def index():
 def new_tale():
     ''' У нас есть БД там таблица, user  и history, у History в столбике story сохраняется история (весь диалог) тут мы, собственно, заполняем эту таблицу'''
     db_sess = db_session.create_session()
-    history = History(
+    history = Story(
         user_id=current_user.id,  #
-        giga_id=get_token(auth).json()['access_token'],
-        story=""
+        title="Новая сказка"
     )
     messages = [
         SystemMessage(
@@ -88,23 +87,30 @@ def new_tale():
                      f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
-    history.story = str(messages)
     db_sess.add(history)
     db_sess.commit()
+    print(repr(messages[0]))
+    msg = Message(
+        story_id = history.id,
+        text = repr(messages[0])
+    )
+    db_sess.add(msg)
+    db_sess.commit()
+
     return redirect(f'/tale/{history.id}')
 
 
 @app.route("/tales")
 def my_tales():
     db_sess = db_session.create_session()
-    library = db_sess.query(History).filter(History.user_id == current_user.id)
+    library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
-        try:
-            msg = eval(i.story)[1].content
-        except Exception:
-            msg = 'Новая сказка'
-        tales.append((i.id, msg))
+        # try:
+        #     msg = eval(i.story)[1].content
+        # except Exception:
+        #     msg = 'Новая сказка'
+        tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
 
@@ -115,13 +121,13 @@ def last_tale(story_id):
     db_sess = db_session.create_session()
     print(story_id)
     if story_id is None:
-        story_id = db_sess.query11(History).filter(History.user_id == current_user.id).order_by(
-            History.id.desc()).first().id
-        print(story_id)
-    history = db_sess.query(History).filter(History.id == story_id).first()
-    messages = eval(history.story)
-
-
+        return redirect("/tales")
+    history = db_sess.query(Story).filter(Story.id == story_id).first()
+    messages = []
+    msg = db_sess.query(Message).filter(Message.story_id == history.id)
+    for i in msg:
+        messages.append(eval(i.text))
+    print(messages)
     if request.method == 'GET':
         text = [i.content for i in messages[1:]]
         return render_template("test.html", story_content=text)
@@ -131,32 +137,27 @@ def last_tale(story_id):
 
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
-        print(history.story)
-
-        # messages.append(HumanMessage(content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-        #                                      f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-        #                                      f'на 2 '
-        #                                      f'предложения. Повествование последовательное. Добавляй как '
-        #                                      f'можно больше деталей внешности и описания окружающей среды. Если '
-        #                                      f'пользователь затрудняется с описанием, то придумай сам. Если '
-        #                                      f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-        #                                      f'должна быть логически правильно построенной. Сюжет понятный. Далее, в '
-        #                                      f'кавычках, будет приведено начало сказки, если они пусты, то значит это '
-        #                                      f'сказка новая, если нет, то продолжай эту."{history.story + user_input}"'
-        #                                      f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ. При выведении ответа не '
-        #                                      f'пиши двойные скобки'))
         messages.append(HumanMessage(content=user_input))
+        msg = Message(
+            story_id=history.id,
+            text=repr(messages[-1])
+        )
+        db_sess.add(msg)
+        db_sess.commit()
         res = chat(messages)
         print(res.content)
-        speach_rec = voice.speach(res.content)
-        generate_image(res.content)
+        # speach_rec = voice.speach(res.content)
+        # generate_image(res.content)
         messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
         print(messages)
-
-        history.story = str(messages)
-        c += 1
+        msg = Message(
+            story_id=history.id,
+            text=repr(messages[-1])
+            
+        )
+        db_sess.add(msg)
         db_sess.commit()
         text = [i.content for i in messages[1:]]
         return render_template("test.html", story_content=text)

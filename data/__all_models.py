@@ -28,15 +28,25 @@ class User(SqlAlchemyBase, UserMixin):
         return check_password_hash(self.hashed_password, password)
 
 
-class History(SqlAlchemyBase, UserMixin):
-    __tablename__ = 'history'
+class Story(SqlAlchemyBase, UserMixin):
+    __tablename__ = 'story'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
-    giga_id = sqlalchemy.Column(sqlalchemy.String)
-    story = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     # user = relationship("User", backref="login", foreign_keys=[user_id])
 
     def __repr__(self):
-        return f'{self.id}: {self.story}'
+        return f'{self.id}: {self.title}'
+
+
+class Message(SqlAlchemyBase, UserMixin):
+    __tablename__ = 'messages'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    story_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("story.id"))
+    text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
+    def __repr__(self):
+        return f'{self.id}: {self.story_id} - {self.text}'

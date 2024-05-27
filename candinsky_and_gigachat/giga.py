@@ -67,11 +67,11 @@ models()
 
 chat = GigaChat(credentials=auth, verify_ssl_certs=False)
 
-messages = [
-    SystemMessage(
-        content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
-    )
-]
+# messages = [
+#     SystemMessage(
+#         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
+#     )
+# ]
 
 
 if __name__ == '__main__':
