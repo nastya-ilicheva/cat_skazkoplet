@@ -120,10 +120,10 @@ def last_tale(story_id):
         print(story_id)
     history = db_sess.query(History).filter(History.id == story_id).first()
     messages = eval(history.story)
-    text = []
-    for i in messages[1:]:
-        text.append(i.content)
+
+
     if request.method == 'GET':
+        text = [i.content for i in messages[1:]]
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
@@ -149,7 +149,6 @@ def last_tale(story_id):
         res = chat(messages)
         print(res.content)
         speach_rec = voice.speach(res.content)
-        webbrowser.open(speach_rec)
         generate_image(res.content)
         messages.append(AIMessage(content=res.content))
         # Ответ модели
@@ -159,7 +158,7 @@ def last_tale(story_id):
         history.story = str(messages)
         c += 1
         db_sess.commit()
-
+        text = [i.content for i in messages[1:]]
         return render_template("test.html", story_content=text)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
 
