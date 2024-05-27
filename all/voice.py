@@ -1,4 +1,4 @@
-import requests
+import speakerpy
 
 VOICE_ID = 'rxEz5E7hIAPk7D3bXwf6'
 CHUNK_SIZE = 1024

@@ -148,8 +148,8 @@ def last_tale(story_id):
         messages.append(HumanMessage(content=user_input))
         res = chat(messages)
         print(res.content)
-        speach_rec = voice.speach(res.content)
-        generate_image(res.content)
+        # speach_rec = voice.speach(res.content)
+        # generate_image(res.content)
         messages.append(AIMessage(content=res.content))
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
