@@ -7,6 +7,7 @@ from data import db_session
 from io import BytesIO
 from PIL import Image
 import requests
+from candinsky_and_gigachat.giga import *
 
 
 class Text2ImageAPI:
@@ -60,29 +61,34 @@ def Base64(images, path):
     # image.show()
     # db_sess = db_session.create_session()
     # msg = db_sess.query(Message).filter(Message.id == )
-    #im_name = msg.image_path
+    # im_name = msg.image_path
     image.save(path)
     # image.save('output.jpg', 'JPEG')
 
 
-def generate_image(prompt,  path):
-
+def generate_image(prompt, path):
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
                         '515C9E17AA663CA4A2E4B974C4BCB336')
     model_id = api.get_model()
 
+    messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания.")]
+    messages.append(HumanMessage(content=prompt))
+    res = chat(messages)
+    print(res.content)
+
     # with open("prompt_for_k.txt") as f:
     #     prompt = f.readline()
 
-    uuid = api.generate(f"{prompt}", model_id)
+    uuid = api.generate(f"{res.content}", model_id)
     images = api.check_generation(uuid)
     # print(images[15:])
 
     Base64(images, path)
+
 
 # url https://api-key.fusionbrain.ai/
 # api_key C465EB979644D7D0B551F99A83583D21'
 # secret '515C9E17AA663CA4A2E4B974C4BCB336'
 
 if __name__ == "__main__":
-   generate_image("Героиня сказки для детей", "test.png")
+    generate_image("Героиня сказки для детей в желтом платье", "test.png")
