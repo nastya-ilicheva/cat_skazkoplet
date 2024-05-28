@@ -1,5 +1,5 @@
 {% extends "index.html" %}
-<!--ЭТО KОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА-->
+<!-- ЭТО КОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА -->
 {% block content %}
 <style>
     .custom-link {
@@ -9,11 +9,11 @@
         padding: 10px;
         border-radius: 50px;
         transition: transform 0.3s, background-color 0.3s;
-        font-size: 25px; /* Увеличено размер шрифта */
+        font-size: 25px; /* Увеличен размер шрифта */
     }
 
     .custom-link:hover {
-        color: #e4ecfc ;
+        color: #e4ecfc;
         background-color: #9c7ab8;
         transform: scale(1.1);
     }
@@ -21,17 +21,40 @@
     .link-container {
         margin-bottom: 32px; /* Увеличено расстояние между ссылками */
     }
+
+ .image-container {
+        position: fixed;
+        bottom: 0;
+        left: 800px;
+        z-index: -1; /* Разместить изображение под другими элементами */
+        opacity: 1; /* Полупрозрачность изображения */
+        margin: 20px; /* Добавляем отступы, чтобы не было прилипаний к краям экрана */
+    }
+
+    .image-container img {
+        max-width: 400px; /* Задайте подходящий размер изображения */
+        height: auto;
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
 </style>
+
 <div class="container">
     <div class="messages" id="messages">
         <!-- Выводим сообщения в нормальном порядке -->
-                <!-- Выводим сообщения в нормальном порядке -->
-
         {% for i, j in tales %}
-            <div class="link-container">
-                <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
-            </div>
+        <div class="link-container">
+            <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
+        </div>
         {% endfor %}
     </div>
+</div>
+
+<div class="image-container">
+    <img src="{{ url_for('static', filename='img/robi.png') }}" alt="Image">
 </div>
 {% endblock %}
