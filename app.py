@@ -100,9 +100,16 @@ def new_tale():
     return redirect(f'/tale/{history.id}')
 
 
-@app.route("/tales")
+@app.route("/tales", methods=['POST', 'GET'])
 def my_tales():
     db_sess = db_session.create_session()
+    if request.method == 'POST':
+        data = request.get_json()
+        id = data['id']
+        new_text = data['newText']
+        history = db_sess.query(Story).filter(Story.id == id).first()
+        history.title = new_text
+        db_sess.commit()
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:

@@ -16,13 +16,15 @@
         color: #e4ecfc;
         background-color: #9c7ab8;
         transform: scale(1.1);
+
     }
 
     .link-container {
         margin-bottom: 32px; /* Увеличено расстояние между ссылками */
+        display: flex; /* Используйте flex для расположения элементов в ряд */
     }
 
- .image-container {
+    .image-container {
         position: fixed;
         bottom: 0;
         left: 800px;
@@ -41,6 +43,15 @@
         z-index: 1;
     }
 
+    .edit-button {
+        margin-left: 20px; /* Добавьте отступ справа от кнопки */
+        cursor: pointer;
+        padding: 10px; /* Добавьте padding для увеличения размера кнопки */
+        border: none; /* Удалите стандартную рамку кнопки */
+        background-color: #9c7ab8; /* Добавьте цвет фона */
+        color: white; /* Измените цвет текста */
+    }
+
 </style>
 
 <div class="container">
@@ -49,6 +60,7 @@
         {% for i, j in tales %}
         <div class="link-container">
             <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
+            <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
         </div>
         {% endfor %}
     </div>
@@ -57,4 +69,36 @@
 <div class="image-container">
     <img src="{{ url_for('static', filename='img/robi.png') }}" alt="Image">
 </div>
+
+
+<script>
+    function editFunction(id) {
+        // Находим ссылку по id
+        var link = document.querySelector('.custom-link[href="/tale/' + id + '"]');
+
+        // Создаем текстовое поле с текущим текстом ссылки
+        var input = document.createElement('input');
+        input.value = link.textContent;
+        link.parentNode.replaceChild(input, link);
+        input.focus();
+        input.select();
+        input.addEventListener('blur', function(event) {
+            var newLink = document.createElement('a');
+            newLink.href = link.href;
+            newLink.textContent = input.value;
+            newLink.className = 'custom-link';
+            input.parentNode.replaceChild(newLink, input);
+            fetch('/tales', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    id: id,
+                    newText: input.value
+                })
+            });
+            event.preventDefault();
+
+        });
+    }
+</script>
 {% endblock %}
