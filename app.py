@@ -129,7 +129,9 @@ def last_tale(story_id):
         messages.append(eval(i.text))
     print(messages)
     if request.method == 'GET':
-        text = [(i.content, "AIMessage" in str(type(i))) for i in messages[1:]]
+        text = [(i.content,
+                 "AIMessage" in str(type(i)),
+                str(voice.speach(i.content))) for i in messages[1:]]
         print(text)
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
