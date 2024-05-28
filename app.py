@@ -141,6 +141,8 @@ def last_tale(story_id):
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
         messages.append(HumanMessage(content=user_input))
+        if len(messages) == 2:
+            history.title = user_input
         msg = Message(
             story_id=history.id,
             text=repr(messages[-1])
