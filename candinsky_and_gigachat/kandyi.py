@@ -66,6 +66,7 @@ def Base64(images, path):
 
 
 def generate_image(prompt,  path):
+
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
                         '515C9E17AA663CA4A2E4B974C4BCB336')
     model_id = api.get_model()
@@ -75,10 +76,13 @@ def generate_image(prompt,  path):
 
     uuid = api.generate(f"{prompt}", model_id)
     images = api.check_generation(uuid)
-    print(images[15:])
+    # print(images[15:])
 
     Base64(images, path)
 
 # url https://api-key.fusionbrain.ai/
 # api_key C465EB979644D7D0B551F99A83583D21'
 # secret '515C9E17AA663CA4A2E4B974C4BCB336'
+
+if __name__ == "__main__":
+   generate_image("Героиня сказки для детей", "test.png")
