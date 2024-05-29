@@ -1,55 +1,8 @@
 {% extends "index.html" %}
 <!-- ЭТО КОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА -->
 {% block content %}
-<style>
-    .custom-link {
-        color: #e4ecfc;
-        text-decoration: none;
-        background-color: #57109e;
-        padding: 6px;
-        border-radius: 6px;
-        transition: transform 0.3s, background-color 0.3s;
-        font-size: 25px; /* Увеличен размер шрифта */
-    }
 
-    .custom-link:hover {
-        color: #e4ecfc;
-        background-color: #0ed3e1;
-        transform: scale(1.1);
-    }
-
-    .link-container {
-        margin-bottom: 32px; /*  расстояние между ссылками */
-        display: flex; /*  для расположения элементов в ряд */
-        align-items: center; /* Выравнивание по центру по вертикали */
-    }
-
-
-    .image-container {
-        position: fixed;
-        z-index: 10;
-    }
-
-    .image-container img {
-        width: 300px; /* Задайте фиксированную ширину изображения */
-        height: auto; /* Автоматически подстраивайте высоту */
-    }
-
-    .container {
-        position: relative;
-        z-index: 1;
-    }
-
-    .edit-button {
-        margin-left: 20px; /* отступ справа от кнопки */
-        cursor: pointer;
-        padding: 10px; /* для увеличения размера кнопки */
-        border: none;
-        background-color: #0ed3e1;
-        color: white;
-        border-radius: 6px
-    }
-</style>
+<link href="{{ url_for('static', filename='css/tales.css') }}" rel="stylesheet">
 
 <div class="container">
     {% for i, j in tales %}
