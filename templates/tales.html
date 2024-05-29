@@ -5,37 +5,34 @@
     .custom-link {
         color: #e4ecfc;
         text-decoration: none;
-        background-color: #454545;
-        padding: 10px;
-        border-radius: 50px;
+        background-color: #57109e;
+        padding: 6px;
+        border-radius: 6px;
         transition: transform 0.3s, background-color 0.3s;
         font-size: 25px; /* Увеличен размер шрифта */
     }
 
     .custom-link:hover {
         color: #e4ecfc;
-        background-color: #9c7ab8;
+        background-color: #0ed3e1;
         transform: scale(1.1);
-
     }
 
     .link-container {
-        margin-bottom: 32px; /* Увеличено расстояние между ссылками */
-        display: flex; /* Используйте flex для расположения элементов в ряд */
+        margin-bottom: 32px; /*  расстояние между ссылками */
+        display: flex; /*  для расположения элементов в ряд */
+        align-items: center; /* Выравнивание по центру по вертикали */
     }
+
 
     .image-container {
         position: fixed;
-        bottom: 0;
-        left: 800px;
-        z-index: -1; /* Разместить изображение под другими элементами */
-        opacity: 1; /* Полупрозрачность изображения */
-        margin: 20px; /* Добавляем отступы, чтобы не было прилипаний к краям экрана */
+        z-index: 10;
     }
 
     .image-container img {
-        max-width: 400px; /* Задайте подходящий размер изображения */
-        height: auto;
+        width: 300px; /* Задайте фиксированную ширину изображения */
+        height: auto; /* Автоматически подстраивайте высоту */
     }
 
     .container {
@@ -44,31 +41,40 @@
     }
 
     .edit-button {
-        margin-left: 20px; /* Добавьте отступ справа от кнопки */
+        margin-left: 20px; /* отступ справа от кнопки */
         cursor: pointer;
-        padding: 10px; /* Добавьте padding для увеличения размера кнопки */
-        border: none; /* Удалите стандартную рамку кнопки */
-        background-color: #9c7ab8; /* Добавьте цвет фона */
-        color: white; /* Измените цвет текста */
+        padding: 10px; /* для увеличения размера кнопки */
+        border: none;
+        background-color: #0ed3e1;
+        color: white;
+        border-radius: 6px
     }
-
 </style>
 
 <div class="container">
-    <div class="messages" id="messages">
-        <!-- Выводим сообщения в нормальном порядке -->
-        {% for i, j in tales %}
-        <div class="link-container">
-            <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
-            <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
-        </div>
-        {% endfor %}
+    {% for i, j in tales %}
+    <div class="link-container">
+        <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
+        <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
     </div>
+    {% endfor %}
 </div>
 
-<div class="image-container">
-    <img src="{{ url_for('static', filename='img/robi.png') }}" alt="Image">
+<div class="image-container" style="bottom: 50px; left: 1300px;">
+    <img src="{{ url_for('static', filename='img/rocet.png') }}" alt="Image 2">
 </div>
+
+
+<div class="image-container" style="bottom: 20px; left: 10px;">
+    <img src="{{ url_for('static', filename='img/cosmonavt.png') }}" alt="Image 2">
+</div>
+
+
+<!-- Второе изображение -->
+<div class="image-container" style="top: 10px; left: 10px;">
+    <img src="{{ url_for('static', filename='img/robi.png') }}" alt="Image 1" style="transform: scale(-1, -1); ">
+</div>
+
 
 
 <script>
@@ -97,7 +103,6 @@
                 })
             });
             event.preventDefault();
-
         });
     }
 </script>
