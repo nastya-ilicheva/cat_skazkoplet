@@ -6,6 +6,7 @@
         border-radius: 6px;
         transition: transform 0.3s, background-color 0.3s;
         font-size: 25px; /* Увеличен размер шрифта */
+        margin-right: 20px; /* Отступ справа для разделения ссылок */
     }
 
     .custom-link:hover {
@@ -15,11 +16,11 @@
     }
 
     .link-container {
-        margin-bottom: 32px; /*  расстояние между ссылками */
-        display: flex; /*  для расположения элементов в ряд */
+        margin-bottom: 32px; /* Расстояние между ссылками */
+        display: flex; /* Расположение элементов в ряд */
         align-items: center; /* Выравнивание по центру по вертикали */
+        margin-left: 30%;
     }
-
 
     .image-container {
         position: fixed;
@@ -27,8 +28,8 @@
     }
 
     .image-container img {
-        width: 300px; /* Задайте фиксированную ширину изображения */
-        height: auto; /* Автоматически подстраивайте высоту */
+        width: 20vw; /* Относительные единицы измерения */
+        height: auto; /* Автоматическая высота */
     }
 
     .container {
@@ -37,11 +38,49 @@
     }
 
     .edit-button {
-        margin-left: 20px; /* отступ справа от кнопки */
         cursor: pointer;
-        padding: 10px; /* для увеличения размера кнопки */
+        padding: 10px; /* Размер кнопки */
         border: none;
         background-color: #0ed3e1;
         color: white;
-        border-radius: 6px
+        border-radius: 6px;
+    }
+
+    /* Media queries для адаптивного дизайна */
+    @media (max-width: 1200px) {
+        .custom-link {
+            font-size: 20px; /* Уменьшенный размер шрифта */
+            margin-right: 5px; /* Уменьшенный отступ справа */
+        }
+
+        .edit-button {
+            padding: 8px; /* Уменьшенный размер кнопки */
+        }
+
+        .link-container {
+            margin-left: 20%; /* Уменьшенный отступ слева */
+        }
+
+        .image-container img {
+            width: 25vw; /* Увеличиваем относительный размер изображений */
+        }
+    }
+
+    @media (max-width: 768px) {
+        .custom-link {
+            font-size: 16px; /* Еще меньший размер шрифта */
+            margin-right: 3px; /* Еще меньший отступ справа */
+        }
+
+        .edit-button {
+            padding: 6px; /* Еще меньший размер кнопки */
+        }
+
+        .link-container {
+            margin-left: 10%; /* Еще меньший отступ слева */
+        }
+
+        .image-container img {
+            width: 30vw; /* Еще больший относительный размер изображений */
+        }
     }
