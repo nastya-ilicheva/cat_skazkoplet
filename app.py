@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
-from sqlalchemy.sql.expression import func
 from data import db_session
 from data.login import LoginForm
 from data.__all_models import *
@@ -9,17 +8,11 @@ from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
 
-from all import voice
-
-
-import json
-import datetime
-import random
+from voice import voice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
 from candinsky_and_gigachat.giga import *
-from candinsky_and_gigachat.kandyi import generate_image
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
@@ -138,8 +131,9 @@ def last_tale(story_id):
     if request.method == 'GET':
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                str(voice.speach(i.content))) for i in messages[1:]]
-        print(text)
+                str(voice.speach(i.content, f'{history.id}_{messages.index(i)}'))) for i in messages[1:]]
+        a = [i[2] for i in text]
+        print(a)
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
@@ -176,7 +170,9 @@ def last_tale(story_id):
         db_sess.add(msg)
         db_sess.commit()
 
-        text = [(i.content, "AIMessage" in str(type(i))) for i in messages[1:]]
+        text = [(i.content,
+                 "AIMessage" in str(type(i)),
+                 str(voice.speach(i.content, f'{current_user.id}_{history.id}_{msg.id}'))) for i in messages[1:]]
         print(text)
         return render_template("test.html", story_content=text)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
