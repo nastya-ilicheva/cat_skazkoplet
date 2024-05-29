@@ -78,10 +78,9 @@
 
 
 <script>
-    function editFunction(id) {
+        function editFunction(id) {
         // Находим ссылку по id
         var link = document.querySelector('.custom-link[href="/tale/' + id + '"]');
-
         // Создаем текстовое поле с текущим текстом ссылки
         var input = document.createElement('input');
         input.value = link.textContent;
@@ -103,6 +102,11 @@
                 })
             });
             event.preventDefault();
+        });
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                input.blur();
+            }
         });
     }
 </script>
