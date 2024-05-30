@@ -16,12 +16,12 @@
         {% for i in story_content %}
         <div class="message {% if i[1]  %} even {% endif %}">
             {{ i[0] }}
-            {% if "Здравствуйте!" not in i[0] and i[1] %}
-<!--            <div class="image-container" style="margin-bottom: 10px; text-align: center;">-->
-<!--                <img src="../static/img/image2.png" align="bottom">-->
-<!--            </div>-->
+            {% if i[1] %}
+            <div class="image-container" style="margin-bottom: 10px; text-align: center;">
+                <img src="{{ i[3] }}" align="bottom">
+            </div>
             <audio id="myAudio" controls>
-                <source src=i[2] type="audio/mpeg">
+                <source src="{{ i[2] }}" type="audio/mpeg">
                 Ваш браузер не поддерживает аудио элемент.
             </audio>
             {% endif %}
@@ -37,7 +37,7 @@
 </form>
 
 <div class="image-container" style="bottom: 20px; left: 4px;">
-    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2"  style="transform: scaleX(-1);>
+    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2"  style="transform": scaleX(-1);>
 </div>
 
 <script>

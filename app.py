@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
+from candinsky_and_gigachat.kandyi import generate_image
 from data import db_session
 from data.login import LoginForm
 from data.__all_models import *
@@ -19,16 +20,6 @@ app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
-
-
-
-# messages = [
-#     SystemMessage(
-#         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
-#     )
-# ]
 
 
 @login_manager.user_loader
@@ -65,32 +56,31 @@ def new_tale():
     ''' У нас есть БД там таблица, user  и history, у History в столбике story сохраняется история (весь диалог) тут мы, собственно, заполняем эту таблицу'''
     db_sess = db_session.create_session()
     history = Story(
-        user_id=current_user.id,  #
+        user_id=current_user.id,
         title="Новая сказка"
     )
     messages = [
         SystemMessage(
             content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-                     f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-                     f'на 2 '
-                     f'предложения. Повествование последовательное. Добавляй как '
-                     f'можно больше деталей внешности и описания окружающей среды. Если '
-                     f'пользователь затрудняется с описанием, то придумай сам. Если '
-                     f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                     f'должна быть логически правильно построенной. Сюжет понятный.'
-                     f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
+                    f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
+                    f'на 2 '
+                    f'предложения. Повествование последовательное. Добавляй как '
+                    f'можно больше деталей внешности и описания окружающей среды. Если '
+                    f'пользователь затрудняется с описанием, то придумай сам. Если '
+                    f'пользователь сам описывает историю, то ты просто продолжаешь. История '
+                    f'должна быть логически правильно построенной. Сюжет понятный.'
+                    f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
     db_sess.add(history)
     db_sess.commit()
     print(repr(messages[0]))
     msg = Message(
-        story_id = history.id,
-        text = repr(messages[0])
+        story_id=history.id,
+        text=repr(messages[0])
     )
     db_sess.add(msg)
     db_sess.commit()
-
     return redirect(f'/tale/{history.id}')
 
 
@@ -107,17 +97,12 @@ def my_tales():
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
-        # try:
-        #     msg = eval(i.story)[1].content
-        # except Exception:
-        #     msg = 'Новая сказка'
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
 
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
-    c = 0
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
     print(story_id)
@@ -130,18 +115,21 @@ def last_tale(story_id):
         messages.append(eval(i.text))
     print(messages)
     if request.method == 'GET':
-        text = [(i.content,
-                 "AIMessage" in str(type(i)),
-                str(voice.speach(i.content, f'{history.id}_{messages.index(i)}'))) for i in messages[1:]]
-        a = [i[2] for i in text]
-        print(a)
+        text = []  # структура ответа: (текст, False) или (текст, True,  озвучка, картинка)
+        for i in messages[1:]:
+            bots = "AIMessage" in str(type(i))
+            if not bots:
+                text.append((i.content, bots))
+            else:
+                # voice_msg = str(voice.speach(i.content, f'{current_user.id}_{history.id}_{msg.id}'))
+                voice_msg = '../static/voice acting files/voice_acting.mp3'
+                img = generate_image(i.content)
+                text.append((i.content, bots, voice_msg, img))
+
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
         user_input = request.form['story']
-
-        # это системный промт, если порусски, тут мы озадачиваем гигy
-
         messages.append(HumanMessage(content=user_input))
         if len(messages) == 2:
             history.title = user_input
@@ -167,16 +155,19 @@ def last_tale(story_id):
         db_sess.commit()
 
         msg.image_path = f'static/mes_images/{current_user.id}_{history.id}_{msg.id}.png'
-        # generate_image(res.content, msg.image_path)
         db_sess.add(msg)
         db_sess.commit()
-
-        text = [(i.content,
-                 "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, f'{current_user.id}_{history.id}_{msg.id}'))) for i in messages[1:]]
-        print(text)
+        text = []  # структура ответа: (текст, False) или (текст, True,  озвучка, картинка)
+        for i in messages[1:]:
+            bots = "AIMessage" in str(type(i))
+            if not bots:
+                text.append((i.content, bots))
+            else:
+                # voice_msg = str(voice.speach(i.content, f'{current_user.id}_{history.id}_{msg.id}'))
+                voice_msg = '../static/voice acting files/voice_acting.mp3'
+                img = generate_image(res.content, msg.image_path)
+                text.append((i.content, bots, voice_msg, img))
         return render_template("test.html", story_content=text)
-        # return render_template("test.html", story_content=text, im='static/img/image1.png')
 
 
 @app.route('/')
