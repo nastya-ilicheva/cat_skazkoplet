@@ -67,8 +67,8 @@ def Base64(images, path):
 
 
 def generate_image(prompt, path):
-    api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
-                        '515C9E17AA663CA4A2E4B974C4BCB336')
+    api = Text2ImageAPI('https://api-key.fusionbrain.ai/', '36F323968BECBD8A0B08E0C2232FE262',
+                        '0FF6B9AF488D717FD935E95727E9FF50')
     model_id = api.get_model()
 
     messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания.")]
