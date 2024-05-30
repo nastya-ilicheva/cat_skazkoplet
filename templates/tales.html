@@ -42,7 +42,7 @@
         input.select();
         input.addEventListener('blur', function(event) {
             var newLink = document.createElement('a');
-            newLink.href = link.href;
+            newLink.href = window.location.pathname.substring(0, window.location.pathname.length-1)+ "/" + id;
             newLink.textContent = input.value;
             newLink.className = 'custom-link';
             input.parentNode.replaceChild(newLink, input);
