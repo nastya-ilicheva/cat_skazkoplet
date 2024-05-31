@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 from data import db_session
@@ -7,6 +7,7 @@ from data.__all_models import *
 from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
+from candinsky_and_gigachat.candy import generate_image
 
 from voice import voice
 
@@ -114,6 +115,13 @@ def my_tales():
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
+@app.route('/get-image/<img_id>')
+async def get_image(img_id):
+    await generate_image("Ворона", f"{img_id}.jpg")
+    return send_file(
+        f"{img_id}.jpg",
+        mimetype='image/jpeg'
+    )
 
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
