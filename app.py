@@ -8,7 +8,7 @@ from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
 
-from voice import voice
+from static.voice import voice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
