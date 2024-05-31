@@ -71,8 +71,11 @@ def generate_image(prompt, path):
                         '0FF6B9AF488D717FD935E95727E9FF50')
     model_id = api.get_model()
 
+    print(prompt)
+    text = [i.content for i in prompt]
+    print(text)
     messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания.")]
-    messages.append(HumanMessage(content=prompt))
+    messages.append(HumanMessage(content=text))
     res = chat(messages)
     print(res.content)
 
