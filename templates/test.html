@@ -17,11 +17,11 @@
         <div class="message {% if i[1]  %} even {% endif %}">
             {{ i[0] }}
             {% if i[1] %}
-            <div class="image-container" style="margin-bottom: 10px; text-align: center;">
-                <img id="async-image-{{ i[3] }}" src="../static/img/image2.png" align="bottom">
-            </div>
+<!--            <div class="image-container" style="margin-bottom: 10px; text-align: center;">-->
+<!--                <img id="async-image-{{ i[3] }}" src="../static/img/image2.png" align="bottom">-->
+<!--            </div>-->
             <audio id="myAudio" controls>
-                <source src="../static/{{i[2]}}" type="audio/mpeg">
+                <source src="../{{ i[2] }}" type="audio/mpeg">
                 Ваш браузер не поддерживает аудио элемент.
             </audio>
             {% endif %}
