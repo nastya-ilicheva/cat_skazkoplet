@@ -20,7 +20,7 @@ model.to(device)
 
 sample_rate = 48000
 # `speaker` should be in aidar, baya, kseniya, xenia, eugene, random
-speaker = 'kseniya'
+speaker = 'baya'
 
 
 def speach(text: str, filename='output1') -> str:
@@ -30,4 +30,11 @@ def speach(text: str, filename='output1') -> str:
                                  speaker=speaker,
                                  sample_rate=sample_rate)
     os.rename(audio_paths, file_name)
-    return file_name
+
+speach('Выдры, облаченные в теплые гетры, бесшумно скользили по снегу, пробираясь сквозь сугробы к заветному месту. '
+       'Их цель была ясна - кедры, полные вкусных орехов. Они быстро собирали их в свои ведра, не оставляя ни одного '
+       'ядра без внимания. '
+       'Но вдруг одна из выдр заметила что-то странное. Она остановилась и внимательно осмотрелась вокруг. '
+       'Это было похоже на какой-то знак или предупреждение. Выдра решила, что лучше вернуться назад и сообщить об '
+       'этом своим друзьям.', 'output11')
+

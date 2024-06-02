@@ -158,7 +158,7 @@ def last_tale(story_id):
     if request.method == 'GET':
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, f'{history.id}_{messages.index(i)}')),
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         a = [i[2] for i in text]
         print(a)
@@ -201,7 +201,7 @@ def last_tale(story_id):
 
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, f'{history.id}_{messages.index(i)}')),
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         print(text)
         return render_template("test.html", story_content=text)

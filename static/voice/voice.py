@@ -1,8 +1,14 @@
-import pyttsx3
+from gtts import gTTS
 
-def speach(text: str, filename='output1') -> str:
-    engine = pyttsx3.init()
-    engine.setProperty("rate", 150)
-    engine.save_to_file(text, f"static/voice/{filename}.mp3")
-    engine.runAndWait()
-    return f"voice/{filename}.mp3"
+
+def speach(text: str, test, filename='output1') -> str:
+    if test:
+        tts = gTTS(text=text,
+                   lang='ru',
+                   lang_check=False)
+        tts.save(f'static/voice/{filename}.mp3')
+        return f"voice/{filename}.mp3"
+    pass
+
+
+
