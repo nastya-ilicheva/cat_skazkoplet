@@ -34,7 +34,7 @@
         position: relative;
         flex-direction: column;
 
-<!--        padding-bottom: 30px; /* Добавляем отступ снизу для текста сообщения */-->
+<!--        padding-bottom: 5%; /* Добавляем отступ снизу для текста сообщения */-->
 
     }
 
@@ -51,7 +51,7 @@
     }
 
     .message.even {
-        background-color: #87CEFA;
+        background-color: #44eeeb;
         text-align: left;
         margin-right: auto;
         margin-left: 0;
@@ -86,7 +86,8 @@
         height: 50px; /* Увеличиваем высоту текстового поля */
     }
 
-    .styled {
+    .button {
+        position: relative;
         width: 120px;
         padding: 10px;
         border-radius: 20px;
@@ -94,7 +95,45 @@
         background-color: #007bff;
         color: white;
         cursor: pointer;
+
+        transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        }
+
+
+        .button:hover {
+      transition-duration: 0.1s;
+      background-color: #3A3A3A;
     }
+
+    .button:after {
+      content: "";
+      display: block;
+      position: absolute;
+      border-radius: 4em;
+      left: 0;
+      top:0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: all 0.5s;
+      box-shadow: 0 0 10px 40px #80fffd;
+    }
+
+    .button:active:after {
+      box-shadow: #80fffd;
+      position: absolute;
+      border-radius: 4em;
+      left: 0;
+      top:0;
+      opacity: 1;
+      transition: 0s;
+    }
+
+    .button:active {
+      top: 1px;
+    }
+
 
     .sound-button {
     align-self: flex-start; /* Выравнивание кнопки по левому краю */
@@ -104,4 +143,24 @@
 <!--        left: 0;-->
 <!--        margin-top: 10px; /* Добавляем отступ сверху для кнопки */-->
 
+    }
+
+
+    .sprite-container {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+
+    @keyframes play {
+        100% {
+            background-position: -1135px;
+        }
+    }
+
+    @keyframes step {
+        100% {
+            left: 100%;
+        }
     }
