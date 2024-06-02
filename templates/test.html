@@ -6,6 +6,7 @@
 
 <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
+<button class="styled" style="position: fixed; top: 3%; right: 5%;">Написать полностью</button>
 
 <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
 <div class="container">
@@ -17,7 +18,7 @@
         <div class="message {% if i[1]  %} even {% endif %}">
             {{ i[0] }}
             {% if i[1] %}
-            <div class="image-container" style="margin-bottom: 10px; text-align: center;">
+            <div class="image-msg-container" style="margin-bottom: 10px; text-align: center;">
                 <img id="async-image-{{ i[3] }}" src="../static/img/image2.png" align="bottom">
             </div>
             <audio id="myAudio" controls>
@@ -37,7 +38,7 @@
 </form>
 
 <div class="image-container" style="bottom: 20px; left: 4px;">
-    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2"  style="transform: scaleX(-1);>
+    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2"  style="transform": scaleX(-1);>
 </div>
 
 <script>
