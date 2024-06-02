@@ -50,6 +50,16 @@ class Text2ImageAPI:
             time.sleep(delay)
 
 
+def create_picture(prompt):
+    api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
+                        '515C9E17AA663CA4A2E4B974C4BCB336')
+    model_id = api.get_model()
+    uuid = api.generate(prompt, model_id)
+    images = api.check_generation(uuid)
+    print("картинка создана!")
+    Base64(images)
+
+
 if __name__ == '__main__':
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', 'C465EB979644D7D0B551F99A83583D21',
                         '515C9E17AA663CA4A2E4B974C4BCB336')
@@ -59,7 +69,7 @@ if __name__ == '__main__':
     print(images)
 
 
-def Base64():
+def Base64(images):
     base64_string = str(images)
     img_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(img_data))
@@ -71,4 +81,4 @@ def Base64():
 # url https://api-key.fusionbrain.ai/
 # api_key C465EB979644D7D0B551F99A83583D21'
 # secret '515C9E17AA663CA4A2E4B974C4BCB336'
-Base64()
+# Base64()

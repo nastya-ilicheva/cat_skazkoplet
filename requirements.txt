@@ -12,3 +12,4 @@ flask-login
 pyttsx3
 aiofiles
 torch
+gtts
