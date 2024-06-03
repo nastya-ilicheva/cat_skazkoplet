@@ -10,7 +10,7 @@ from data.register import RegisterForm
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
 
-from static.voice import voice
+from all import voice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
@@ -77,22 +77,22 @@ def new_tale():
     messages = [
         SystemMessage(
             content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-                     f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-                     f'на 2 '
-                     f'предложения. Повествование последовательное. Добавляй как '
-                     f'можно больше деталей внешности и описания окружающей среды. Если '
-                     f'пользователь затрудняется с описанием, то придумай сам. Если '
-                     f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                     f'должна быть логически правильно построенной. Сюжет понятный.'
-                     f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
+                    f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
+                    f'на 2 '
+                    f'предложения. Повествование последовательное. Добавляй как '
+                    f'можно больше деталей внешности и описания окружающей среды. Если '
+                    f'пользователь затрудняется с описанием, то придумай сам. Если '
+                    f'пользователь сам описывает историю, то ты просто продолжаешь. История '
+                    f'должна быть логически правильно построенной. Сюжет понятный.'
+                    f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
     db_sess.add(history)
     db_sess.commit()
     print(repr(messages[0]))
     msg = Message(
-        story_id = history.id,
-        text = repr(messages[0])
+        story_id=history.id,
+        text=repr(messages[0])
     )
     db_sess.add(msg)
     db_sess.commit()
@@ -121,8 +121,7 @@ def my_tales():
     return render_template("tales.html", tales=tales)
 
 @app.route('/get-image/<img_id>')
-# async def get_image(img_id):
-def get_image(img_id):
+async def get_image(img_id):
     db_sess = db_session.create_session()
     story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
     print(story_id)
@@ -132,8 +131,8 @@ def get_image(img_id):
     print(text)
     prompt = create_prompt(text)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
-    # if not os.path.exists(path):
-    #     await generate_image(prompt, path)
+    if not os.path.exists(path):
+        await generate_image(prompt, path)
     return send_file(
         path,
         mimetype='image/jpeg'
@@ -158,21 +157,15 @@ def last_tale(story_id):
     # создание всей истории по запросу, пока тру просто
     # if True:
     #     all_story = create_all_story(Message)
-    print("сюда", messages[-1])
     if request.method == 'GET':
-        print("кккккккккккккк", messages[-1])
         text = [(i.content,
                  "AIMessage" in str(type(i)),
                  str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         a = [i[2] for i in text]
-        print(text, "text")
         print(a)
-
         return render_template("test.html", story_content=text)
-
     elif request.method == 'POST':
-
         print(request.form['story'])
         user_input = request.form['story']
 
@@ -217,17 +210,9 @@ def last_tale(story_id):
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
 
 
-
-
-
 @app.route('/')
 def home():
     return render_template('about.html')
-
-@app.route('/my_home')
-def my_home():
-    return render_template('my_home.html')
-
 
 
 @app.route('/logout')

@@ -34,6 +34,7 @@ class Story(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    num_index = sqlalchemy.Column(sqlalchemy.Integer)
 
     # user = relationship("User", backref="login", foreign_keys=[user_id])
 
@@ -51,3 +52,12 @@ class Message(SqlAlchemyBase, UserMixin):
 
     def __repr__(self):
         return f'{self.id}: {self.story_id} - {self.text}'
+
+
+class Full_Stories(SqlAlchemyBase, UserMixin):
+    __tablename__ = 'Full_Stories'
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    user_id = sqlalchemy.Column(sqlalchemy.Integer)
+    username = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
