@@ -169,6 +169,7 @@ def last_tale(story_id):
         print(request.form['story'])
         user_input = request.form['story']
 
+        print(user_input)
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
         messages.append(HumanMessage(content=user_input))
@@ -219,7 +220,7 @@ def home():
 @login_required
 def logout():
     logout_user()
-    return redirect("/my_home")
+    return redirect("/")
 
 @app.route('/my_home')
 def my_home():

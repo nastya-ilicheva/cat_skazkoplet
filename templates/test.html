@@ -32,9 +32,10 @@
 </div>
 
 
-<form class="message-form" method="post" onsubmit="scrollToBottom()">
+<form class="message-form" method="post" onsubmit="handleSubmit()">
     <input type="text" id="story" name="story" placeholder="Введите сообщение...">
-    <button class="button" type="submit">Отправить</button>
+    <button id="submit-button"  class="button" type="submit">Отправить</button>
+    <span id="loadingIndicator" style="display: none;">Загрузка...</span>
 </form>
 
 <div class="image-container" style="bottom: 3%; left: 1%;">
@@ -47,9 +48,11 @@
 <script>
 
 
-      function disableForm() {
-        document.getElementById('inputForm').elements['user_input'].disabled = true;
-        document.getElementById('submitButton').disabled = true;
+      function handleSubmit() {
+        document.getElementById('submitButton').style.display = 'none';
+        document.getElementById('story').style.display = 'none';
+        document.getElementById('story').style.color = 'red';
+        document.getElementById('loadingIndicator').style.display = 'inline';
       }
 
 function scrollToBottom() {
