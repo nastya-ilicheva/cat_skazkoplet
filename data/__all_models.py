@@ -56,7 +56,6 @@ class Message(SqlAlchemyBase, UserMixin):
 
 class Full_Stories(SqlAlchemyBase, UserMixin):
     __tablename__ = 'Full_Stories'
-
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
     username = sqlalchemy.Column(sqlalchemy.String, nullable=True)
