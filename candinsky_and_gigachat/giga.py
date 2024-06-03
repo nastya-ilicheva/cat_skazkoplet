@@ -9,9 +9,9 @@ import uuid
 import json
 
 
-client_id = '518a13bd-22ca-4984-9ff0-c92be6e0f763'
-secret = '38050be9-8a1f-4859-a1a6-a2abc3371637'
-auth = 'NTE4YTEzYmQtMjJjYS00OTg0LTlmZjAtYzkyYmU2ZTBmNzYzOjM4MDUwYmU5LThhMWYtNDg1OS1hMWE2LWEyYWJjMzM3MTYzNw=='
+client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
+secret = '1c73028a-d00f-476d-8041-c25e39f73bf3'
+auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjFjNzMwMjhhLWQwMGYtNDc2ZC04MDQxLWMyNWUzOWY3M2JmMw=='
 
 credentials = f"{client_id}:{secret}"
 encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
