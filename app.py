@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, request, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
+import candinsky_and_gigachat.create_all_stoty
 
 from data import db_session
 from data.login import LoginForm
@@ -25,7 +26,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
-
 
 
 # messages = [
@@ -75,22 +75,22 @@ def new_tale():
     messages = [
         SystemMessage(
             content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-                     f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-                     f'на 2 '
-                     f'предложения. Повествование последовательное. Добавляй как '
-                     f'можно больше деталей внешности и описания окружающей среды. Если '
-                     f'пользователь затрудняется с описанием, то придумай сам. Если '
-                     f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                     f'должна быть логически правильно построенной. Сюжет понятный.'
-                     f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
+                    f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
+                    f'на 2 '
+                    f'предложения. Повествование последовательное. Добавляй как '
+                    f'можно больше деталей внешности и описания окружающей среды. Если '
+                    f'пользователь затрудняется с описанием, то придумай сам. Если '
+                    f'пользователь сам описывает историю, то ты просто продолжаешь. История '
+                    f'должна быть логически правильно построенной. Сюжет понятный.'
+                    f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
     db_sess.add(history)
     db_sess.commit()
     print(repr(messages[0]))
     msg = Message(
-        story_id = history.id,
-        text = repr(messages[0])
+        story_id=history.id,
+        text=repr(messages[0])
     )
     db_sess.add(msg)
     db_sess.commit()
@@ -118,6 +118,7 @@ def my_tales():
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
+
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
     db_sess = db_session.create_session()
@@ -136,12 +137,17 @@ async def get_image(img_id):
         mimetype='image/jpeg'
     )
 
+
+@app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
+async def all_story(story_id):
+    if request.method == 'POST':
+        full_story = await create_all_story(story_id)
+        return full_story
+
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
-    c = 0
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
-    print(story_id)
     if story_id is None:
         return redirect("/tales")
     history = db_sess.query(Story).filter(Story.id == story_id).first()
@@ -162,7 +168,7 @@ def last_tale(story_id):
                  j) for i, j in zip(messages[1:], msg_id)]
         a = [i[2] for i in text]
         print(a)
-        return render_template("test.html", story_content=text)
+        return render_template("test.html", story_content=text, story_id=story_id)
     elif request.method == 'POST':
         print(request.form['story'])
         user_input = request.form['story']
@@ -204,7 +210,7 @@ def last_tale(story_id):
                  str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         print(text)
-        return render_template("test.html", story_content=text)
+        return render_template("test.html", story_content=text, story_id=story_id)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
 
 
