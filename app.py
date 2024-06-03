@@ -221,6 +221,10 @@ def logout():
     logout_user()
     return redirect("/my_home")
 
+@app.route('/my_home')
+def my_home():
+    return render_template('my_home.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
