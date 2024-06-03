@@ -10,7 +10,7 @@ from data.register import RegisterForm
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
 
-from all import voice
+from candinsky_and_gigachat import voice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
@@ -35,6 +35,23 @@ alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭ
 #     )
 # ]
 
+@app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
+async def all_story(story_id):
+    if request.method == 'POST':
+        full_story_text = await create_all_story(story_id)
+        db_sess = db_session.create_session()
+        user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
+        title = db_sess.query(Story).filter(Story.id == story_id).first().title
+        user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
+        full_story = Full_Stories(
+            user_id=user_id,
+            username=user_name,
+            title=title,
+            text=full_story_text
+        )
+        db_sess.add(full_story)
+        db_sess.commit()
+        return full_story_text
 
 @login_manager.user_loader
 def load_user(user_id):

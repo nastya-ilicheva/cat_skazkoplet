@@ -6,7 +6,7 @@ from candinsky_and_gigachat.normal_history import normal_history
 
 
 async def create_all_story(story_id):
-    '''Создание полной истории. сдесь сбор всего текста в мессендре по ид СООБЩЕНИЯ'''
+    '''Создание полной истории. сдесь сбор всего текста в мессендре по ид пользователя'''
     db_session.global_init("../db/db.db")
     db_sess = db_session.create_session()
     msg = db_sess.query(Message).filter(Message.story_id == story_id)
