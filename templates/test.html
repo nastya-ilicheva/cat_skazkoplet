@@ -45,9 +45,17 @@
 
 
 <script>
+
+
+      function disableForm() {
+        document.getElementById('inputForm').elements['user_input'].disabled = true;
+        document.getElementById('submitButton').disabled = true;
+      }
+
 function scrollToBottom() {
         var messages = document.getElementById('messages');
         messages.scrollTop = messages.scrollHeight;
+        disableForm();
     }
 
 

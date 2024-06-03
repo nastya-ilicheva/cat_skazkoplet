@@ -17,7 +17,8 @@ from static.voice import voice
 from candinsky_and_gigachat.giga import *
 from candinsky_and_gigachat.generate_prompt_for_kandy import create_prompt
 from candinsky_and_gigachat.create_all_stoty import *
-
+import asyncio
+chat = init_giga()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
 
@@ -45,11 +46,12 @@ def load_user(user_id):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print(form.email.data)
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+            return redirect("/my_home")
         return render_template('login.html', message="Wrong login or password", form=form)
     return render_template('login.html', title='Authorization', form=form)
 
@@ -119,7 +121,8 @@ def my_tales():
     return render_template("tales.html", tales=tales)
 
 @app.route('/get-image/<img_id>')
-async def get_image(img_id):
+# async def get_image(img_id):
+def get_image(img_id):
     db_sess = db_session.create_session()
     story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
     print(story_id)
@@ -129,8 +132,8 @@ async def get_image(img_id):
     print(text)
     prompt = create_prompt(text)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
-    if not os.path.exists(path):
-        await generate_image(prompt, path)
+    # if not os.path.exists(path):
+    #     await generate_image(prompt, path)
     return send_file(
         path,
         mimetype='image/jpeg'
@@ -155,15 +158,21 @@ def last_tale(story_id):
     # создание всей истории по запросу, пока тру просто
     # if True:
     #     all_story = create_all_story(Message)
+    print("сюда", messages[-1])
     if request.method == 'GET':
+        print("кккккккккккккк", messages[-1])
         text = [(i.content,
                  "AIMessage" in str(type(i)),
                  str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         a = [i[2] for i in text]
+        print(text, "text")
         print(a)
+
         return render_template("test.html", story_content=text)
+
     elif request.method == 'POST':
+
         print(request.form['story'])
         user_input = request.form['story']
 
@@ -201,23 +210,31 @@ def last_tale(story_id):
 
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{j}')),
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         print(text)
-        return render_template("test.html", story_content=text)
+        return render_template("test.html", story_content=text, story_id=story_id)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
+
+
+
 
 
 @app.route('/')
 def home():
     return render_template('about.html')
 
+@app.route('/my_home')
+def my_home():
+    return render_template('my_home.html')
+
+
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect("/my_home")
 
 
 @app.route('/register', methods=['GET', 'POST'])
