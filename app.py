@@ -2,15 +2,13 @@ from flask import Flask, render_template, redirect, request, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
 
-from data import db_session
 from data.login import LoginForm
-from data.__all_models import *
 from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
 
-from static.voice import voice
+from all import voice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
@@ -201,7 +199,7 @@ def last_tale(story_id):
 
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{j}')),
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         print(text)
         return render_template("test.html", story_content=text)
