@@ -1,12 +1,13 @@
 import base64
 import json
 import time
+# from app import *
 from data import db_session
+# from data.__all_models import *
 from io import BytesIO
 from PIL import Image
 import requests
 from candinsky_and_gigachat.giga import *
-from random import randint
 
 
 class Text2ImageAPI:
@@ -57,25 +58,35 @@ def Base64(images, path):
     base64_string = str(images)
     img_data = base64.b64decode(base64_string)
     image = Image.open(BytesIO(img_data))
+    # image.show()
+    # db_sess = db_session.create_session()
+    # msg = db_sess.query(Message).filter(Message.id == )
+    # im_name = msg.image_path
     image.save(path)
+    # image.save('output.jpg', 'JPEG')
 
 
-def _generate_image(prompt, path):
+def generate_image(prompt, path):
     api = Text2ImageAPI('https://api-key.fusionbrain.ai/', '36F323968BECBD8A0B08E0C2232FE262',
                         '0FF6B9AF488D717FD935E95727E9FF50')
     model_id = api.get_model()
+
+    print(prompt)
+    text = [i.content for i in prompt]
+    print(text)
     messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания.")]
-    messages.append(HumanMessage(content=prompt))
+    messages.append(HumanMessage(content=text))
     res = chat(messages)
     print(res.content)
+
+    # with open("prompt_for_k.txt") as f:
+    #     prompt = f.readline()
+
     uuid = api.generate(f"{res.content}", model_id)
     images = api.check_generation(uuid)
+    # print(images[15:])
+
     Base64(images, path)
-
-
-def generate_image(prompt='', path=''):  # функция псевдогенерации
-    time.sleep(randint(2, 7))
-    return '../static/img/image2.png'
 
 
 # url https://api-key.fusionbrain.ai/

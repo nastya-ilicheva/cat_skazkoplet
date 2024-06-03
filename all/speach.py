@@ -1,55 +1,40 @@
-import webbrowser
-# import gtts
-#
-# tts = gtts.gTTS("Привет, я сказочник? чем я могу вам помочь?", lang="ru")
-# tts.save("hello.mp3")
-# playsound("hello.mp3")
+# https://github.com/snakers4/silero-models/
+# V4
+import os
+import torch
+
+import numpy as np
+
+device = torch.device('cpu')
+torch.set_num_threads(4)
+local_file = 'model.pt'
 
 
-# from gtts import gTTS
-# import os
-#
-#
-# def text_to_speech(text, lang='ru'):
-#     tts = gTTS(text=text, lang=lang)
-#     tts.save("output.mp3")
-#     os.system("start output.mp3")
-#
-#
-# text = "Привет, я сказочница, готовся мы сейчас будем портить тебе психику"
-# text_to_speech(text)
-#
+if not os.path.isfile(local_file):
+    torch.hub.download_url_to_file('https://models.silero.ai/models/tts/ru/v4_ru.pt',
+                                   local_file)
+
+model = torch.package.PackageImporter(local_file).load_pickle("tts_models", "model")
+model.to(device)
 
 
-import requests
-try:
-    VOICE_ID = 'Dvfxihpdb69LFIkmih0k'
-    CHUNK_SIZE = 1024
-    API_KEY_VOICE = '3f2fd6f1b6f41e9bd13d3aa26ca34f7b'
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+sample_rate = 48000
+# `speaker` should be in aidar, baya, kseniya, xenia, eugene, random
+speaker = 'baya'
 
-    headers = {
-      "Accept": "audio/mpeg",
-      "Content-Type": "application/json",
-      "xi-api-key": API_KEY_VOICE
-    }
 
-    data = {
-      "text": "Привет, я сказочник, готовся мы сейчас будем портить тебе психику",
-      "model_id": "eleven_monolingual_v1",
-      "voice_settings": {
-        "stability": 0.5,
-        "similarity_boost": 0.5
-      }
-    }
+def speach(text: str, filename='output1') -> str:
+    file_name = f'static/voice/{filename}.mp3'
+    example_text = text
+    audio_paths = model.save_wav(text=example_text,
+                                 speaker=speaker,
+                                 sample_rate=sample_rate)
+    os.rename(audio_paths, file_name)
 
-    response = requests.post(url, json=data, headers=headers)
-    with open('../voice/output1.mp3', 'wb') as f:
-        for chunk in response.iter_content(chunk_size=CHUNK_SIZE):
-            if chunk:
-                f.write(chunk)
+speach('Выдры, облаченные в теплые гетры, бесшумно скользили по снегу, пробираясь сквозь сугробы к заветному месту. '
+       'Их цель была ясна - кедры, полные вкусных орехов. Они быстро собирали их в свои ведра, не оставляя ни одного '
+       'ядра без внимания. '
+       'Но вдруг одна из выдр заметила что-то странное. Она остановилась и внимательно осмотрелась вокруг. '
+       'Это было похоже на какой-то знак или предупреждение. Выдра решила, что лучше вернуться назад и сообщить об '
+       'этом своим друзьям.', 'output11')
 
-    webbrowser.open('../voice/output1.mp3')
-
-except Exception as e:
-    print(e)

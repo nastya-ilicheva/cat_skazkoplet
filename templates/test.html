@@ -6,6 +6,7 @@
 
 <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
+<button class="styled" style="position: fixed; top: 3%; right: 5%;">Написать полностью</button>
 
 <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
 <div class="container">
@@ -17,11 +18,11 @@
         <div class="message {% if i[1]  %} even {% endif %}">
             {{ i[0] }}
             {% if i[1] %}
-            <div class="image-container" style="margin-bottom: 10px; text-align: center;">
-                <img src="{{ i[3] }}" align="bottom">
+            <div class="image-msg-container" style="margin-bottom: 3%; text-align: center;">
+                <img id="async-image-{{ i[3] }}" src="../static/img/image2.png" align="bottom">
             </div>
             <audio id="myAudio" controls>
-                <source src="{{ i[2] }}" type="audio/mpeg">
+                <source src="../static/{{i[2]}}" type="audio/mpeg">
                 Ваш браузер не поддерживает аудио элемент.
             </audio>
             {% endif %}
@@ -33,25 +34,51 @@
 
 <form class="message-form" method="post" onsubmit="scrollToBottom()">
     <input type="text" id="story" name="story" placeholder="Введите сообщение...">
-    <button class="styled" type="submit">Отправить</button>
+    <button class="button" type="submit">Отправить</button>
 </form>
 
-<div class="image-container" style="bottom: 20px; left: 4px;">
-    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2"  style="transform": scaleX(-1);>
+<div class="image-container" style="bottom: 3%; left: 1%;">
+    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2" style="transform: scaleX(-1);">
 </div>
 
+
+
+
 <script>
-    function scrollToBottom() {
+function scrollToBottom() {
         var messages = document.getElementById('messages');
         messages.scrollTop = messages.scrollHeight;
     }
-</script>
 
-<script>
+
+
     window.onload = function() {
         window.scrollTo(0, document.body.scrollHeight);
     }
+
+
+    function handleEnterKey(event) {
+    // Проверяем, что нажата клавиша Enter
+    if (event.key === 'Enter') {
+        // Получаем элемент с классом 'button'
+        var button = document.querySelector('.button');
+        // Добавляем текст в элемент
+        button.textContent = 'Кнопка нажата';
+        // Добавляем класс 'animated' для анимации
+        button.classList.add('animated');
+        // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
+        setTimeout(() => {
+            button.classList.remove('animated');
+        }, 1000);
+    }
+}
+
+
 </script>
+
+
+
+
 
 
 {% endblock %}
