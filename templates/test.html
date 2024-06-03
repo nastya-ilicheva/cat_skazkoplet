@@ -6,7 +6,6 @@
 
 <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
-<button class="styled" style="position: fixed; top: 3%; right: 5%;">Написать полностью</button>
 
 <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
 <div class="container">
@@ -33,6 +32,9 @@
 
 
 <form class="message-form" method="post" onsubmit="scrollToBottom()">
+    <button class="all-story-button" style="position: fixed; top: 3%; right: 5%;" onclick="AllStory({{story_id}})">
+        Написать полностью
+    </button>
     <input type="text" id="story" name="story" placeholder="Введите сообщение...">
     <button class="button" type="submit">Отправить</button>
 </form>
@@ -42,51 +44,61 @@
 </div>
 
 
-
-
 <script>
+    function disableForm() {
+      document.getElementById('inputForm').elements['user_input'].disabled = true;
+      document.getElementById('submitButton').disabled = true;
+    }
 
-
-      function disableForm() {
-        document.getElementById('inputForm').elements['user_input'].disabled = true;
-        document.getElementById('submitButton').disabled = true;
+  function scrollToBottom() {
+          var messages = document.getElementById('messages');
+          messages.scrollTop = messages.scrollHeight;
+          disableForm();
       }
 
-function scrollToBottom() {
-        var messages = document.getElementById('messages');
-        messages.scrollTop = messages.scrollHeight;
-        disableForm();
-    }
 
 
-
-    window.onload = function() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-
-    function handleEnterKey(event) {
-    // Проверяем, что нажата клавиша Enter
-    if (event.key === 'Enter') {
-        // Получаем элемент с классом 'button'
-        var button = document.querySelector('.button');
-        // Добавляем текст в элемент
-        button.textContent = 'Кнопка нажата';
-        // Добавляем класс 'animated' для анимации
-        button.classList.add('animated');
-        // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
-        setTimeout(() => {
-            button.classList.remove('animated');
-        }, 1000);
-    }
-}
+      window.onload = function() {
+          window.scrollTo(0, document.body.scrollHeight);
+      }
 
 
+  function handleEnterKey(event) {
+  // Проверяем, что нажата клавиша Enter
+  if (event.key === 'Enter') {
+      // Получаем элемент с классом 'button'
+      var button = document.querySelector('.button');
+      // Добавляем текст в элемент
+      button.textContent = 'Кнопка нажата';
+      // Добавляем класс 'animated' для анимации
+      button.classList.add('animated');
+      // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
+      setTimeout(() => {
+          button.classList.remove('animated');
+          }, 1000);
+      }
+  }
+
+
+  async function AllStory(id) {
+      const response = await fetch('/get-all-story/' + id, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({
+                  id: id,
+              })
+          });
+      const data = await response.text();
+  // Создаем новый элемент div для сообщения
+      const newMessage = document.createElement('div');
+      newMessage.className = 'message'; // добавляем классы, если они нужны
+      newMessage.textContent = data; // добавляем текст сообщения
+
+      // Добавляем новое сообщение в конец списка сообщений
+      const messages = document.getElementById('messages');
+      messages.appendChild(newMessage);
+  }
 </script>
-
-
-
-
 
 
 {% endblock %}
