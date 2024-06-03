@@ -119,6 +119,7 @@ def my_tales():
     return render_template("tales.html", tales=tales)
 
 
+
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
     db_sess = db_session.create_session()

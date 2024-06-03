@@ -2,7 +2,6 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.messages.ai import AIMessage
 from gigachat.models.usage import Usage
 from langchain.chat_models.gigachat import GigaChat
-
 import base64
 import requests
 import uuid
@@ -64,7 +63,6 @@ def models():
 
 models()
 
-
 chat = GigaChat(credentials=auth, verify_ssl_certs=False)
 
 # messages = [
@@ -80,6 +78,7 @@ if __name__ == '__main__':
     [SystemMessage(content='Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения.'), AIMessage(content='Однажды, когда на улице было очень холодно, маленький котёнок решил спрятаться в коробке. Он думал, что там будет тепло и уютно. Но вдруг он услышал странный звук. Это был голос мыши. Мышь сказала: "Привет, малыш! Я тоже хочу быть с тобой в этой коробке". Котёнку стало немного страшно, но он всё равно согласился. Они стали играть вместе и веселиться. И так они стали лучшими друзьями.', response_metadata={'token_usage': Usage(prompt_tokens=26, completion_tokens=110, total_tokens=136), 'model_name': 'GigaChat:3.1.25.3', 'finish_reason': 'stop'}, id='run-d28fa34f-63e0-44f0-ad93-0610ddf9dda2-0')]
 """
     t = eval (test)
+    messages = []
     while (True):
         # Ввод пользователя
         user_input = input("User: ")
