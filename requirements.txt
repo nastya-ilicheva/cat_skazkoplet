@@ -13,3 +13,9 @@ pyttsx3
 aiofiles
 torch
 gtts
+
+numpy
+WTForms
+SQLAlchemy
+Werkzeug
+aiohttp

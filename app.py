@@ -207,7 +207,7 @@ def last_tale(story_id):
 
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{j}')),
                  j) for i, j in zip(messages[1:], msg_id)]
         print(text)
         return render_template("test.html", story_content=text, story_id=story_id)
