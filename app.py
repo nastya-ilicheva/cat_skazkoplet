@@ -1,9 +1,10 @@
 from flask import Flask, render_template, redirect, request, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
-import candinsky_and_gigachat.create_all_stoty
 
+from data import db_session
 from data.login import LoginForm
+from data.__all_models import *
 from data.register import RegisterForm
 # from data.new_game import NewGameForm
 # from flask_restful import abort
@@ -16,7 +17,8 @@ from all import voice
 from candinsky_and_gigachat.giga import *
 from candinsky_and_gigachat.generate_prompt_for_kandy import create_prompt
 from candinsky_and_gigachat.create_all_stoty import *
-
+import asyncio
+chat = init_giga()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
 
@@ -24,6 +26,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
+
 
 
 # messages = [
@@ -43,11 +46,12 @@ def load_user(user_id):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        print(form.email.data)
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            return redirect("/")
+            return redirect("/my_home")
         return render_template('login.html', message="Wrong login or password", form=form)
     return render_template('login.html', title='Authorization', form=form)
 
@@ -116,7 +120,6 @@ def my_tales():
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
-
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
     db_sess = db_session.create_session()
@@ -135,30 +138,12 @@ async def get_image(img_id):
         mimetype='image/jpeg'
     )
 
-
-@app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
-async def all_story(story_id):
-    if request.method == 'POST':
-        full_story_text = await create_all_story(story_id)
-        db_sess = db_session.create_session()
-        user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
-        title = db_sess.query(Story).filter(Story.id == story_id).first().title
-        user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
-        full_story = Full_Stories(
-            user_id=user_id,
-            username=user_name,
-            title=title,
-            text=full_story_text
-        )
-        db_sess.add(full_story)
-        db_sess.commit()
-        return full_story_text
-
-
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
+    c = 0
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
+    print(story_id)
     if story_id is None:
         return redirect("/tales")
     history = db_sess.query(Story).filter(Story.id == story_id).first()
@@ -179,7 +164,7 @@ def last_tale(story_id):
                  j) for i, j in zip(messages[1:], msg_id)]
         a = [i[2] for i in text]
         print(a)
-        return render_template("test.html", story_content=text, story_id=story_id)
+        return render_template("test.html", story_content=text)
     elif request.method == 'POST':
         print(request.form['story'])
         user_input = request.form['story']
@@ -234,7 +219,11 @@ def home():
 @login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect("/my_home")
+
+@app.route('/my_home')
+def my_home():
+    return render_template('my_home.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
