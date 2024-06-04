@@ -93,7 +93,7 @@ img.failory-logo-image {
 
 h3.footer-failory-name {
   box-sizing: border-box;
-  color: #FFFFFF;
+  color:#3f0fc2;
   display: block;
   font-family: Lato, sans-serif;
   font-size: 20px;
@@ -106,7 +106,7 @@ h3.footer-failory-name {
 
 p.footer-description-failory {
   box-sizing: border-box;
-  color: rgba(255, 255, 255, 0.8);
+  color: #3f0fc2;
   display: block;
   font-family: Lato, sans-serif;
   font-size: 17px;
@@ -153,7 +153,7 @@ div.w-col.w-col-7.w-col-small-6.w-col-tiny-7 {
 
 h3.footer-titles {
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #3f0fc2;
   display: block;
   font-family: Lato, sans-serif;
   font-size: 20px;
@@ -166,7 +166,7 @@ h3.footer-titles {
 
 p.footer-links {
   box-sizing: border-box;
-  color: rgba(255, 255, 255, 0.8);
+  color: #3f0fc2;
   display: block;
   font-family: Lato, sans-serif;
   font-size: 17px;
@@ -180,7 +180,7 @@ p.footer-links {
 a {
   background-color: transparent;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #3f0fc2;
   font-family: Lato, sans-serif;
   font-size: 17px;
   font-weight: 400;
@@ -198,12 +198,12 @@ a:hover {
 
 span.footer-link {
   box-sizing: border-box;
-  color: rgba(255, 255, 255, 0.8);
+  color: #3f0fc2;
   font-weight: 300;
 }
 
 span.footer-link:hover {
-  color: #FFFFFF;
+  color: #3f0fc2;
   font-weight: 400;
 }
 
@@ -239,7 +239,7 @@ div.column-center-mobile.w-col.w-col-4 {
 a.footer-social-network-icons.w-inline-block {
   background-color: transparent;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #3f0fc2;
   display: inline-block;
   font-family: Lato, sans-serif;
   font-size: 17px;
@@ -271,7 +271,7 @@ img {
 
 p.footer-description {
   box-sizing: border-box;
-  color: rgba(255, 255, 255, 0.8);
+  color: #3f0fc2;
   display: block;
   font-family: Lato, sans-serif;
   font-size: 17px;
