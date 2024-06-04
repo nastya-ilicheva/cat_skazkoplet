@@ -139,6 +139,11 @@ def my_tales():
 
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
+    # await asyncio.sleep(3)
+    # return send_file(
+    #     "static/img/image4.png",
+    #     mimetype='image/jpeg'
+    # )
     db_sess = db_session.create_session()
     story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
     print(story_id)
@@ -146,8 +151,10 @@ async def get_image(img_id):
     print("rtgrshkejthrth", msg)
     text = "".join([eval(i.text).content for i in msg[1:]])
     print(text)
-    prompt = create_prompt(text)
+    prompt = create_prompt(chat, text)
+    print(prompt)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
+    print(path)
     if not os.path.exists(path):
         await generate_image(prompt, path)
     return send_file(
