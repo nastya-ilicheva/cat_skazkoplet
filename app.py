@@ -18,6 +18,7 @@ from candinsky_and_gigachat.giga import *
 from candinsky_and_gigachat.generate_prompt_for_kandy import create_prompt
 from candinsky_and_gigachat.create_all_stoty import *
 import asyncio
+
 chat = init_giga()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
@@ -26,7 +27,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
-
 
 
 # messages = [
@@ -51,7 +51,9 @@ async def all_story(story_id):
         )
         db_sess.add(full_story)
         db_sess.commit()
-        return full_story_text
+        return f'http://127.0.0.1:5000/get-all-story/{id}'
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -130,20 +132,12 @@ def my_tales():
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
-        # try:
-        #     msg = eval(i.story)[1].content
-        # except Exception:
-        #     msg = 'Новая сказка'
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
+
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
-    # await asyncio.sleep(3)
-    # return send_file(
-    #     "static/img/image4.png",
-    #     mimetype='image/jpeg'
-    # )
     db_sess = db_session.create_session()
     story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
     print(story_id)
@@ -161,6 +155,7 @@ async def get_image(img_id):
         path,
         mimetype='image/jpeg'
     )
+
 
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
@@ -245,6 +240,7 @@ def home():
 def logout():
     logout_user()
     return redirect("/")
+
 
 @app.route('/my_home')
 def my_home():

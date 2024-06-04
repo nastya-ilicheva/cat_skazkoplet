@@ -9,6 +9,7 @@
     <div class="link-container">
         <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
         <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
+        <button class="create-all-story-button" onclick="AllStory('{{ i }}')">Написать полностью</button>
     </div>
     {% endfor %}
 </div>
@@ -65,5 +66,20 @@
             }
         });
     }
+
+    async function AllStory(id) {
+    const response = await fetch('/get-all-story/' + id, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                id: id,
+            })
+        });
+
+    const data = await response.json();
+    if (data.url) {
+        window.location.href = data.url;
+    }
+  }
 </script>
 {% endblock %}

@@ -6,8 +6,6 @@
 
 <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
-<button class="styled" style="position: fixed; top: 3%; right: 5%;">Написать полностью</button>
-
 <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
 <div class="container">
     <div class="messages" id="messages">
@@ -19,7 +17,8 @@
             {{ i[0] }}
             {% if i[1] %}
             <div class="image-msg-container" style="margin-bottom: 3%; text-align: center;">
-                <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/image2.png" alt="Loading Image {{ img_id }}" />
+                <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/image2.png"
+                     alt="Loading Image {{ img_id }}"/>
             </div>
             <audio id="myAudio" controls>
                 <source src="../static/{{i[2]}}" type="audio/mpeg">
@@ -34,7 +33,7 @@
 
 <form class="message-form" method="post" onsubmit="handleSubmit()">
     <input type="text" id="story" name="story" placeholder="Введите сообщение...">
-    <button id="submit-button"  class="button" type="submit">Отправить</button>
+    <button id="submit-button" class="button" type="submit">Отправить</button>
     <span id="loadingIndicator" style="display: none;">Загрузка...</span>
 </form>
 
@@ -43,19 +42,18 @@
 </div>
 
 
-
-
 <script>
 
 
-      function handleSubmit() {
-        document.getElementById('submitButton').style.display = 'none';
-        document.getElementById('story').style.display = 'none';
-        document.getElementById('story').style.color = 'red';
-        document.getElementById('loadingIndicator').style.display = 'inline';
-      }
+    function handleSubmit() {
+      document.getElementById('submitButton').style.display = 'none';
+      document.getElementById('story').style.display = 'none';
+      document.getElementById('story').style.color = 'red';
+      document.getElementById('loadingIndicator').style.display = 'inline';
+      scrollToBottom();
+    }
 
-function scrollToBottom() {
+    function scrollToBottom() {
         var messages = document.getElementById('messages');
         messages.scrollTop = messages.scrollHeight;
         disableForm();
@@ -63,33 +61,31 @@ function scrollToBottom() {
 
 
 
-    window.onload = function() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+  window.onload = function() {
+      window.scrollTo(0, document.body.scrollHeight);
+  }
 
 
-    function handleEnterKey(event) {
-    // Проверяем, что нажата клавиша Enter
-    if (event.key === 'Enter') {
-        // Получаем элемент с классом 'button'
-        var button = document.querySelector('.button');
-        // Добавляем текст в элемент
-        button.textContent = 'Кнопка нажата';
-        // Добавляем класс 'animated' для анимации
-        button.classList.add('animated');
-        // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
-        setTimeout(() => {
-            button.classList.remove('animated');
-        }, 1000);
-    }
+  function handleEnterKey(event) {
+  // Проверяем, что нажата клавиша Enter
+  if (event.key === 'Enter') {
+      // Получаем элемент с классом 'button'
+      var button = document.querySelector('.button');
+      // Добавляем текст в элемент
+      button.textContent = 'Кнопка нажата';
+      // Добавляем класс 'animated' для анимации
+      button.classList.add('animated');
+      // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
+      setTimeout(() => {
+          button.classList.remove('animated');
+      }, 1000);
+  }
 }
 
 
 </script>
 
-    <script src="../static/js/candy.js"></script>
-
-
+<script src="../static/js/candy.js"></script>
 
 
 {% endblock %}

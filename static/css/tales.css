@@ -27,6 +27,7 @@
         z-index: 10;
     }
 
+
     .image-container img {
         width: 20vw; /* Относительные единицы измерения */
         height: auto; /* Автоматическая высота */
@@ -35,6 +36,16 @@
     .container {
         position: relative;
         z-index: 1;
+    }
+
+    .create-all-story-button{
+        cursor: pointer;
+        padding: 10px; /* Размер кнопки */
+        border: none;
+        background-color: #0ed3e1;
+        color: white;
+        border-radius: 6px;
+        margin-left: 3%;
     }
 
     .edit-button {
