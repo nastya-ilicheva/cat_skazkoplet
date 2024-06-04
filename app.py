@@ -6,7 +6,7 @@ from data import db_session
 from data.login import LoginForm
 from data.__all_models import *
 from data.register import RegisterForm
-# from data.new_game import NewGameForm
+from data.utils import *
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
 
@@ -145,15 +145,21 @@ async def get_image(img_id):
     #     mimetype='image/jpeg'
     # )
     db_sess = db_session.create_session()
-    story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
+    # story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
+    user_id, story_id = user_story_from_message(img_id)
+    path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
+    if os.path.exists(path):
+        return send_file(
+            path,
+            mimetype='image/jpeg'
+        )
     print(story_id)
     msg = db_sess.query(Message).filter(Message.story_id == story_id)
-    print("rtgrshkejthrth", msg)
     text = "".join([eval(i.text).content for i in msg[1:]])
     print(text)
     prompt = create_prompt(chat, text)
     print(prompt)
-    path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
+
     print(path)
     if not os.path.exists(path):
         await generate_image(prompt, path)
@@ -164,28 +170,28 @@ async def get_image(img_id):
 
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
 def last_tale(story_id):
-    c = 0
+    if story_id is None:
+        return redirect("/tales")
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
     print(story_id)
-    if story_id is None:
-        return redirect("/tales")
-    history = db_sess.query(Story).filter(Story.id == story_id).first()
-    messages = []
-    msg = db_sess.query(Message).filter(Message.story_id == history.id)
-    msg_id = []
-    for i in msg:
-        messages.append(eval(i.text))
-        msg_id.append(i.id)
-    print(messages)
+    messages, msg_id = get_all_story(story_id)
+    # history = db_sess.query(Story).filter(Story.id == story_id).first()
+    # messages = []
+    # msg = db_sess.query(Message).filter(Message.story_id == history.id)
+    # msg_id = []
+    # for i in msg:
+    #     messages.append(eval(i.text))
+    #     msg_id.append(i.id)
+    # print(messages)
     # создание всей истории по запросу, пока тру просто
     # if True:
     #     all_story = create_all_story(Message)
     if request.method == 'GET':
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
-                 j) for i, j in zip(messages[1:], msg_id)]
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{story_id}_{messages.index(i)}')),
+                 j) for i, j in zip(messages[1:], msg_id[1:])]
         a = [i[2] for i in text]
         print(a)
         return render_template("test.html", story_content=text)
@@ -196,40 +202,41 @@ def last_tale(story_id):
         print(user_input)
         # это системный промт, если порусски, тут мы озадачиваем гигy
 
-        messages.append(HumanMessage(content=user_input))
-        if len(messages) == 2:
-            history.title = user_input
+        # messages.append(HumanMessage(content=user_input))
+        # if len(messages) == 2:
+        #     history.title = user_input
         msg = Message(
-            story_id=history.id,
-            text=repr(messages[-1])
+            story_id=story_id,
+            text=repr(HumanMessage(content=user_input))
         )
         db_sess.add(msg)
         db_sess.commit()
+        messages, msg_id = get_all_story(story_id)
+        print(555555555, messages)
         res = chat(messages)
         print(res.content)
         # speach_rec = voice.speach(res.content, f'{history.id}_{messages.index(i)}')
 
-        messages.append(AIMessage(content=res.content))
+
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
         print(messages)
         msg = Message(
-            story_id=history.id,
-            text=repr(messages[-1]),
+            story_id=story_id,
+            text=repr(AIMessage(content=res.content)),
         )
         db_sess.add(msg)
         db_sess.commit()
 
-        msg.image_path = f'static/mes_images/{current_user.id}_{history.id}_{msg.id}.png'
-        # generate_image(messages, msg.image_path)
-        db_sess.add(msg)
-        db_sess.commit()
-        msg_id.append(msg.id)
+        msg.image_path = f'static/mes_images/{current_user.id}_{story_id}_{msg.id}.png'
+        messages, msg_id = get_all_story(story_id)
+        generate_image(messages, msg.image_path)
+
 
         text = [(i.content,
                  "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
-                 j) for i, j in zip(messages[1:], msg_id)]
+                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{story_id}_{messages.index(i)}')),
+                 j) for i, j in zip(messages[1:], msg_id[1:])]
         print(text)
         return render_template("test.html", story_content=text, story_id=story_id)
         # return render_template("test.html", story_content=text, im='static/img/image1.png')
