@@ -1,6 +1,7 @@
 from candinsky_and_gigachat.giga import *
 
-def create_prompt(msg):
+
+def create_prompt(chat, msg):
     # messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания.")] + msg
     messages = [SystemMessage(content="Ты упрощаешь введенный текст. Убери все ненужное, но оставь описания. Милая "
                                       "картинка, для малышей. стиль мультяшный. для сказки. baby")]

@@ -19,7 +19,7 @@
             {{ i[0] }}
             {% if i[1] %}
             <div class="image-msg-container" style="margin-bottom: 3%; text-align: center;">
-                <img id="async-image-{{ i[3] }}" src="../static/img/image2.png" align="bottom">
+                <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/image2.png" alt="Loading Image {{ img_id }}" />
             </div>
             <audio id="myAudio" controls>
                 <source src="../static/{{i[2]}}" type="audio/mpeg">
@@ -87,7 +87,7 @@ function scrollToBottom() {
 
 </script>
 
-
+    <script src="../static/js/candy.js"></script>
 
 
 
