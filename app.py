@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, send_file
+from flask import Flask, render_template, redirect, request, send_file, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
 
@@ -6,7 +6,7 @@ from data import db_session
 from data.login import LoginForm
 from data.__all_models import *
 from data.register import RegisterForm
-# from data.new_game import NewGameForm
+from data.utils import *
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
 
@@ -23,27 +23,29 @@ chat = init_giga()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'JGKzpcce9ajD72k'
 
+db_session.global_init("db/db.db")
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"[i:i + 3]) for i in range(0, 33, 3)]
+CHAT_DEBUG = False
+CHAT_DELAY = 1
+VOICE_DEBUG = False
+VOICE_DELAY = 2
+IMAGE_DEBUG = False
+IMAGE_DELAY = 5
 
-
-# messages = [
-#     SystemMessage(
-#         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
-#     )
-# ]
 
 @app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
 async def all_story(story_id):
     if request.method == 'POST':
-        full_story_text = await create_all_story(story_id)
+        full_story_text = create_all_story(story_id)
         db_sess = db_session.create_session()
         user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
         title = db_sess.query(Story).filter(Story.id == story_id).first().title
         user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
         full_story = Full_Stories(
+            story_id=story_id,
             user_id=user_id,
             username=user_name,
             title=title,
@@ -51,8 +53,13 @@ async def all_story(story_id):
         )
         db_sess.add(full_story)
         db_sess.commit()
-        return f'http://127.0.0.1:5000/get-all-story/{id}'
-
+        return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        text = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().text
+        title = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().title
+        username = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().username
+        return render_template('full_story.html', title=title, text=text, username=username)
 
 
 @login_manager.user_loader
@@ -98,12 +105,11 @@ def new_tale():
             content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
                     f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
                     f'на 2 '
-                    f'предложения. Повествование последовательное. Добавляй как '
-                    f'можно больше деталей внешности и описания окружающей среды. Если '
+                    f'предложения. Повествование последовательное. Добавляй больше деталей внешности и описания окружающей среды. Если '
                     f'пользователь затрудняется с описанием, то придумай сам. Если '
                     f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                    f'должна быть логически правильно построенной. Сюжет понятный.'
-                    f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
+                    f'должна быть логически правильно построенна. Сюжет понятный.'
+                    f'Ты дополняешь историю РОВНО НА 2 ПРЕДЛОЖЕНИЯ.'
         )
     ]
     db_sess.add(history)
@@ -132,23 +138,46 @@ def my_tales():
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
+        # try:
+        #     msg = eval(i.story)[1].content
+        # except Exception:
+        #     msg = 'Новая сказка'
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
 
 @app.route('/get-image/<img_id>')
 async def get_image(img_id):
+    if IMAGE_DEBUG:
+        await asyncio.sleep(IMAGE_DELAY)
+        return send_file(
+            "static/img/image1.png",
+            mimetype='image/jpeg'
+        )
+
+    for filename in os.listdir('static/mes_images'):
+        print(filename)
+        if filename.endswith(img_id + ".png"):
+            return send_file(
+                f"static/mes_images/{filename}",
+                mimetype='image/jpeg'
+            )
+
     db_sess = db_session.create_session()
-    story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
-    print(story_id)
-    msg = db_sess.query(Message).filter(Message.story_id == story_id)
-    print("rtgrshkejthrth", msg)
-    text = "".join([eval(i.text).content for i in msg[1:]])
-    print(text)
-    prompt = create_prompt(chat, text)
-    print(prompt)
+    user_id, story_id = user_story_from_message(img_id)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
-    print(path)
+    if os.path.exists(path):
+        return send_file(
+            path,
+            mimetype='image/jpeg'
+        )
+    msg = db_sess.query(Message).filter(Message.story_id == story_id)
+    text = "".join([eval(i.text).content for i in msg[1:]])
+    if CHAT_DEBUG:
+        await asyncio.sleep(CHAT_DELAY)
+        prompt = "Нарисуй лопату"
+    else:
+        prompt = create_prompt(chat, text)
     if not os.path.exists(path):
         await generate_image(prompt, path)
     return send_file(
@@ -158,76 +187,55 @@ async def get_image(img_id):
 
 
 @app.route("/tale/<story_id>", methods=['POST', 'GET'])
-def last_tale(story_id):
-    c = 0
-    '''тут идет создание самого диалога, добавление его в бд'''
-    db_sess = db_session.create_session()
-    print(story_id)
+async def last_tale(story_id):
     if story_id is None:
         return redirect("/tales")
-    history = db_sess.query(Story).filter(Story.id == story_id).first()
-    messages = []
-    msg = db_sess.query(Message).filter(Message.story_id == history.id)
-    msg_id = []
-    for i in msg:
-        messages.append(eval(i.text))
-        msg_id.append(i.id)
-    print(messages)
-    # создание всей истории по запросу, пока тру просто
-    # if True:
-    #     all_story = create_all_story(Message)
+    '''тут идет создание самого диалога, добавление его в бд'''
+    db_sess = db_session.create_session()
+    messages, msg_id = get_all_story(story_id)
     if request.method == 'GET':
-        text = [(i.content,
-                 "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
-                 j) for i, j in zip(messages[1:], msg_id)]
-        a = [i[2] for i in text]
-        print(a)
+        text = []
+        for i, j in zip(messages[1:], msg_id[1:]):
+            if VOICE_DEBUG:
+                await asyncio.sleep(VOICE_DELAY)
+                voice_path = "voice/11_2.mp3"
+            else:
+                voice_path = str(
+                    voice.speach(i.content, "AIMessage" in str(type(i)), f'{story_id}_{messages.index(i)}'))
+            text.append((i.content,
+                         "AIMessage" in str(type(i)),
+                         voice_path,
+                         j))
         return render_template("test.html", story_content=text)
     elif request.method == 'POST':
-        print(request.form['story'])
         user_input = request.form['story']
-
         print(user_input)
+        if user_input.strip() == "":
+            return redirect(f'/tale/{story_id}')
         # это системный промт, если порусски, тут мы озадачиваем гигy
-
-        messages.append(HumanMessage(content=user_input))
-        if len(messages) == 2:
-            history.title = user_input
         msg = Message(
-            story_id=history.id,
-            text=repr(messages[-1])
+            story_id=story_id,
+            text=repr(HumanMessage(content=user_input))
         )
         db_sess.add(msg)
         db_sess.commit()
-        res = chat(messages)
-        print(res.content)
-        # speach_rec = voice.speach(res.content, f'{history.id}_{messages.index(i)}')
+        messages, msg_id = get_all_story(story_id)
 
-        messages.append(AIMessage(content=res.content))
+        print("post", messages)
+        if CHAT_DEBUG:
+            await asyncio.sleep(CHAT_DELAY)
+            res = "Мне нравятся истории о животных, которые помогают людям. Это показывает, что даже самые маленькие и слабые создания могут сделать большой вклад в жизнь других."
+        else:
+            res = chat(messages).content
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
-        print(messages)
         msg = Message(
-            story_id=history.id,
-            text=repr(messages[-1]),
+            story_id=story_id,
+            text=repr(AIMessage(content=res)),
         )
         db_sess.add(msg)
         db_sess.commit()
-
-        msg.image_path = f'static/mes_images/{current_user.id}_{history.id}_{msg.id}.png'
-        # generate_image(messages, msg.image_path)
-        db_sess.add(msg)
-        db_sess.commit()
-        msg_id.append(msg.id)
-
-        text = [(i.content,
-                 "AIMessage" in str(type(i)),
-                 str(voice.speach(i.content, "AIMessage" in str(type(i)), f'{history.id}_{messages.index(i)}')),
-                 j) for i, j in zip(messages[1:], msg_id)]
-        print(text)
-        return render_template("test.html", story_content=text, story_id=story_id)
-        # return render_template("test.html", story_content=text, im='static/img/image1.png')
+        return redirect(f'/tale/{story_id}')
 
 
 @app.route('/')
@@ -273,7 +281,6 @@ def register():
 
 
 def main():
-    db_session.global_init("db/db.db")
     app.run()
 
 

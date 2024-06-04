@@ -1,6 +1,102 @@
-{% extends "index.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Стилизация скроллбара */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
 
-{% block content %}
-<link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
+        body {
+            height: 100vh;
+            margin: 0;
+            background: #fff;
+            overflow-y: auto; /* Включаем скроллбар на всей странице */
+            overflow-x: hidden;
+        }
+        .cursor {
+            position: absolute;
+            background: radial-gradient(circle, rgba(128, 128, 128, 0.6), transparent);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
 
-{% endblock %}
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 10%; /* Вы можете изменить это значение в зависимости от того, какую высоту вы хотите для шапки */
+            background-color: #ffffff; /* Цвет шапки изменен на белый */
+            display: flex; /* Добавьте это */
+            justify-content: center; /* Измените это на space-between */
+            align-items: center; /* Добавьте это */
+            padding-left: 5%; /* Добавьте это */
+        }
+
+        .author {
+            position: absolute;
+            background-color: #ffcc99;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            max-width: 80%; /* Добавьте это */
+            left: -10%;
+        }
+
+        .title {
+            position: relative;
+            background-color: #ffcc99;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            max-width: 80%; /* Добавьте это */
+        }
+
+        .text {
+            margin-top: 10%; /* Увеличьте это значение до высоты шапки */
+            margin-left: 10%;
+            margin-right: 10%;
+            padding: 20px;
+            background-color: #6a5acd;
+            color: #fff;
+            font-size: 2em;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">{{title}}</div>
+        <div class="title">{{username}}</div>
+    </div>
+    <div class="text">{{text}}</div>
+    <div class="cursor"></div>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.top = e.pageY + 'px';
+            cursor.style.left = e.pageX + 'px';
+        })
+    </script>
+</body>
+</html>

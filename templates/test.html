@@ -1,91 +1,53 @@
 {% extends "index.html" %}
 <!--ЭТО KОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА-->
 {% block content %}
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
 
-<link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
-<!--наше сообщение, те картинка + сообщене + голос(скоро)-->
-<div class="container">
-    <div class="messages" id="messages">
-        <!-- Выводим сообщения в нормальном порядке -->
-        <!-- Выводим сообщения в нормальном порядке -->
+    <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
+    <div class="container">
+        <div class="messages" id="messages">
+            <!-- Выводим сообщения в нормальном порядке -->
+            <!-- Выводим сообщения в нормальном порядке -->
 
-        {% for i in story_content %}
-        <div class="message {% if i[1]  %} even {% endif %}">
-            {{ i[0] }}
-            {% if i[1] %}
-            <div class="image-msg-container" style="margin-bottom: 3%; text-align: center;">
-                <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/image2.png"
-                     alt="Loading Image {{ img_id }}"/>
-            </div>
-            <audio id="myAudio" controls>
-                <source src="../static/{{i[2]}}" type="audio/mpeg">
-                Ваш браузер не поддерживает аудио элемент.
-            </audio>
-            {% endif %}
+            {% for i in story_content %}
+                <div class="message {% if i[1] %} even {% endif %}">
+                    {{ i[0] }}
+                    {% if i[1] %}
+                        <div class="image-msg-container" style="margin-bottom: 3%; text-align: center;">
+                            <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/image2.png"
+                                 alt="Loading Image {{ img_id }}"/>
+                        </div>
+                        <audio id="myAudio" controls>
+                            <source src="../static/{{ i[2] }}" type="audio/mpeg">
+                            Ваш браузер не поддерживает аудио элемент.
+                        </audio>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
 
 
-<form class="message-form" method="post" onsubmit="handleSubmit()">
-    <input type="text" id="story" name="story" placeholder="Введите сообщение...">
-    <button id="submit-button" class="button" type="submit">Отправить</button>
-    <span id="loadingIndicator" style="display: none;">Загрузка...</span>
-</form>
+    <form class="message-form" method="post" onsubmit="handleSubmit()">
+        <input type="text" id="story" name="story" placeholder="Введите сообщение...">
+        <button id="submit-button" class="button" type="submit">Отправить</button>
+        <span id="loadingIndicator" style="display: none;">Загрузка...</span>
+    </form>
 
-<div class="image-container" style="bottom: 3%; left: 0.5%;">
-    <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2" style="transform: scaleX(-1);">
-</div>
+    <div class="image-container" style="bottom: 3%; left: 0.3%;">
+        <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2" style="transform: scaleX(-1);">
+    </div>
 
-
-<script>
-
-
-    function handleSubmit() {
-      document.getElementById('submitButton').style.display = 'none';
-      document.getElementById('story').style.display = 'none';
-      document.getElementById('story').style.color = 'red';
-      document.getElementById('loadingIndicator').style.display = 'inline';
-      scrollToBottom();
-    }
-
-    function scrollToBottom() {
-        var messages = document.getElementById('messages');
-        messages.scrollTop = messages.scrollHeight;
-        disableForm();
-    }
-
-
-
-  window.onload = function() {
-      window.scrollTo(0, document.body.scrollHeight);
-  }
-
-
-  function handleEnterKey(event) {
-  // Проверяем, что нажата клавиша Enter
-  if (event.key === 'Enter') {
-      // Получаем элемент с классом 'button'
-      var button = document.querySelector('.button');
-      // Добавляем текст в элемент
-      button.textContent = 'Кнопка нажата';
-      // Добавляем класс 'animated' для анимации
-      button.classList.add('animated');
-      // Удаляем класс 'animated' через 1 секунду, чтобы анимация не длилась вечно
-      setTimeout(() => {
-          button.classList.remove('animated');
-      }, 1000);
-  }
-}
-
-
-</script>
-
-<script src="../static/js/candy.js"></script>
+    <script>
+        function handleSubmit() {
+            document.getElementById('submit-button').style.backgroundColor = "red";
+            {#document.getElementById('story').value = "";#}
+        }
+    </script>
+    <script src="../static/js/candy.js"></script>
 
 
 {% endblock %}

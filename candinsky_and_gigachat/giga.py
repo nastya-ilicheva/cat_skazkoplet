@@ -11,8 +11,8 @@ import json
 def init_giga():
 
     client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
-    secret = '1c73028a-d00f-476d-8041-c25e39f73bf3'
-    auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjFjNzMwMjhhLWQwMGYtNDc2ZC04MDQxLWMyNWUzOWY3M2JmMw=='
+    secret = '305ce920-e97d-44a7-857b-9f18e4c64cce'
+    auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjMwNWNlOTIwLWU5N2QtNDRhNy04NTdiLTlmMThlNGM2NGNjZQ=='
 
     credentials = f"{client_id}:{secret}"
     encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
@@ -62,29 +62,10 @@ def get_token(auth_token, scope='GIGACHAT_API_PERS'):
         print(f"Ошибка: {str(e)}")
         return -1
 
-
-
-
-
-
-
-
-# messages = [
-#     SystemMessage(
-#         content="Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения."
-#     )
-# ]
-
-
-if __name__ == '__main__':
-#     test = """
-#     [SystemMessage(content='Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения.')]
-#     [SystemMessage(content='Ты помогаешь детям писать сказки подсказывая им и художественно дополняя их предложения.'), AIMessage(content='Однажды, когда на улице было очень холодно, маленький котёнок решил спрятаться в коробке. Он думал, что там будет тепло и уютно. Но вдруг он услышал странный звук. Это был голос мыши. Мышь сказала: "Привет, малыш! Я тоже хочу быть с тобой в этой коробке". Котёнку стало немного страшно, но он всё равно согласился. Они стали играть вместе и веселиться. И так они стали лучшими друзьями.', response_metadata={'token_usage': Usage(prompt_tokens=26, completion_tokens=110, total_tokens=136), 'model_name': 'GigaChat:3.1.25.3', 'finish_reason': 'stop'}, id='run-d28fa34f-63e0-44f0-ad93-0610ddf9dda2-0')]
-# """
-#     t = eval (test)
+def main():
     messages = []
     chat = init_giga()
-    while (True):
+    while True:
         # Ввод пользователя
         user_input = input("User: ")
         messages.append(HumanMessage(content=user_input))
@@ -94,3 +75,6 @@ if __name__ == '__main__':
         print(messages)
         # Ответ модели
         print("Bot: ", res.content)
+
+if __name__ == '__main__':
+    main()
