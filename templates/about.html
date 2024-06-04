@@ -1,66 +1,121 @@
 {% extends "index.html" %}
 
 {% block content %}
-<html>
-<head>
-    <title>Сказочник</title>
-    {#
+    <html>
+    <head>
+        <title>Сказочник</title>
+        {#
     <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
     #}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/headers.css') }}">
-    <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
-    {#
+        <link href="{{ url_for('static', filename='css/about.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/headers.css') }}">
+        <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+        {#
     <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
     #}
-</head>
-<body>
+    </head>
+    <body>
 
-<style>
+    <style>
 
-    .carousel{
-    width:70%;
-    margin: 0 auto;
-    }
-</style>
+        .carousel {
+            width: 70%;
+            margin: 0 auto;
+        }
+    </style>
 
-<div class="container">
-    {# https://getbootstrap.com/docs/5.0/customize/color/ text_info #}
-    <h2 class="page-header text-center">
-        <h2 class="page-header text-center" style="color: #3f0fc2;">
-            <i class="fas fa-image"></i>Сказка живет в тебе♥
+    <div class="container">
+        {# https://getbootstrap.com/docs/5.0/customize/color/ text_info #}
+        <h2 class="page-header text-center">
+            <h2 class="page-header text-center" style="color: #3f0fc2;">
+                <i class="fas fa-image"></i>Сказка живет в тебе♥
+            </h2>
+
+            <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{{ url_for('static',filename='img/image3.png') }}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ url_for('static',filename='img/image6.png') }}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ url_for('static',filename='img/image10.png') }}" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ url_for('static',filename='img/image4.png') }}" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
         </h2>
 
-        <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{{url_for('static',filename='img/image3.png')}}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{{url_for('static',filename='img/image6.png')}}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{{url_for('static',filename='img/image10.png')}}" class="d-block w-100" alt="...">
-                </div>
-                <div class="carousel-item">
-                    <img src="{{url_for('static',filename='img/image4.png')}}" class="d-block w-100" alt="...">
+    </body>
+
+    {##}
+    {#<div class="container-footer w-container">#}
+    {#  <div class="w-row">#}
+    {#    <div class="footer-column w-clearfix w-col w-col-3"><img src="https://uploads-ssl.webflow.com/5966ea9a9217ca534caf139f/596d33f36607b12cfdaf8ad2_LogoWhite.png" alt="" width="40" class="failory-logo-image">#}
+    {#      <h3 class="footer-failory-name">Появилось предложение?</h3>#}
+    {#        <h3 class="footer-failory-name">нашили ошибку?</h3>#}
+    {#       <p class="footer-description-failory">#}
+    {#    <a href="mailto:skazkoplet@mail.ru">skazkoplet@gmail.ru</a><br>#}
+    {#</p>#}
+
+    </div>
+    <div class="footer-column w-col w-col-8">
+        <div class="w-row">
+            <div class="w-col w-col-8">
+                <div class="w-row">
+                    <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
+                        <h3 class="footer-titles">Есть предложения?</h3 >
+                        <p class="footer-description-failory">
+                            <a href="mailto:skazkoplet@mail.ru">skazkoplet@gmail.ru</a><br>
+<span
+                                class="footer-link"><a href="tel:+71234567890">номер телефона</a></span></a><span><br></span><a href=""><span
+                                class="footer-link">+79379995011<br></span></a><span
+
+                        </p>
+                    </div>
+                    <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
+                        <h3 class="footer-titles">Other</h3>
+                        <p class="footer-links"><a href=""><span class="footer-link">Sponsor Us!<br></span></a><a
+                                href=""><span class="footer-link">Open Startup<br></span></a><a href=""><span
+                                class="footer-link"></span></a><a href=""><span
+                                class="footer-link">Contribute<br></span></a><a href=""><span
+                                class="footer-link">FAQ</span></a><strong><br></strong></p>
+                    </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                    data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <div class="column-center-mobile w-col w-col-4">
+                <h3 class="footer-titles">Follow Us!</h3><a href="" target="_blank"
+                                                            class="footer-social-network-icons w-inline-block"></a><a
+                    href="" target="_blank" class="footer-social-network-icons w-inline-block"><img
+                    src="https://uploads-ssl.webflow.com/5966ea9a9217ca534caf139f/5c8dc0002f2b676eb4ba0869_LinkedIn%20Icon.svg"
+                    width="20" alt="LinkedIn Icon"></a><a href="" target="_blank"
+                                                          class="footer-social-network-icons w-inline-block"><img
+                    src="https://uploads-ssl.webflow.com/5966ea9a9217ca534caf139f/5c8dc0112f2b6739c9ba0871_Pinterest%20Icon.svg"
+                    width="20" alt="Pinterest Icon" class=""></a>
+                <p class="footer-description">Email me at: <a href=""><strong class="link-email-footer">skazkoplet@mail.ru</strong></a><br>
+                </p>
+            </div>
         </div>
+    </div>
+    </div>
+    </div>
 
-    </h2>
 
-</body>
-</html>
+    </html>
 
 
 {% endblock %}
