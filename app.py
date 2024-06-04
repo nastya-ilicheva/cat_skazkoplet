@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, send_file
+from flask import Flask, render_template, redirect, request, send_file, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
 
@@ -38,12 +38,13 @@ alphabet = [list("АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭ
 @app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
 async def all_story(story_id):
     if request.method == 'POST':
-        full_story_text = await create_all_story(story_id)
+        full_story_text = create_all_story(story_id)
         db_sess = db_session.create_session()
         user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
         title = db_sess.query(Story).filter(Story.id == story_id).first().title
         user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
         full_story = Full_Stories(
+            story_id=story_id,
             user_id=user_id,
             username=user_name,
             title=title,
@@ -51,8 +52,13 @@ async def all_story(story_id):
         )
         db_sess.add(full_story)
         db_sess.commit()
-        return f'http://127.0.0.1:5000/get-all-story/{id}'
-
+        return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        text = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().text
+        title = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().title
+        username = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().username
+        return render_template('full_story.html', title=title, text=text, username=username)
 
 
 @login_manager.user_loader
