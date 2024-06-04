@@ -144,6 +144,15 @@ async def get_image(img_id):
     #     "static/img/image4.png",
     #     mimetype='image/jpeg'
     # )
+
+    for filename in os.listdir('static/mes_images'):
+        print(filename)
+        if filename.endswith(img_id+".png"):
+            return send_file(
+                f"static/mes_images/{filename}",
+                mimetype='image/jpeg'
+            )
+
     db_sess = db_session.create_session()
     # story_id = db_sess.query(Message).filter(Message.id == img_id).first().story_id
     user_id, story_id = user_story_from_message(img_id)
