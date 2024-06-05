@@ -27,7 +27,7 @@
         }
         .cursor {
             position: absolute;
-            background: radial-gradient(circle, rgba(128, 128, 128, 0.6), transparent);
+            background: radial-gradient(circle, rgba(244, 169, 0, 0.56), transparent);
             width: 90px;
             height: 90px;
             border-radius: 50%;
@@ -35,28 +35,19 @@
             transform: translate(-50%, -50%);
         }
 
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 10%; /* Вы можете изменить это значение в зависимости от того, какую высоту вы хотите для шапки */
-            background-color: #ffffff; /* Цвет шапки изменен на белый */
-            display: flex; /* Добавьте это */
-            justify-content: center; /* Измените это на space-between */
-            align-items: center; /* Добавьте это */
-            padding-left: 5%; /* Добавьте это */
-        }
-
         .author {
-            position: absolute;
-            background-color: #ffcc99;
+            position: relative;
+            background-color: #BDECB6;
             padding: 10px;
             border-radius: 5px;
             font-size: 2em;
             font-weight: bold;
             text-align: center;
             max-width: 80%; /* Добавьте это */
-            left: -10%;
+            left: 55%; /* Измените это */
+            top: 2%; /* Измените это */
+            display: inline-block;
+
         }
 
         .title {
@@ -68,10 +59,15 @@
             font-weight: bold;
             text-align: center;
             max-width: 80%; /* Добавьте это */
+            left: 50%; /* Измените это */
+            top: 3%; /* Измените это */
+            transform: translateX(-50%);
+            display: inline-block;
+
         }
 
         .text {
-            margin-top: 10%; /* Увеличьте это значение до высоты шапки */
+            margin-top: 2%; /* Увеличьте это значение до высоты шапки */
             margin-left: 10%;
             margin-right: 10%;
             padding: 20px;
@@ -84,7 +80,7 @@
     </style>
 <body>
         <div class="title">{{title}}</div>
-        <div class="title">{{username}}</div>
+        <div class="author">{{username}}</div>
     <div class="text">{{text}}</div>
     <div class="cursor"></div>
 
