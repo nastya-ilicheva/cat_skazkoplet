@@ -29,11 +29,11 @@ db_session.global_init("db/db.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-CHAT_DEBUG = False
+CHAT_DEBUG = True
 CHAT_DELAY = 1
-VOICE_DEBUG = False
+VOICE_DEBUG = True
 VOICE_DELAY = 1
-IMAGE_DEBUG = False
+IMAGE_DEBUG = True
 IMAGE_DELAY = 1
 
 
@@ -46,7 +46,7 @@ async def all_story(story_id):
         user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
         if_full_story = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first()
         if if_full_story is not None:
-            return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+            return jsonify({'url': f'/get-all-story/{story_id}'})
 
         else:
             full_story_text = create_all_story(story_id)
@@ -59,7 +59,7 @@ async def all_story(story_id):
             )
             db_sess.add(full_story)
             db_sess.commit()
-            return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+            return jsonify({'url': f'/get-all-story/{story_id}'})
 
     if request.method == 'GET':
         db_sess = db_session.create_session()
@@ -218,6 +218,7 @@ async def last_tale(story_id):
                          voice_path,
                          j))
         return render_template("test.html", story_content=text)
+
     elif request.method == 'POST':
         user_input = request.form['story']
         print(user_input)
@@ -238,6 +239,12 @@ async def last_tale(story_id):
             res = "Мне нравятся истории о животных, которые помогают людям. Это показывает, что даже самые маленькие и слабые создания могут сделать большой вклад в жизнь других."
         else:
             res = chat(messages).content
+
+        db_sess = db_session.create_session()
+        history = db_sess.query(Story).filter(Story.id == story_id).first()
+        if len(messages) == 2:
+            history.title = user_input
+            db_sess.commit()
         # Ответ модели
         # ЭТО НАШ ОТВЕТ
         msg = Message(
