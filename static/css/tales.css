@@ -42,10 +42,20 @@
         cursor: pointer;
         padding: 10px; /* Размер кнопки */
         border: none;
-        background-color: #0ed3e1;
+        background-color: #FF7E00;
         color: white;
         border-radius: 6px;
         margin-left: 3%;
+    }
+
+    .delete-button{
+        cursor: pointer;
+        padding: 10px; /* Размер кнопки */
+        border: none;
+        background-color: #900020;
+        color: white;
+        border-radius: 6px;
+        margin-right: 3%;
     }
 
     .edit-button {

@@ -7,9 +7,10 @@
 <div class="container">
     {% for i, j in tales %}
     <div class="link-container">
+        <button class="delete-button" onclick="del_func('{{ i }}')">del</button>
         <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
         <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
-        <button class="create-all-story-button" onclick="AllStory('{{ i }}')">Написать полностью</button>
+        <button class="create-all-story-button" onclick="AllStory('{{ i }}')">Опубликовать</button>
     </div>
     {% endfor %}
 </div>
@@ -81,6 +82,14 @@
         window.location.href = data.url;
     }
   }
+
+    function del_func(id) {
+    var element = document.querySelector('.link-container button[onclick="del_func(\'' + id + '\')"]').parentNode;
+    element.remove();
+    fetch("/delete/tale/" + id, {
+    method: 'POST'
+    });
+}
 
 </script>
 {% endblock %}

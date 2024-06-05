@@ -140,6 +140,16 @@ def new_tale():
     return redirect(f'/tale/{history.id}')
 
 
+@app.route("/delete/tale/<del_id>", methods=['POST'])
+def delete_history(del_id):
+    if request.method == 'POST':
+        db_sess = db_session.create_session()
+        db_sess.query(Story).filter(Story.id == del_id).delete()
+        db_sess.commit()
+        print(f'сказка {del_id} удалена')
+        return "History deleted successfully"
+
+
 @app.route("/tales", methods=['POST', 'GET'])
 def my_tales():
     db_sess = db_session.create_session()
@@ -150,6 +160,7 @@ def my_tales():
         history = db_sess.query(Story).filter(Story.id == id).first()
         history.title = new_text
         db_sess.commit()
+
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
