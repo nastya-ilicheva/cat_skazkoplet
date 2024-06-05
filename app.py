@@ -29,32 +29,38 @@ db_session.global_init("db/db.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-CHAT_DEBUG = False
+CHAT_DEBUG = True
 CHAT_DELAY = 1
-VOICE_DEBUG = False
-VOICE_DELAY = 2
-IMAGE_DEBUG = False
-IMAGE_DELAY = 5
+VOICE_DEBUG = True
+VOICE_DELAY = 1
+IMAGE_DEBUG = True
+IMAGE_DELAY = 1
 
 
 @app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
 async def all_story(story_id):
     if request.method == 'POST':
-        full_story_text = create_all_story(story_id)
         db_sess = db_session.create_session()
         user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
         title = db_sess.query(Story).filter(Story.id == story_id).first().title
         user_name = db_sess.query(User).filter(User.id == user_id).first().login  # получаем ник пользователя
-        full_story = Full_Stories(
-            story_id=story_id,
-            user_id=user_id,
-            username=user_name,
-            title=title,
-            text=full_story_text
-        )
-        db_sess.add(full_story)
-        db_sess.commit()
-        return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+        if_full_story = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first()
+        if if_full_story is not None:
+            return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+
+        else:
+            full_story_text = create_all_story(story_id)
+            full_story = Full_Stories(
+                story_id=story_id,
+                user_id=user_id,
+                username=user_name,
+                title=title,
+                text=full_story_text
+            )
+            db_sess.add(full_story)
+            db_sess.commit()
+            return jsonify({'url': f'http://127.0.0.1:5000/get-all-story/{story_id}'})
+
     if request.method == 'GET':
         db_sess = db_session.create_session()
         text = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().text
@@ -98,7 +104,7 @@ def new_tale():
     ''' У нас есть БД там таблица, user  и history, у History в столбике story сохраняется история (весь диалог) тут мы, собственно, заполняем эту таблицу'''
     db_sess = db_session.create_session()
     history = Story(
-        user_id=current_user.id,  #
+        user_id=current_user.id,
         title="Новая сказка"
     )
     messages = [
@@ -117,7 +123,6 @@ def new_tale():
     )
     db_sess.add(msg)
     db_sess.commit()
-
     return redirect(f'/tale/{history.id}')
 
 
@@ -134,10 +139,6 @@ def my_tales():
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
-        # try:
-        #     msg = eval(i.story)[1].content
-        # except Exception:
-        #     msg = 'Новая сказка'
         tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 

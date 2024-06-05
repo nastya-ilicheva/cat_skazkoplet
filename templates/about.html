@@ -20,9 +20,10 @@
     <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
     #}
     <style>
-
-
-
+        .carousel{
+    width:70%;
+    margin: 0 auto;
+    }
     </style>
 </head>
 <body>
@@ -32,7 +33,7 @@
         <i class="fas fa-image"></i>Сказкоплет♥️
     </h2>
 
-    <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="{{ url_for('static',filename='img/image3.png') }}" class="d-block w-100" alt="...">
@@ -41,11 +42,15 @@
                 <img src="{{ url_for('static',filename='img/image6.png') }}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static',filename='img/image10.png') }}" class="d-block w-100" alt="...">
+                <img src="{{ url_for('static',filename='img/IMG_20240605_165654_509.jpg') }}" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="{{ url_for('static',filename='img/image4.png') }}" class="d-block w-100" alt="...">
+                <img src="{{ url_for('static',filename='img/IMG_20240605_165643_768.jpg') }}" class="d-block w-100" alt="...">
             </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static',filename='img/Picsart_24-06-05_17-05-02-502.jpg') }}" class="d-block w-100" alt="...">
+            </div>
+
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
                 data-bs-slide="prev">
@@ -61,16 +66,16 @@
 
     <div class="about-container">
         <div class="about-block about-block-1">
-            <h3>Добро пожаловать!</h3>
-             <p>Тут вы сможете создать свои сказки и проиллюстрировать их вместе с искусственным интелектом</p>
+            <h3><b>Добро пожаловать!</b></h3>
+            <p><i>Тут Вы сможете создавать свои уникальные сказки и иллюстрировать их вместе с искусственным интелектом!</i></p>
         </div>
         <div class="about-block about-block-2">
-            <h3>Для кого?</h3>
-            <p> Если у вас есть хотябы чуть-чуть фантазии, желание творить и наслаждаться инновационным и современном творчством</p>
+            <h3><b>Для кого?</b></h3>
+            <p><i>Вам не нужно обладать богатой фантазией или писательким талантом. Достаточо просто иметь желание творить и наслаждаться инновационным и современном творчством!</i></p>
         </div>
         <div class="about-block about-block-3">
-            <h3>Присоединяйтесь к нам</h3>
-            <p>Наша миссия - вдохновлять и радовать наших читателей, дарить им моменты радости и волшебства. Присоединяйтесь к нам, и пусть сказка живет в каждом из нас!</p>
+            <h3><b>Присоединяйтесь к нам!</b></h3>
+            <p><i>Наша миссия - вдохновлять наших читателей, дарить им моменты радости и волшебства. Присоединяйтесь к нам, и пусть сказка живет в каждом из нас!</i></p>
         </div>
     </div>
 <div class="container-footer w-container">
