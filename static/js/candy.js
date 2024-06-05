@@ -16,6 +16,7 @@ async function loadImage(imgElement) {
 function loadAllImages() {
     const images = document.querySelectorAll('.async-image');
     images.forEach(imgElement => loadImage(imgElement));
+    window.scrollTo(0, document.body.scrollHeight);
 }
 
 window.onload = loadAllImages;

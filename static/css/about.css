@@ -286,3 +286,36 @@ strong.link-email-footer {
   box-sizing: border-box;
   font-weight: 700;
 }
+
+
+.carousel {
+            width: 70%;
+            margin: 0 auto;
+        }
+        .about-container {
+            width: 70%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .about-block {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .about-block-1 {
+            background-color: #60f5f4;
+        }
+        .about-block-2 {
+            background-color: #e0f7fa;
+        }
+        .about-block-3 {
+            background-color: #fce4ec;
+        }
+        .about-block h3 {
+            margin-top: 0;
+        }
+.custom-font {
+    font-family: 'Lobster', cursive;
+}

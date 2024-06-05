@@ -7,7 +7,7 @@ def create_prompt(chat, msg):
                                       " последнии 2 предложения. Милая "
                                       "картинка, для малышей. стиль мультяшный. для сказки. baby")]
     messages.append(HumanMessage(content=msg))
-    print(messages)
+    print("prompt",messages)
     res = chat(messages)
     print(res.content)
     return res.content

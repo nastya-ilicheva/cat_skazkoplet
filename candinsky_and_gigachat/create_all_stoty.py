@@ -5,7 +5,7 @@ from langchain_core.messages.ai import AIMessage
 from candinsky_and_gigachat.normal_history import normal_history
 
 
-async def create_all_story(story_id):
+def create_all_story(story_id):
     '''Создание полной истории. сдесь сбор всего текста в мессендре по ид пользователя'''
     db_session.global_init("../db/db.db")
     db_sess = db_session.create_session()
