@@ -96,6 +96,8 @@ def test():
 
 @app.route("/")
 def index():
+    if current_user.is_authenticated:
+        return redirect('my_home')
     return render_template("about.html")
 
 
