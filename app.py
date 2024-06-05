@@ -9,6 +9,7 @@ from data.register import RegisterForm
 from data.utils import *
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
+from candy_new import generate_image_new
 
 from candinsky_and_gigachat import voice
 
@@ -95,6 +96,8 @@ def test():
 
 @app.route("/")
 def index():
+    if current_user.is_authenticated:
+        return redirect('my_home')
     return render_template("about.html")
 
 
@@ -108,14 +111,9 @@ def new_tale():
     )
     messages = [
         SystemMessage(
-            content=f'Ты - писатель, который составляет сказки вместе с ребенком. Ты и '
-                    f'пользователь вместе пишите сказку. Ты должен дополнять сказку ТОЛЬКО'
-                    f'на 2 '
-                    f'предложения. Повествование последовательное. Добавляй больше деталей внешности и описания окружающей среды. Если '
-                    f'пользователь затрудняется с описанием, то придумай сам. Если '
-                    f'пользователь сам описывает историю, то ты просто продолжаешь. История '
-                    f'должна быть логически правильно построенна. Сюжет понятный.'
-                    f'Ты дополняешь историю РОВНО НА 2 ПРЕДЛОЖЕНИЯ.'
+            content=f'Ты -добрый писатель, который составляет сказки вместе с ребенком. Ты должен дополнять сказку польователя на'
+                    f'одно единственное предложение '
+
         )
     ]
     db_sess.add(history)
