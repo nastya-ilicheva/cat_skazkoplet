@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
+{% extends "index.html" %}
+<!-- ЭТО КОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА -->
+{% block content %}
     <style>
         /* Стилизация скроллбара */
         ::-webkit-scrollbar {
@@ -82,12 +82,9 @@
             word-wrap: break-word;
         }
     </style>
-</head>
 <body>
-    <div class="header">
         <div class="title">{{title}}</div>
         <div class="title">{{username}}</div>
-    </div>
     <div class="text">{{text}}</div>
     <div class="cursor"></div>
 
@@ -99,4 +96,4 @@
         })
     </script>
 </body>
-</html>
+{% endblock %}

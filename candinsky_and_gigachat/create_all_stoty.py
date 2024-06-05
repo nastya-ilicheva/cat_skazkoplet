@@ -11,9 +11,9 @@ def create_all_story(story_id):
     db_sess = db_session.create_session()
     msg = db_sess.query(Message).filter(Message.story_id == story_id)
     text = "".join([eval(i.text).content for i in msg[1:]])
-    # all_history = normal_history(text) # вызываем гигу для приведения в человеческий вид
-    # return all_history
-    return text  # пока что заглушка
+    all_history = normal_history(text) # вызываем гигу для приведения в человеческий вид
+    return all_history
+    # return text  # пока что заглушка
 
 
 if __name__ == '__main__':

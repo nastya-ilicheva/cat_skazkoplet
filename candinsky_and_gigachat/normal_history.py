@@ -6,6 +6,7 @@ def normal_history(text):
     messages = [SystemMessage(content="Ты олитературиваешь текст, не убирай смысл и длину сообщений."
                                       "Никогда не придумывай текст. Ты только редактируешь имеющийся")]
     messages.append(HumanMessage(content=text))
+    chat = init_giga()
     res = chat(messages)
     print(res.content)
     return res.content
