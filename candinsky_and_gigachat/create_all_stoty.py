@@ -10,10 +10,15 @@ def create_all_story(story_id):
     db_session.global_init("../db/db.db")
     db_sess = db_session.create_session()
     msg = db_sess.query(Message).filter(Message.story_id == story_id)
-    text = "".join([eval(i.text).content for i in msg[1:]])
-    # all_history = normal_history(text) # вызываем гигу для приведения в человеческий вид
+    text = [eval(i.text).content for i in msg[1:]]
+
+    itog = ""
+    for i in text:
+        all_history = normal_history(i)  # вызываем гигу для приведения в человеческий вид
+        itog = itog + " " + all_history
     # return all_history
-    return text  # пока что заглушка
+    print("all", itog)
+    return itog
 
 
 if __name__ == '__main__':
