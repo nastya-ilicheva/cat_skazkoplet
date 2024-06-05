@@ -167,7 +167,7 @@ async def get_image(img_id):
         )
 
     for filename in os.listdir('static/mes_images'):
-        print(filename)
+        # print(filename)
         if filename.endswith(img_id + ".png"):
             return send_file(
                 f"static/mes_images/{filename}",
