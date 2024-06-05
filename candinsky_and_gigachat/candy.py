@@ -26,33 +26,6 @@ class Text2ImageAPI:
                 data = await response.json()
                 return data[0]['id']
 
-    # async def generate(self, prompt, model, images=1, width=1024, height=1024):
-    #     params = {
-    #         "type": "GENERATE",
-    #         "numImages": images,
-    #         "width": width,
-    #         "height": height,
-    #         "generateParams": {
-    #             "query": f"{prompt}"
-    #         }
-    #     }
-    #
-    #     # data = aiohttp.FormData()
-    #     # data.add_field('model_id', model)
-    #     # data.add_field('params', json.dumps(params), content_type='application/json')
-    #     #
-    #     # print(model)
-    #     data = {
-    #         'model_id': (None, model),
-    #         'params': (None, json.dumps(params), 'application/json')
-    #     }
-    #
-    #     async with aiohttp.ClientSession() as session:
-    #         async with session.post(self.URL + 'key/api/v1/text2image/run', headers=self.AUTH_HEADERS,
-    #                                 data=data) as response:
-    #             data = await response.json()
-    #             print(data)
-    #             return data['uuid']
 
     def generate(self, prompt, model, images=1, width=1024, height=1024):
         params = {
@@ -110,6 +83,7 @@ async def generate_image(prompt, path):
 
 
 if __name__ == "__main__":
-    prompt = "Героиня сказки для детей в зеленом платье"
+    prompt = "Бабайка был ужасным существом, которое приходило ночью, чтобы забрать детей в свой мир. Он выглядел как огромный черный силуэт с горящими глазами и длинными когтями."
+    prompt = "ужастная Бабайка"
     path = "test.png"
     asyncio.run(generate_image(prompt, path))

@@ -1,28 +1,33 @@
 import replicate
 import os
-import time
+from translate import Translator
 
-im_start_time = time.time()
-os.environ["REPLICATE_API_TOKEN"] = "r8_HCzljf4wpJoRMRt3ivXroNxcVlujXTT18U9IK"
-
-promt = 'bear as space commander'
-input = {
-    "width": 768,
-    "height": 768,
-    "prompt": promt,
-    "refine": "expert_ensemble_refiner",
-    "apply_watermark": False,
-    "num_inference_steps": 25
-}
-
-# output = replicate.run(
-#     "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
-#     input=input
-#)
-im_finish_time = time.time()
-# print(output)
-a = ['https://replicate.delivery/pbxt/RO3yFZMbxTpQBtdLNXv9lWOCByd0GmGfupWvUJpBxraeA3ySA/out-0.png']
-print(*a)
+os.environ["REPLICATE_API_TOKEN"] = "r8_Y1piYSDyvntnHRa8nZ0pQbEMoSvr8nT4MtM1r"
 
 
-print('время:', im_finish_time - im_start_time)
+def translate_text(text):
+    translator = Translator(from_lang="ru", to_lang="en")
+    translation = translator.translate(text)
+    return translation
+
+
+def create_image(promt, width=512, height=512, num_pictures=1):
+    promt = translate_text(promt) + ', in drawing style with clear contours and details'
+    input = {
+        "width": width,
+        "height": height,
+        "prompt": promt,
+        "refine": "expert_ensemble_refiner",
+        "apply_watermark": False,
+        "num_inference_steps": 25,
+        "num_outputs": num_pictures
+    }
+
+    output = replicate.run(
+        "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+        input=input
+    )
+    return output[0]
+
+
+print(create_image('милая девочка с куклой'))
