@@ -49,7 +49,11 @@ async def all_story(story_id):
             return jsonify({'url': f'/get-all-story/{story_id}'})
 
         else:
-            full_story_text = create_all_story(story_id)
+            db_sess = db_session.create_session()
+            msg__ = db_sess.query(Message).filter(Message.story_id == story_id)
+            text__ = [eval(i.text).content for i in msg__[1:]]
+            full_story_text = await create_all_story(text__)
+
             full_story = Full_Stories(
                 story_id=story_id,
                 user_id=user_id,
