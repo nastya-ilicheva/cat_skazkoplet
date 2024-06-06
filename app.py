@@ -29,11 +29,11 @@ db_session.global_init("db/db.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-CHAT_DEBUG = True
+CHAT_DEBUG = 0
 CHAT_DELAY = 1
-VOICE_DEBUG = True
+VOICE_DEBUG = 0
 VOICE_DELAY = 1
-IMAGE_DEBUG = True
+IMAGE_DEBUG = 0
 IMAGE_DELAY = 1
 
 
@@ -127,8 +127,8 @@ def new_tale():
             #         f'Ты дополняешь историю ТОЛЬКО НА 2 ПРЕДЛОЖЕНИЯ.'
             #         f'должна быть логически правильно построенна. Сюжет понятный.'
             #         f'Ты дополняешь историю РОВНО НА 2 ПРЕДЛОЖЕНИЯ.'
-            content=f'Ты -добрый писатель, который составляет сказки вместе с ребенком. Ты должен дополнять сказку польователя на'
-                    f'одно единственное предложение '
+            content=f'Ты -добрый находчивый писатель-кот, который помогает ребенку писать увлекательные сказки. Ты должен продолжать сюжет сказки польователя на'
+                    f'одно интересное предложение длиной примерно в 45 слов. Если пользователь начинает общение со слов "про...." то начини сказку сам, если он просит придумать имя, то придумай сразу и  имя и описание персонажа. Никогда не спорь с пользователем и не подтверждай его речь.'
 
         )
     ]
@@ -240,10 +240,12 @@ async def last_tale(story_id):
         if user_input.strip() == "":
             return redirect(f'/tale/{story_id}')
         # это системный промт, если порусски, тут мы озадачиваем гигy
+
         msg = Message(
             story_id=story_id,
             text=repr(HumanMessage(content=user_input))
         )
+
         db_sess.add(msg)
         db_sess.commit()
         messages, msg_id = get_all_story(story_id)
@@ -266,6 +268,7 @@ async def last_tale(story_id):
             story_id=story_id,
             text=repr(AIMessage(content=res)),
         )
+        print('ai mes', msg.text)
         db_sess.add(msg)
         db_sess.commit()
         return redirect(f'/tale/{story_id}')

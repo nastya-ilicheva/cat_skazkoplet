@@ -58,14 +58,14 @@
         margin-right: 3%;
     }
 
-    .edit-button {
-        cursor: pointer;
-        padding: 10px; /* Размер кнопки */
-        border: none;
-        background-color: #0ed3e1;
-        color: white;
-        border-radius: 6px;
-    }
+    /*.edit-button {*/
+    /*    cursor: pointer;*/
+    /*    padding: 10px; !* Размер кнопки *!*/
+    /*    border: none;*/
+    /*    background-color: #0ed3e1;*/
+    /*    color: white;*/
+    /*    border-radius: 6px;*/
+    /*}*/
 
     /* Media queries для адаптивного дизайна */
     @media (max-width: 1200px) {
@@ -74,9 +74,9 @@
             margin-right: 5px; /* Уменьшенный отступ справа */
         }
 
-        .edit-button {
-            padding: 8px; /* Уменьшенный размер кнопки */
-        }
+        /*.edit-button {*/
+        /*    padding: 8px; !* Уменьшенный размер кнопки *!*/
+        /*}*/
 
         .link-container {
             margin-left: 20%; /* Уменьшенный отступ слева */
@@ -93,9 +93,9 @@
             margin-right: 3px; /* Еще меньший отступ справа */
         }
 
-        .edit-button {
-            padding: 6px; /* Еще меньший размер кнопки */
-        }
+        /*.edit-button {*/
+        /*    padding: 6px; !* Еще меньший размер кнопки *!*/
+        /*}*/
 
         .link-container {
             margin-left: 10%; /* Еще меньший отступ слева */
@@ -105,3 +105,30 @@
             width: 30vw; /* Еще больший относительный размер изображений */
         }
     }
+
+
+    .edit-button {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+    border: none;
+    background-color: transparent; /* Remove any background color */
+    background-size: contain; /* Ensure the image scales to fit */
+    background-repeat: no-repeat; /* Prevent tiling of the image */
+    cursor: pointer; /* Show pointer cursor on hover */
+    padding: 0; /* Remove any default padding */
+    outline: none; /* Remove default outline */
+}
+
+
+
+    .delete-button {
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+    border: none;
+    background-color: transparent; /* Remove any background color */
+    background-size: contain; /* Ensure the image scales to fit */
+    background-repeat: no-repeat; /* Prevent tiling of the image */
+    cursor: pointer; /* Show pointer cursor on hover */
+    padding: 0; /* Remove any default padding */
+    outline: none; /* Remove default outline */
+}

@@ -73,8 +73,8 @@ async def generate_image(prompt, path):
     model_id = await api.get_model()
 
     # Генерация изображения на основе модели и запроса
-    print("pront_for_cande", prompt + "Милая, для малышей. стиль мультяшный. для сказки. baby")
-    uuid = api.generate(prompt + " Рисунок. милый, для малышей. стиль мультяшный. для сказки. baby", model_id)
+    print("pront_for_cande", prompt + " Милая. стиль мультяшный. для сказки.")
+    uuid = api.generate(prompt + "Акварельная иллюстрация современных книг. милая, для сказки.", model_id)
 
     # Проверка статуса генерации
     images = await api.check_generation(uuid)

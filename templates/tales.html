@@ -7,9 +7,13 @@
 <div class="container">
     {% for i, j in tales %}
     <div class="link-container">
-        <button class="delete-button" onclick="del_func('{{ i }}')">del</button>
+        <button class="delete-button" onclick="del_func('{{ i }}')" style="background-image: url('{{ url_for('static', filename='img/del.png') }}');"></button>
+
+
+{#        <button class="delete-button" onclick="del_func('{{ i }}')">del</button>#}
         <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
-        <button class="edit-button" onclick="editFunction('{{ i }}')">Изменить</button>
+        <button class="edit-button" onclick="editFunction('{{ i }}')" style="background-image: url('{{ url_for('static', filename='img/change.png') }}');"></button>
+
         <button class="create-all-story-button" onclick="AllStory('{{ i }}')">Опубликовать</button>
     </div>
     {% endfor %}
@@ -34,7 +38,6 @@
 
 <script>
         function editFunction(id) {
-        // Находим ссылку по id
         var link = document.querySelector('.custom-link[href="/tale/' + id + '"]');
         // Создаем текстовое поле с текущим текстом ссылки
         var input = document.createElement('input');
