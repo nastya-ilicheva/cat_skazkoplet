@@ -6,12 +6,11 @@ gigachat
 replicate
 translate
 requests
-flask
+flask[async]
 flask-wtf
 flask-login
 pyttsx3
 aiofiles
-torch
 gtts
 pydub
 numpy

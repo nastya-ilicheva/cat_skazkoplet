@@ -230,6 +230,7 @@ async def last_tale(story_id):
         for i, j in zip(messages[1:], msg_id[1:]):
             if VOICE_DEBUG:
                 await asyncio.sleep(VOICE_DELAY)
+                # print("voice_DEBUG!!!!!!!!!!!!!!!!")
                 voice_path = "voice/11_2.mp3"
             else:
                 voice_path = str(
