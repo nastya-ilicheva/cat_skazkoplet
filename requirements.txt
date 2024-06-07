@@ -1,4 +1,4 @@
-pipplangchain
+langchain
 langchain-community
 Pillow
 IPython

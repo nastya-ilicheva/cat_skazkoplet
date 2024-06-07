@@ -49,7 +49,7 @@ async def all_story(story_id):
             return jsonify({'url': f'/get-all-story/{story_id}'})
 
         else:
-            db_sess = db_session.create_session()
+            # db_sess = db_session.create_session()
             msg__ = db_sess.query(Message).filter(Message.story_id == story_id)
             text__ = [eval(i.text).content for i in msg__[1:]]
             full_story_text = await create_all_story(text__)
@@ -189,7 +189,7 @@ async def get_image(img_id):
                 mimetype='image/jpeg'
             )
 
-    db_sess = db_session.create_session()
+
     user_id, story_id = user_story_from_message(img_id)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
     if os.path.exists(path):
@@ -197,7 +197,9 @@ async def get_image(img_id):
             path,
             mimetype='image/jpeg'
         )
+    db_sess = db_session.create_session()
     msg = db_sess.query(Message).filter(Message.story_id == story_id)
+    db_sess.close()
     text = "".join([eval(i.text).content for i in msg[1:]])
     if CHAT_DEBUG:
         await asyncio.sleep(CHAT_DELAY)

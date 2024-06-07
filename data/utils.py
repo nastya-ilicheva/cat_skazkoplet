@@ -9,6 +9,7 @@ def user_story_from_message(msg_id):
         db_sess = db_session.create_session()
         story_id = db_sess.query(Message).filter(Message.id == msg_id).first().story_id
         user_id = db_sess.query(Story).filter(Story.id == story_id).first().user_id
+        db_sess.close()
         return user_id, story_id
     except Exception as e:
         print(e)
@@ -21,6 +22,7 @@ def get_all_story(story_id):
     for i in db_sess.query(Message).filter(Message.story_id == story_id):
         text.append(eval(i.text))
         msg_id.append(i.id)
+    db_sess.close()
     return text, msg_id
 
 
