@@ -327,7 +327,7 @@ def register():
 
 
 def main():
-    app.run(host="0.0.0.0", debug=True, post=os.geyenv("RORT", default=5000))
+    app.run(host="0.0.0.0", debug=True, post=os.getenv("RORT", default=5000))
 
 
 if __name__ == "__main__":
