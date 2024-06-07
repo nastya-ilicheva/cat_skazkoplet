@@ -1,79 +1,104 @@
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap");
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
 
-        body {
-            margin: auto;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow: auto;
-            background: linear-gradient(315deg, rgba(255, 223, 0, 1) 3%, #fffca8 38%, #f833ff 68%, rgba(250, 255, 92, 0.71) 98%);
-            animation: gradient 15s ease infinite;
-            background-size: 400% 400%;
-            background-attachment: fixed;
-        }
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
 
-        @keyframes gradient {
-            0% {
-                background-position: 0% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
-        }
+    .custom-button {
+        background-color: #00ffff;
+        margin-right: 1rem;
+        font-size: 1.3rem;
+        color: #000; /* Text color */
+        /* Same as the background for a seamless look */
+        border: 4px solid #00ffff; /* Solid border with neon color */
+        border-radius: 10px; /* Slight rounding of corners */
+        padding: 15px 30px; /* Padding around the text */
+        font-family: "Montserrat", sans-serif; /* Stylish font */
+        letter-spacing: 3px; /* Space between letters for better readability */
+        cursor: pointer; /* Changes cursor to a pointer on hover */
+        font-weight: bold; /* Bold text */
+        filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 30px #00ffff) contrast(1.8) brightness(1.8); /* Adds a subtle glow effect and enhances the vibrancy */
+        transition: 0.5s; /* Smooth color change on hover */
+    }
 
-        .wave {
-            background: rgb(255 255 255 / 25%);
-            border-radius: 1000% 1000% 0 0;
-            position: fixed;
-            width: 200%;
-            height: 12em;
-            animation: wave 10s -3s linear infinite;
-            transform: translate3d(0, 0, 0);
-            opacity: 0.8;
-            bottom: 0;
-            left: 0;
-            z-index: -1;
-        }
+    .custom-button:hover {
+        background-color: #00ffd5;
+        color: #1a1a1a; /* Text color changes on hover */
+        filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 40px #00ffff) contrast(1.8) brightness(1.8); /* Glow effect is enhanced on hover */
+    }
 
-        .wave:nth-of-type(2) {
-            bottom: -1.25em;
-            animation: wave 18s linear reverse infinite;
-            opacity: 0.8;
-        }
 
-        .wave:nth-of-type(3) {
-            bottom: -2.5em;
-            animation: wave 20s -1s reverse infinite;
-            opacity: 0.9;
-        }
+    body {
+        margin: auto;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        overflow: auto;
+        background: linear-gradient(315deg, rgba(255, 223, 0, 1) 3%, #fffca8 38%, #f833ff 68%, rgba(250, 255, 92, 0.71) 98%);
+        animation: gradient 15s ease infinite;
+        background-size: 400% 400%;
+        background-attachment: fixed;
+    }
 
-        @keyframes wave {
-            2% {
-                transform: translateX(1);
-            }
-            25% {
-                transform: translateX(-25%);
-            }
-            50% {
-                transform: translateX(-50%);
-            }
-            75% {
-                transform: translateX(-25%);
-            }
-            100% {
-                transform: translateX(1%);
-            }
+    @keyframes gradient {
+        0% {
+            background-position: 0% 0%;
         }
+        50% {
+            background-position: 100% 100%;
+        }
+        100% {
+            background-position: 0% 0%;
+        }
+    }
+
+    .wave {
+        background: rgb(255 255 255 / 25%);
+        border-radius: 1000% 1000% 0 0;
+        position: fixed;
+        width: 200%;
+        height: 12em;
+        animation: wave 10s -3s linear infinite;
+        transform: translate3d(0, 0, 0);
+        opacity: 0.8;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    .wave:nth-of-type(2) {
+        bottom: -1.25em;
+        animation: wave 18s linear reverse infinite;
+        opacity: 0.8;
+    }
+
+    .wave:nth-of-type(3) {
+        bottom: -2.5em;
+        animation: wave 20s -1s reverse infinite;
+        opacity: 0.9;
+    }
+
+    @keyframes wave {
+        2% {
+            transform: translateX(1%);
+        }
+        25% {
+            transform: translateX(-25%);
+        }
+        50% {
+            transform: translateX(-50%);
+        }
+        75% {
+            transform: translateX(-25%);
+        }
+        100% {
+            transform: translateX(1%);
+        }
+    }
