@@ -6,7 +6,7 @@ from create_prompt_for_kandy import create_for_k
 def create_json(prompt):
     # Ввод пользователя
     user_input = prompt
-    messages.append(HumanMessage(content=user_input))
+    messages.append(HumanMessage(content=AIMessage))
     res = chat(messages)
     messages.append(res)
     # Ответ модели
@@ -16,11 +16,11 @@ def create_json(prompt):
 
 messages = [
     SystemMessage(
-        content="Ты должен на основе ответа пользователя создать json файл с описанием внешности персонажа. В  json "
-                "не должно быть длинных описаний, максимум 2 слова. все на английском языке. обязательны поля: type, "
+        content="Ты должен на основе ответа пользователя создать json файл с описанием внешности персонажа."
+                " В  json. обязательны поля: type, "
                 " another\nкаждый раз после запроса"
                 "ты будешь дополнять файл\nесли персонажей несколько создавай для каждого свой json файл, выводи в"
-                "ответ каждый\njson только на английском\njson составляется только для главных действующих лиц"
+                "ответ каждый\nпакуй в json, \njson составляется только для главных действующих лиц"
     )
 ]
 
