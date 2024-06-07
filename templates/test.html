@@ -42,9 +42,11 @@
     </div>
 
     <script>
+        submitted = false;
         function handleSubmit() {
             document.getElementById('submit-button').style.backgroundColor = '#005c7a';
-<!--            document.getElementById('story').value = "";-->
+            if (submitted) document.getElementById('story').value = "";
+            window["submitted"] = true;
 <!--            document.getElementById('story').placeholder = "Сообщение отправлено, пожалуйста подождите";-->
         }
     </script>
