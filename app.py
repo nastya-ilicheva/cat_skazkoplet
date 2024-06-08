@@ -9,7 +9,7 @@ from data.register import RegisterForm
 from data.utils import *
 # from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
-from candy_new import generate_image_new
+# from candy_new import generate_image_new
 
 from candinsky_and_gigachat import voice
 
@@ -29,12 +29,13 @@ db_session.global_init("db/db.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-CHAT_DEBUG = 0
-CHAT_DELAY = 1
-VOICE_DEBUG = 0
-VOICE_DELAY = 1
-IMAGE_DEBUG = 0
+CHAT_DEBUG = 1
+VOICE_DEBUG = 1
+IMAGE_DEBUG = 1
+
 IMAGE_DELAY = 1
+CHAT_DELAY = 1
+VOICE_DELAY = 1
 
 
 @app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
@@ -107,7 +108,6 @@ def index():
 
 @app.route("/ntale", methods=['POST', 'GET'])
 def new_tale():
-    ''' У нас есть БД там таблица, user  и history, у History в столбике story сохраняется история (весь диалог) тут мы, собственно, заполняем эту таблицу'''
     db_sess = db_session.create_session()
     history = Story(
         user_id=current_user.id,
@@ -115,14 +115,13 @@ def new_tale():
     )
     messages = [
         SystemMessage(
-
             content=f'Ты -добрый находчивый писатель-кот по имени Сказкоплет. '
                     f'Ты помогаешь ребенку писать увлекательные сказки.'
                     f'Если пользователь пишет имена исторических политических и культурных деятелей, то придумай про них чудесную сказку а не расказывай биографию.'
-                      f'ты предлогаешь пользователю выбор между вариантами развития событий'
+                    f'ты предлогаешь пользователю выбор между вариантами развития событий'
                     f' Ты должен продолжать сюжет сказки польователя  на 40-50 слов.'
                     f' Для этого ты задаешь пользователю вопросы, например как завут главного героя, кто он такой и какие у него суперсилы?; '
-                  
+
                     f'ты даешь пользователю выбор между возможными  продолжениями сказки'
                     f'Ты  должен продолжать  сказку собеседника на'
                     f' 30 слов и задать пользователю вопрос какой из предложенных тобой событий.'
@@ -132,7 +131,6 @@ def new_tale():
                     f' Никогда не спорь с пользователем и не подтверждай его речь.'
                     f'вот пример диалога: привет, кот сказочник, давай начнем придумывать с имени главного героя, может это будет Алиса?    Да! -алиса школьница из меленькго городка,'
                     f' она отлично учится, но однажды ее вызвали к директору или она поняла что владеет суперсилами?'
-
 
         )
     ]
@@ -152,10 +150,14 @@ def new_tale():
 def delete_history(del_id):
     if request.method == 'POST':
         db_sess = db_session.create_session()
-        db_sess.query(Story).filter(Story.id == del_id).delete()
-        db_sess.commit()
-        print(f'сказка {del_id} удалена')
-        return "History deleted successfully"
+        story = db_sess.query(Story).filter(Story.id == del_id).first()
+        if story:
+            story.enable = 0
+            db_sess.commit()
+            return f"History {del_id} disenabled successfully"
+        else:
+            print(f'сказка {del_id} не найдена')
+            return "History not found"
 
 
 @app.route("/tales", methods=['POST', 'GET'])
@@ -172,7 +174,8 @@ def my_tales():
     library = db_sess.query(Story).filter(Story.user_id == current_user.id)
     tales = []
     for i in library:
-        tales.append((i.id, i.title))
+        if i.enable == 1:
+            tales.append((i.id, i.title))
     return render_template("tales.html", tales=tales)
 
 
@@ -192,7 +195,6 @@ async def get_image(img_id):
                 f"static/mes_images/{filename}",
                 mimetype='image/jpeg'
             )
-
 
     user_id, story_id = user_story_from_message(img_id)
     path = f'static/mes_images/{current_user.id}_{story_id}_{img_id}.png'
@@ -240,7 +242,6 @@ async def last_tale(story_id):
                          voice_path,
                          j))
 
-
         return render_template("test.html", story_content=text)
 
     elif request.method == 'POST':
@@ -248,7 +249,6 @@ async def last_tale(story_id):
         print(user_input)
         if user_input.strip() == "":
             return redirect(f'/tale/{story_id}')
-
 
         # это системный промт, если порусски, тут мы озадачиваем гигy
 

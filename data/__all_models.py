@@ -34,7 +34,7 @@ class Story(SqlAlchemyBase, UserMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    num_index = sqlalchemy.Column(sqlalchemy.Integer)
+    enable = sqlalchemy.Column(sqlalchemy.Integer, nullable=True, default=1)
 
     # user = relationship("User", backref="login", foreign_keys=[user_id])
 
