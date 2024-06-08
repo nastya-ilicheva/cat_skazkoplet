@@ -226,6 +226,13 @@ async def last_tale(story_id):
         return redirect("/tales")
     '''тут идет создание самого диалога, добавление его в бд'''
     db_sess = db_session.create_session()
+    if db_sess.query(Story).filter(Story.id == story_id).first().enable == 0:
+        return redirect("/tales")
+    try:
+        if db_sess.query(Story).filter(Story.id == story_id).first().user_id != current_user.id:
+            pass
+    except Exception:
+        return redirect("/")
     messages, msg_id = get_all_story(story_id)
     if request.method == 'GET':
         text = []

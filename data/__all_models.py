@@ -30,7 +30,6 @@ class User(SqlAlchemyBase, UserMixin):
 
 class Story(SqlAlchemyBase, UserMixin):
     __tablename__ = 'story'
-
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
