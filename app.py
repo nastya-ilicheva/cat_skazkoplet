@@ -28,9 +28,9 @@ db_session.global_init("db/db.db")
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-CHAT_DEBUG = 1
-VOICE_DEBUG = 1
-IMAGE_DEBUG = 1
+CHAT_DEBUG = 0
+VOICE_DEBUG = 0
+IMAGE_DEBUG = 0
 
 IMAGE_DELAY = 1
 CHAT_DELAY = 1
