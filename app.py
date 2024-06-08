@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, request, send_file, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
-
 from data import db_session
 from data.login import LoginForm
 from data.__all_models import *
@@ -50,11 +49,10 @@ async def all_story(story_id):
             return jsonify({'url': f'/get-all-story/{story_id}'})
 
         else:
-            # db_sess = db_session.create_session()
+            db_sess = db_session.create_session()
             msg__ = db_sess.query(Message).filter(Message.story_id == story_id)
             text__ = [eval(i.text).content for i in msg__[1:]]
             full_story_text = await create_all_story(text__)
-
             full_story = Full_Stories(
                 story_id=story_id,
                 user_id=user_id,
@@ -189,7 +187,6 @@ async def get_image(img_id):
         )
 
     for filename in os.listdir('static/mes_images'):
-        # print(filename)
         if filename.endswith(img_id + ".png"):
             return send_file(
                 f"static/mes_images/{filename}",
@@ -332,6 +329,34 @@ def register():
         return redirect('/login')
 
     return render_template('register.html', title='Регистрация', form=form)
+
+
+@app.route('/publications', methods=['GET', 'POST'])
+def publications():
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        public = db_sess.query(Full_Stories).all()
+        publ_data = []
+        for i in public:
+            print(i.id)
+            print(i.title)
+            print(i.username)
+            publ_data.append((i.id, i.title, i.username))  # ид, название, автор
+        return render_template('publications.html', info=publ_data)
+
+    elif request.method == 'POST':
+        return jsonify({'url': '/publications'})
+
+
+
+@app.route('/publication/<publ_id>', methods=['GET', 'POST'])
+def publication_view(publ_id):
+    db_sess = db_session.create_session()
+    public = db_sess.query(Full_Stories).all()
+    publ_data = []
+    for i in public:
+        publ_data.append((i.id, i.title, i.username))
+    return render_template('publications.html', info=publ_data)
 
 
 def main():

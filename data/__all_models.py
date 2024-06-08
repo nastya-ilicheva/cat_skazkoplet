@@ -43,7 +43,6 @@ class Story(SqlAlchemyBase, UserMixin):
 
 class Message(SqlAlchemyBase, UserMixin):
     __tablename__ = 'messages'
-
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     story_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("story.id"))
     text = sqlalchemy.Column(sqlalchemy.String, nullable=True)

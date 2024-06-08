@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block content %}
+<link href="{{ url_for('static', filename='css/tales.css') }}" rel="stylesheet">
+
+<div class="container">
+    {% for data in info %}
+    <div class="link-container">
+        <a class="custom-link" href="/publication/{{ data[0] }}">{{ data[1] }}</a>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

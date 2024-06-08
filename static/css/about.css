@@ -7,6 +7,16 @@ div.container-footer.w-container {
   padding-top: 70px;
 }
 
+.public-button{
+        cursor: pointer;
+        padding: 10px; /* Размер кнопки */
+        border: none;
+        background-color: #FF7E00;
+        color: white;
+        border-radius: 6px;
+        margin-left: 3%;
+    }
+
 div.container-footer.w-container:after {
   clear: both;
   content: " ";
