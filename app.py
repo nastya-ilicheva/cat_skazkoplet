@@ -343,9 +343,6 @@ def publications():
         public = db_sess.query(Full_Stories).all()
         publ_data = []
         for i in public:
-            print(i.id)
-            print(i.title)
-            print(i.username)
             publ_data.append((i.id, i.title, i.username))  # ид, название, автор
         return render_template('publications.html', info=publ_data)
 
@@ -355,12 +352,12 @@ def publications():
 
 @app.route('/publication/<publ_id>', methods=['GET', 'POST'])
 def publication_view(publ_id):
-    db_sess = db_session.create_session()
-    public = db_sess.query(Full_Stories).all()
-    publ_data = []
-    for i in public:
-        publ_data.append((i.id, i.title, i.username))
-    return render_template('publications.html', info=publ_data)
+    if request.method == 'GET':
+        db_sess = db_session.create_session()
+        autor = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().username
+        text = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().text
+        title = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().title
+        return render_template('publicatioN.html', autor=autor, text=text, title=title)
 
 
 def main():

@@ -1,7 +1,6 @@
 {% extends "index.html" %}
 
 {% block content %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,8 +10,7 @@
     #}
     <link href="{{ url_for('static', filename='css/about.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/headers.css') }}">
-<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 
 
     <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
@@ -29,92 +27,120 @@
 <body>
 
 <div class="container">
-    {# https://getbootstrap.com/docs/5.0/customize/color/    text_info #}
+    {# https://getbootstrap.com/docs/5.0/customize/color/ text_info #}
+    <button class="public-button" onclick="public_func()">Публикации</button>
     <h2 class="page-header text-center">
         <h2 class="page-header text-center" style="color: #3f0fc2;">
-    <i class="fas fa-image"></i>♥️Как создавать чудеса?♥️</h2>
+            <i class="fas fa-image"></i>♥️Как создавать чудеса?♥️</h2>
 
-    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="{{url_for('static',filename='img/Picsart_24-06-06_19-39-40-313.jpg')}}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="{{url_for('static',filename='img/newcat.jpg')}}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="{{url_for('static',filename='img/Picsart_24-06-05_16-50-04-662.png')}}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="{{url_for('static',filename='img/PSX_20240605_145003.png')}}" class="d-block w-100" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="{{url_for('static',filename='img/PSX_20240605_150849.png')}}" class="d-block w-100" alt="...">
-    </div>
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{{url_for('static',filename='img/Picsart_24-06-06_19-39-40-313.jpg')}}"
+                         class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/newcat.jpg')}}" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/Picsart_24-06-05_16-50-04-662.png')}}"
+                         class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/PSX_20240605_145003.png')}}" class="d-block w-100"
+                         alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/PSX_20240605_150849.png')}}" class="d-block w-100"
+                         alt="...">
+                </div>
 
-      <div class="carousel-item">
-  <img src="{{url_for('static',filename='img/del_change.jpg')}}" class="d-block w-100" alt="...">
-    </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/del_change.jpg')}}" class="d-block w-100" alt="...">
+                </div>
 
-    <div class="carousel-item">
-      <img src="{{url_for('static',filename='img/Picsart_24-06-05_16-53-24-336.png')}}" class="d-block w-100" alt="...">
-    </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static',filename='img/Picsart_24-06-05_16-53-24-336.png')}}"
+                         class="d-block w-100" alt="...">
+                </div>
 
 
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
-<div class="about-container">
-        <div class="about-block about-block-1">
-            <h3><b>Добро пожаловать!</b></h3>
-            <p><i>Тут Вы сможете создавать свои уникальные сказки и иллюстрировать их вместе с искусственным интелектом!</i></p>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <div class="about-block about-block-2">
-            <h3><b>Для кого?</b></h3>
-            <p><i>Вам не нужно обладать богатой фантазией или писательким талантом. Достаточо просто иметь желание творить и наслаждаться инновационным и современном творчством!</i></p>
+        <div class="about-container">
+            <div class="about-block about-block-1">
+                <h3><b>Добро пожаловать!</b></h3>
+                <p><i>Тут Вы сможете создавать свои уникальные сказки и иллюстрировать их вместе с искусственным
+                    интелектом!</i></p>
+            </div>
+            <div class="about-block about-block-2">
+                <h3><b>Для кого?</b></h3>
+                <p><i>Вам не нужно обладать богатой фантазией или писательким талантом. Достаточо просто иметь желание
+                    творить и наслаждаться инновационным и современном творчством!</i></p>
+            </div>
+            <div class="about-block about-block-3">
+                <h3><b>Присоединяйтесь к нам!</b></h3>
+                <p><i>Наша миссия - вдохновлять наших читателей, дарить им моменты радости и волшебства. Присоединяйтесь
+                    к нам, и пусть сказка живет в каждом из нас!</i></p>
+            </div>
         </div>
-        <div class="about-block about-block-3">
-            <h3><b>Присоединяйтесь к нам!</b></h3>
-            <p><i>Наша миссия - вдохновлять наших читателей, дарить им моменты радости и волшебства. Присоединяйтесь к нам, и пусть сказка живет в каждом из нас!</i></p>
-        </div>
-    </div>
-<div class="container-footer w-container">
-        <div class="w-row">
-            <div class="footer-column w-clearfix w-col w-col-2">
-                <div class="w-row">
-                    <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
-                        <h3 class="footer-titles">Есть предложения?</h3>
-                        <p class="footer-description-failory">
-                            <a>пишите на</a></span></a><span><br></span><a href=""><span>
+        <div class="container-footer w-container">
+            <div class="w-row">
+                <div class="footer-column w-clearfix w-col w-col-2">
+                    <div class="w-row">
+                        <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
+                            <h3 class="footer-titles">Есть предложения?</h3>
+                            <p class="footer-description-failory">
+                                <a>пишите на</a></span></a><span><br></span><a href=""><span>
                             <a href="mailto:skazkoplet@mail.ru">skazkoplet@gmail.ru</a><br>
-<span class="footer-link"><a>телефон горячей линии</a></span></a><span><br></span><a href=""><span>
+                            <span class="footer-link"><a>телефон горячей линии</a></span></span></a><span><br></span><a
+                                    href=""><span>
                                 <a>+79379995011</a></span></a><span><br></span><a href=""><span>
-                        </p>
+                        </span></a></p>
                         </div>
-                    <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
-                         <h3 class="footer-titles">Следите за нами</h3>
-                        <a href="https://ru.pinterest.com/sofiilasova0057/?invite_code=82fcf0d2b8c4418093524f54d7303b32&sender=1097048927888432056" target="_blank"
-                        class="footer-social-network-icons w-inline-block">
-                            <img src="{{ url_for('static',filename='img/Pinterest.png') }}"
-                        width="20" alt="Pinterest Icon" class=""></a>
-                        <h3 class="footer-titles">поддержать проект:</h3><a href="" target="_blank"></a>
-                        <a>+79379995011</a></span></a><span><br></span><a href=""><span>
+                        <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
+                            <h3 class="footer-titles">Следите за нами</h3>
+                            <a href="https://ru.pinterest.com/sofiilasova0057/?invite_code=82fcf0d2b8c4418093524f54d7303b32&sender=1097048927888432056"
+                               target="_blank"
+                               class="footer-social-network-icons w-inline-block">
+                                <img src="{{ url_for('static',filename='img/Pinterest.png') }}"
+                                     width="20" alt="Pinterest Icon" class=""></a>
+                            <h3 class="footer-titles">поддержать проект:</h3><a href="" target="_blank"></a>
+                            <a>+79379995011</a></span></a><span><br></span><a href=""><span>
+                    </span></a></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
+    </h2>
 </div>
 
-
+<script>
+    async function public_func(){
+        const response = await fetch('/publications', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    id: 'id',
+                })
+            });
+        const data = await response.json();
+        if (data.url) {
+            window.location.href = data.url;
+        }
+    }
+</script>
 </body>
 </html>
 
