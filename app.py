@@ -303,6 +303,11 @@ def logout():
 
 @app.route('/my_home')
 def my_home():
+    try:
+        if current_user.id:
+            pass
+    except Exception:
+        return redirect("/")
     return render_template('my_home.html')
 
 
@@ -346,7 +351,6 @@ def publications():
 
     elif request.method == 'POST':
         return jsonify({'url': '/publications'})
-
 
 
 @app.route('/publication/<publ_id>', methods=['GET', 'POST'])
