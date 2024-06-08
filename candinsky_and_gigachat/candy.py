@@ -6,9 +6,7 @@ import aiohttp
 import asyncio
 import aiofiles
 import requests
-
-API_KEY = '36F323968BECBD8A0B08E0C2232FE262'
-SECRET_KEY = '0FF6B9AF488D717FD935E95727E9FF50'
+from candinsky_and_gigachat.secrets import *
 
 
 class Text2ImageAPI:
@@ -25,7 +23,6 @@ class Text2ImageAPI:
             async with session.get(self.URL + 'key/api/v1/models', headers=self.AUTH_HEADERS) as response:
                 data = await response.json()
                 return data[0]['id']
-
 
     def generate(self, prompt, model, images=1, width=1024, height=1024):
         params = {

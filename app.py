@@ -1,23 +1,17 @@
 from flask import Flask, render_template, redirect, request, send_file, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 import os
-from data import db_session
 from data.login import LoginForm
-from data.__all_models import *
 from data.register import RegisterForm
 from data.utils import *
-# from flask_restful import abort
 from candinsky_and_gigachat.candy import generate_image
-# from candy_new import generate_image_new
-
 from candinsky_and_gigachat import voice
-
-'''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
-
 from candinsky_and_gigachat.giga import *
 from candinsky_and_gigachat.generate_prompt_for_kandy import create_prompt
 from candinsky_and_gigachat.create_all_stoty import *
 import asyncio
+
+'''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
 chat = init_giga()
 app = Flask(__name__)

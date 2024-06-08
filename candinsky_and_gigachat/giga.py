@@ -5,15 +5,11 @@ from langchain.chat_models.gigachat import GigaChat
 import base64
 import requests
 import uuid
-# from keys import *
+from candinsky_and_gigachat.secrets import *
 import json
 
+
 def init_giga():
-
-    client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
-    secret = '305ce920-e97d-44a7-857b-9f18e4c64cce'
-    auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjMwNWNlOTIwLWU5N2QtNDRhNy04NTdiLTlmMThlNGM2NGNjZQ=='
-
     credentials = f"{client_id}:{secret}"
     encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
     response = get_token(auth)
@@ -39,6 +35,7 @@ def models(giga_token):
     # print(response.text)
     return response.text
 
+
 def get_token(auth_token, scope='GIGACHAT_API_PERS'):
     rq_uid = str(uuid.uuid4())
 
@@ -62,6 +59,7 @@ def get_token(auth_token, scope='GIGACHAT_API_PERS'):
         print(f"Ошибка: {str(e)}")
         return -1
 
+
 def main():
     messages = []
     chat = init_giga()
@@ -75,6 +73,7 @@ def main():
         print(messages)
         # Ответ модели
         print("Bot: ", res.content)
+
 
 if __name__ == '__main__':
     main()
