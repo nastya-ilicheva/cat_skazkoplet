@@ -12,6 +12,9 @@ async def create_all_story(text):
         all_history = await normal_history(i)  # вызываем гигу для приведения в человеческий вид
         result = result + " " + all_history
     # print("all", result)
+    print(result, 'res')
+    print(all_history, 'stoty')
+    #тонкий лед
     return result
 
 

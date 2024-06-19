@@ -4,13 +4,17 @@
 
 <style>
     .author {
-        background-color: #BDECB6;
-        padding: 10px;
+        padding: 6px;
+        color:  #09144E;
         border-radius: 5px;
         font-size: 2em;
         font-weight: bold;
         text-align: center;
-        margin-left: 10px; /* Отступ слева от ссылки */
+        margin-left: 8 px; /* Отступ слева от ссылки */
+    }
+
+    .link-container {
+        text-align: center; /* Добавляем это свойство для выравнивания кнопки по центру */
     }
 </style>
 
@@ -24,6 +28,12 @@
     </div>
     {% endfor %}
 </div>
+
+
+<div class="image-container" style="bottom: 10%; right: 3%;">
+    <img src="{{ url_for('static', filename='img/cosmonavt.png') }}" alt="Image 2"  style="transform: scaleX(-1)">
+</div>
+
 
 
 {% endblock %}
