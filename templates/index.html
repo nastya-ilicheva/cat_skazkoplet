@@ -48,11 +48,12 @@
                         </ul>
                     </div>
                 {% else %}
-                    <li><a href="{{ url_for('publications') }}" class="btn custom-button">Публикации</a></li>
                     <div class="col-md-3 text-end">
                         <a class="btn btn-outline-primary me-2" href="{{ url_for('login') }}">Войти</a>
                         <a class="btn btn-primary" href="{{ url_for('register') }}">Зарегистрироваться</a>
                     </div>
+                    <li><a href="{{ url_for('publications') }}" class="btn custom-button">Публикации</a></li>
+
                 {% endif %}
             </header>
         </div>

@@ -2,8 +2,6 @@
 <!--ЭТО KОД, ОТВЕЧАЮЩИЙ ЗА КРАСОТУ ДИАЛОГА-->
 {% block content %}
     <meta charset="UTF-8">
-
-
     <link href="{{ url_for('static', filename='css/test.css') }}" rel="stylesheet">
 
     <!--наше сообщение, те картинка + сообщене + голос(скоро)-->
@@ -20,7 +18,7 @@
                             <img class="async-image" data-img-id="{{ i[3] }}" src="../static/img/giv.gif"
                                  alt="Loading Image {{ img_id }}"/>
                         </div>
-                        <audio id="myAudio" controls>
+                        <audio class="audio-element" id="myAudio" controls>
                             <source src="../static/{{ i[2] }}" type="audio/mpeg">
                             Ваш браузер не поддерживает аудио элемент.
                         </audio>
@@ -38,7 +36,7 @@
     </form>
 
     <div class="image-container" style="bottom: 3%; left: 0.3%;">
-        <img src="{{ url_for('static', filename='img/cat.png') }}" alt="Image 2" style="transform: scaleX(-1);">
+<!--        <img src="{{ url_for('static', filename='img/cat.png') }}" alt="тут кот" style="transform: scaleX(-1);">-->
     </div>
 
     <script>

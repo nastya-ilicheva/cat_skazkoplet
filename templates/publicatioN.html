@@ -127,25 +127,60 @@
   display: inline-block;
 }
 
-.text {
-  font-family: 'Palatino', serif; /* Подключенный шрифт Google Fonts */
-margin-top: 2%;
-margin-left: 10%;
-margin-right: 10%;
-padding: 20px;
-background-color: #6a5acd;
-color: #fff;
-font-size: 2em;
-border-radius: 10px;
-word-wrap: break-word;
+    .text {
+        font-family: 'Palatino', serif; /* Подключенный шрифт Google Fonts */
+        margin-top: 2%;
+        margin-left: 10%;
+        margin-right: 10%;
+        padding: 20px;
+        background-color: #6a5acd;
+        color: #fff;
+        font-size: 2em;
+        border-radius: 10px;
+        word-wrap: break-word;
+        }
+
+    /* Добавлено для устройств с сенсорным вводом */
+    @media (hover: none) {
+        .title{
+            margin-left: 15%; /* Изменено на margin-left */
+            left: initial; /* Добавлено для сброса значения left */
+            font-size: 2.4em;
+
+        }
+        .author{
+            margin-right: 3%; /* Изменено на 3% */
+            left: initial; /* Добавлено для сброса значения left */
+            font-size: 2em;
+
+
+        }
+        .text {
+            background-color: black;
+            margin-top: 2%; /* Увеличьте это значение до высоты шапки */
+            margin-left: 0%; /* Добавлено для отступа от границ экрана */
+            margin-right: 0%; /* Добавлено для отступа от границ экрана */
+            font-size: 1.3em;
+
+        }
+        .container{
+            margin: 0%
+            }
+
+        .cust-img {
+        width: 100%; /* Устанавливаем ширину на 100% */
+        height: auto; /* Высота автоматически меняется, чтобы сохранить соотношение сторон */
+        border-radius: 10px;
+            }
+    }
     }
 </style>
 <body>
 <div class="title">{{title}}</div>
 <div class="author">{{autor}}</div>
+<img class='cust-img' src="..\static\mes_images\{{picture}}" alt="Включите воображение ... ">
+
 <div class="text">{{text}}</div>
-<div class="cursor"></div>
-<img src="..\static\mes_images\{{picture}}" alt="Включите воображение ... ">
 
 </body>
 {% endblock %}
