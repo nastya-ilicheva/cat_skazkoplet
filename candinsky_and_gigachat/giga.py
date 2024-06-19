@@ -8,13 +8,16 @@ import uuid
 from candinsky_and_gigachat.secrets import *
 import json
 
+client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
+secret = '305ce920-e97d-44a7-857b-9f18e4c64cce'
+auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjMwNWNlOTIwLWU5N2QtNDRhNy04NTdiLTlmMThlNGM2NGNjZQ=='
+
 
 def init_giga():
     credentials = f"{client_id}:{secret}"
     encoded_credentials = base64.b64encode(credentials.encode('utf-8')).decode('utf-8')
     response = get_token(auth)
     if response != 1:
-        # print(response.text)
         giga_token = response.json()['access_token']
 
     models(giga_token)

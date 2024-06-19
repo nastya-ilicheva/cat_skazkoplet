@@ -4,9 +4,10 @@ from io import BytesIO
 from PIL import Image
 import aiohttp
 import asyncio
-import aiofiles
 import requests
-from candinsky_and_gigachat.secrets import *
+
+API_KEY = '36F323968BECBD8A0B08E0C2232FE262'
+SECRET_KEY = '0FF6B9AF488D717FD935E95727E9FF50'
 
 
 class Text2ImageAPI:
@@ -81,7 +82,7 @@ async def generate_image(prompt, path):
 
 
 if __name__ == "__main__":
-    prompt = "Бабайка был ужасным существом, которое приходило ночью, чтобы забрать детей в свой мир. Он выглядел как огромный черный силуэт с горящими глазами и длинными когтями."
+    # prompt = "Бабайка был ужасным существом, которое приходило ночью, чтобы забрать детей в свой мир. Он выглядел как огромный черный силуэт с горящими глазами и длинными когтями."
     prompt = "ужастная Бабайка"
     path = "test.png"
     asyncio.run(generate_image(prompt, path))

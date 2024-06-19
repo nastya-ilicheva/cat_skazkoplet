@@ -25,16 +25,6 @@
         overflow-y: auto; /* Включаем скроллбар на всей странице */
         overflow-x: hidden;
     }
-    .cursor {
-        position: absolute;
-        background: radial-gradient(circle, rgba(244, 169, 0, 0.56), transparent);
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-    }
-
     .author {
         position: relative;
         background-color: #BDECB6;
@@ -83,13 +73,5 @@
 <div class="author">{{username}}</div>
 <div class="text">{{text}}</div>
 <div class="cursor"></div>
-
-<script>
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', e => {
-        cursor.style.top = e.pageY + 'px';
-        cursor.style.left = e.pageX + 'px';
-    })
-</script>
 </body>
 {% endblock %}
