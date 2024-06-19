@@ -5,16 +5,16 @@
 <link href="{{ url_for('static', filename='css/tales.css') }}" rel="stylesheet">
 
 <div class="container">
-    {% for i, j in tales %}
+    {% for i, j, k in tales %}
     <div class="link-container">
         <button class="delete-button" onclick="del_func('{{ i }}')" style="background-image: url('{{ url_for('static', filename='img/del.png') }}');"></button>
-
 
 {#        <button class="delete-button" onclick="del_func('{{ i }}')">del</button>#}
         <a class="custom-link" href="/tale/{{ i }}">{{ j }}</a>
         <button class="edit-button" onclick="editFunction('{{ i }}')" style="background-image: url('{{ url_for('static', filename='img/change.png') }}');"></button>
-
-        <button class="create-all-story-button" onclick="AllStory('{{ i }}')">Опубликовать</button>
+    {% if not k %}
+    <button class="create-all-story-button" onclick="this.remove(); AllStory('{{ i }}');">Опубликовать</button>
+    {% endif %}
     </div>
     {% endfor %}
 </div>
@@ -72,6 +72,7 @@
     }
 
     async function AllStory(id) {
+
     const response = await fetch('/get-all-story/' + id, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

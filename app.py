@@ -174,7 +174,9 @@ def my_tales():
     tales = []
     for i in library:
         if i.enable == 1:
-            tales.append((i.id, i.title))
+            db_sess = db_session.create_session()
+            if_full_story = db_sess.query(Full_Stories).filter(Full_Stories.story_id == i.id).first()
+            tales.append((i.id, i.title, if_full_story))
     return render_template("tales.html", tales=tales)
 
 
