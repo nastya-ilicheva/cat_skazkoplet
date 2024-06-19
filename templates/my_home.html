@@ -28,7 +28,6 @@
 
 <div class="container">
     {# https://getbootstrap.com/docs/5.0/customize/color/ text_info #}
-    <button class="public-button" onclick="public_func()">Публикации</button>
     <h2 class="page-header text-center">
         <h2 class="page-header text-center" style="color: #3f0fc2;">
             <i class="fas fa-image"></i>♥️Как создавать чудеса?♥️</h2>
@@ -126,21 +125,6 @@
     </h2>
 </div>
 
-<script>
-    async function public_func(){
-        const response = await fetch('/publications', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    id: 'id',
-                })
-            });
-        const data = await response.json();
-        if (data.url) {
-            window.location.href = data.url;
-        }
-    }
-</script>
 </body>
 </html>
 

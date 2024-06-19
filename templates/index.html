@@ -33,6 +33,7 @@
 
 
                   {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('publications') }}" class="btn custom-button">Публикации</a></li>
                 <li><a href="{{ url_for('new_tale') }}" class="btn custom-button px-2">Начать сказку</a></li>
                 <li><a href="{{ url_for('my_tales') }}" class="btn custom-button px-2">Мои сказки</a></li>
                 {% endif %}
@@ -50,6 +51,7 @@
                         </ul>
                     </div>
                 {% else %}
+                    <li><a href="{{ url_for('publications') }}" class="btn custom-button">Публикации</a></li>
                     <div class="col-md-3 text-end">
                         <a class="btn btn-outline-primary me-2" href="{{ url_for('login') }}">Войти</a>
                         <a class="btn btn-primary" href="{{ url_for('register') }}">Зарегистрироваться</a>

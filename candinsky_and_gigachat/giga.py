@@ -9,8 +9,8 @@ from candinsky_and_gigachat.secrets import *
 import json
 
 client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
-secret = '305ce920-e97d-44a7-857b-9f18e4c64cce'
-auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjMwNWNlOTIwLWU5N2QtNDRhNy04NTdiLTlmMThlNGM2NGNjZQ=='
+secret = '7c4699eb-53b1-40c0-bf7f-ec91ad166d92'
+auth = 'NmM2YTM1NTgtOGUzNi00MzUwLThkMjEtZmEzYTMxYjQ2ODhmOjdjNDY5OWViLTUzYjEtNDBjMC1iZjdmLWVjOTFhZDE2NmQ5Mg=='
 
 
 def init_giga():
