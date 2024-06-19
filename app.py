@@ -10,6 +10,7 @@ from candinsky_and_gigachat.giga import *
 from candinsky_and_gigachat.generate_prompt_for_kandy import create_prompt
 from candinsky_and_gigachat.create_all_stoty import *
 import asyncio
+from random import choice
 
 '''!!!!Очень важный факт, комментарии тоже могут работать как код, так что лучше УДАЛЯТЬ!!!!!'''
 
@@ -29,6 +30,18 @@ IMAGE_DEBUG = 0
 IMAGE_DELAY = 1
 CHAT_DELAY = 1
 VOICE_DELAY = 1
+
+
+def story_picture(story_id):
+    pictures = []
+    try:
+        for root, dirs, files in os.walk('static/mes_images'):
+            for file in files:
+                if f'_{story_id}_' in file:
+                    pictures.append(os.path.join(root, file).split('\\')[1])
+        return choice(pictures)
+    except Exception:
+        return 'end_picture.jpg'
 
 
 @app.route("/get-all-story/<story_id>", methods=['POST', 'GET'])
@@ -52,7 +65,8 @@ async def all_story(story_id):
                 user_id=user_id,
                 username=user_name,
                 title=title,
-                text=full_story_text
+                text=full_story_text,
+                picture=story_picture(story_id)
             )
             db_sess.add(full_story)
             db_sess.commit()
@@ -63,7 +77,9 @@ async def all_story(story_id):
         text = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().text
         title = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().title
         username = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().username
-        return render_template('full_story.html', title=title, text=text, username=username)
+        picture = db_sess.query(Full_Stories).filter(Full_Stories.story_id == story_id).first().picture
+        return render_template('full_story.html', title=title, text=text, username=username,
+                               picture=picture)
 
 
 @login_manager.user_loader
@@ -360,7 +376,8 @@ def publication_view(publ_id):
         autor = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().username
         text = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().text
         title = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().title
-        return render_template('publicatioN.html', autor=autor, text=text, title=title)
+        picture = db_sess.query(Full_Stories).filter(Full_Stories.id == publ_id).first().picture
+        return render_template('publicatioN.html', autor=autor, text=text, title=title, picture=picture)
 
 
 def main():

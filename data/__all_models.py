@@ -60,3 +60,5 @@ class Full_Stories(SqlAlchemyBase, UserMixin):
     username = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    picture = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+
