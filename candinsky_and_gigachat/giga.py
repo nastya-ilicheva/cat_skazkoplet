@@ -8,9 +8,9 @@ import uuid
 
 import json
 
-client_id = '6c6a3558-8e36-4350-8d21-fa3a31b4688f'
-secret = 'd1e991e1-07b6-4136-8136-a6e5f4ac3db1'
-auth = 'ZDZmMzM3ODgtYjhkNy00ZjAzLWEzYjgtMzEyMmNiYjRlYWE2OmQxZTk5MWUxLTA3YjYtNDEzNi04MTM2LWE2ZTVmNGFjM2RiMQ=='
+client_id = '2b8cbc9f-752b-4b0f-b461-13bc317c9b03'
+secret = '9c02d4bb-6ecc-4e98-a945-e02859549ae4'
+auth = 'MmI4Y2JjOWYtNzUyYi00YjBmLWI0NjEtMTNiYzMxN2M5YjAzOjljMDJkNGJiLTZlY2MtNGU5OC1hOTQ1LWUwMjg1OTU0OWFlNA=='
 
 
 def init_giga():
