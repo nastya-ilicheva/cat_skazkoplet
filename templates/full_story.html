@@ -56,22 +56,47 @@
 
     }
 
-    .text {
-        margin-top: 2%; /* Увеличьте это значение до высоты шапки */
-        margin-left: 10%;
-        margin-right: 10%;
-        padding: 20px;
-        background-color: #6a5acd;
-        color: #fff;
-        font-size: 2em;
+
+        }
+        .text {
+            background-color: black;
+            margin-top: 2%; /* Увеличьте это значение до высоты шапки */
+            margin-left: 0%; /* Добавлено для отступа от границ экрана */
+            margin-right: 0%; /* Добавлено для отступа от границ экрана */
+            font-size: 1.3em;
+            flex: 1;
+
+
+        }
+        .container{
+            margin: 0%
+            }
+
+        .cust-img {
+        width: 100%; /* Устанавливаем ширину на 100% */
+        height: auto; /* Высота автоматически меняется, чтобы сохранить соотношение сторон */
         border-radius: 10px;
-        word-wrap: break-word;
+            }
     }
+    }
+
+      .text-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+
 </style>
 <body>
 <div class="title">{{title}}</div>
 <div class="author">{{username}}</div>
-<div class="text">{{text}}</div>
-<img src="..\static\mes_images\{{picture}}" alt="Включите воображение ... ">
+<div>
+<div class="text-container">
+    <img class="cust-img" src="../static/mes_images/{{picture}}" alt="Включите воображение ... ">
+    <div class="text">{{text}}</div>
+</div>
 </body>
 {% endblock %}

@@ -13,27 +13,53 @@
         font-size: 3.5rem;
     }
 
-    .custom-button {
+.custom-button1 {
         background-color: #00ffff;
         margin-right: 1rem;
-        font-size: 1.1rem;
+        font-size: 1rem;
         color: #000; /* Text color */
         /* Same as the background for a seamless look */
         border: 4px solid #00ffff; /* Solid border with neon color */
         border-radius: 10px; /* Slight rounding of corners */
-        padding: 15px 30px; /* Padding around the text */
+        padding: 12px 24px; /* Padding around the text */
         font-family: "Montserrat", sans-serif; /* Stylish font */
         letter-spacing: 3px; /* Space between letters for better readability */
         cursor: pointer; /* Changes cursor to a pointer on hover */
         font-weight: bold; /* Bold text */
-        filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 30px #00ffff) contrast(1.8) brightness(1.8); /* Adds a subtle glow effect and enhances the vibrancy */
+        /* Remove the glow effect and enhancements */
+        filter: none;
+        transition: 0.5s; /* Smooth color change on hover */
+    }
+
+    .custom-button1:hover {
+        background-color: #00ffd5;
+        color: #1a1a1a; /* Text color changes on hover */
+        /* Remove the glow effect and enhancements */
+        filter: none;
+    }
+
+
+.custom-button {
+        background-color: #00ffff;
+        margin-right: 1rem;
+        font-size: 1.3rem; /* Увеличиваем размер шрифта */
+        color: #000; /* Text color */
+        /* Same as the background for a seamless look */
+        border: 4px solid #00ffff; /* Solid border with neon color */
+        border-radius: 10px; /* Slight rounding of corners */
+        padding: 10px 20px; /* Уменьшаем внутренние отступы */
+        font-family: "Montserrat", sans-serif; /* Stylish font */
+        letter-spacing: 3px; /* Space between letters for better readability */
+        cursor: pointer; /* Changes cursor to a pointer on hover */
+        font-weight: bold; /* Bold text */
+        filter: drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 30px #00ffff) contrast(1.4) brightness(1.4); /* Adds a subtle glow effect and enhances the vibrancy */
         transition: 0.5s; /* Smooth color change on hover */
     }
 
     .custom-button:hover {
         background-color: #00ffd5;
         color: #1a1a1a; /* Text color changes on hover */
-        filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 40px #00ffff) contrast(1.8) brightness(1.8); /* Glow effect is enhanced on hover */
+        filter: drop-shadow(0 0 5px #00ffff) drop-shadow(0 0 40px #00ffff) contrast(1.8) brightness(1.5); /* Glow effect is enhanced on hover */
     }
 
 
