@@ -6,9 +6,6 @@ import aiohttp
 import asyncio
 import requests
 
-API_KEY = '487C75E5EF33E646B619D0F063E3623C'
-SECRET_KEY = '2A9C28A46C949EFE560260270BE68170'
-
 
 class Text2ImageAPI:
 
